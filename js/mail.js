@@ -18,7 +18,7 @@ function submitForm(event) {
 
     const templateParams = {
         to_name: "Umar Razzaq",
-        from_name: document.getElementById("fname").value + document.getElementById("lname").value,
+        from_name: document.getElementById("name").value,
         sender_email: document.getElementById("email").value,
         subject: document.getElementById("subject").value,
         message: document.getElementById("message").value,
