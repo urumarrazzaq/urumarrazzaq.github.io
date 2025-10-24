@@ -1,0 +1,96 @@
+/* Dark theme overrides for the portfolio */
+:root {
+    --primary: #8b6bff; /* slightly lighter primary for contrast */
+    --secondary: #ffc448;
+    --bg: #0b0f16;
+    --surface: #0f1720;
+    --muted: #98a0b3;
+    --text: #e6eef8;
+    --text-muted: #aab6c7;
+}
+
+/* Base page */
+body {
+    background-color: var(--bg) !important;
+    color: var(--text) !important;
+}
+
+/* Headings: ensure visible on dark background */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.display-1, .display-2, .display-3, .display-4, .display-5 {
+    color: var(--text) !important;
+}
+
+/* Replace common light backgrounds with dark ones */
+.bg-white { background-color: var(--surface) !important; }
+.bg-light { background-color: rgba(15,23,32,0.6) !important; }
+.bg-dark { background-color: #040506 !important; }
+
+/* Text colors */
+.text-dark { color: var(--text) !important; }
+.text-primary { color: var(--primary) !important; }
+.text-secondary { color: var(--secondary) !important; }
+
+/* Navbar */
+.navbar.bg-white, .navbar {
+    background-color: var(--surface) !important;
+}
+.navbar .nav-link { color: var(--text) !important; }
+.navbar .nav-link.active, .navbar .nav-link:hover { color: var(--primary) !important; }
+
+/* Cards / service items */
+.service-item.bg-white { background-color: rgba(255,255,255,0.03) !important; color: var(--text) !important; }
+.team-text.bg-white { background-color: rgba(255,255,255,0.03) !important; color: var(--text) !important; }
+
+/* Buttons */
+.btn-primary { background-color: var(--primary) !important; border-color: var(--primary) !important; color: #fff !important; }
+.btn-secondary { background-color: var(--secondary) !important; border-color: var(--secondary) !important; color: #111 !important; }
+.btn-outline-secondary { color: var(--text) !important; border-color: rgba(255,255,255,0.08) !important; }
+
+/* Links */
+a { color: var(--primary); }
+a:hover { color: #bcaeff; }
+
+/* Overlays and accents */
+.portfolio-btn { background: rgba(75, 49, 160, .85) !important; }
+.testimonial-carousel .testimonial-icon { background: rgba(255,255,255,0.06); border-color: rgba(255,196,72,0.12); }
+.testimonial-carousel .owl-dot { background: rgba(255,255,255,0.02); border-color: rgba(255,196,72,0.12); }
+.testimonial-carousel .owl-dot::after { background: rgba(255,196,72,0.6); }
+
+/* Forms and inputs */
+.form-control { background-color: rgba(255,255,255,0.03); color: var(--text); border-color: rgba(255,255,255,0.06); }
+.form-control::placeholder { color: var(--text-muted); }
+
+/* Footer */
+.container-fluid.bg-dark, .container-fluid.bg-dark a { color: var(--text-muted) !important; }
+.container-fluid.bg-dark a.border-bottom { color: var(--text-muted) !important; }
+
+/* Spinner */
+#spinner.show { background-color: var(--bg); }
+
+/* Small tweaks to ensure contrast */
+.border-secondary { border-color: rgba(255,196,72,0.12) !important; }
+.text-primary { color: var(--primary) !important; }
+
+/* Ensure images with white borders still look ok */
+.testimonial-item img.border { border-color: rgba(255,255,255,0.06) !important; }
+
+/* Utility overrides for components that used white backgrounds */
+.rounded-end { background-clip: padding-box; }
+
+/* Keep the back-to-top button visible */
+.back-to-top { box-shadow: 0 6px 18px rgba(0,0,0,0.5); }
+
+/* Make sure modals look dark */
+.modal-content { background-color: var(--surface) !important; color: var(--text) !important; }
+
+/* Fallback for any remaining light text classes */
+.text-muted { color: var(--text-muted) !important; }
+
+/* Small responsive carefulness */
+@media (max-width: 576px) {
+    .navbar .nav-link { color: var(--text) !important; }
+}
+
+/* End dark.css */

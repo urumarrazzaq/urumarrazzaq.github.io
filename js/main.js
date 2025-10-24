@@ -124,3 +124,19 @@
     
 })(jQuery);
 
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const downloadButton = document.getElementById("downloadCV");
+  if (downloadButton) {
+    downloadButton.addEventListener("click", function (e) {
+      e.preventDefault();
+      const link = document.createElement("a");
+      link.href = "resume/UmarRazzaqATSFinal.pdf";
+      link.download = "Umar_Razzaq_CV.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+  }
+});

@@ -3,7 +3,7 @@
     --primary: #6244C5;
     --secondary: #FFC448;
     --light: #FAFAFB;
-    --dark: #12141D;
+    --dark: #ffffff;
 }
 
 .back-to-top {
@@ -428,3 +428,14 @@
 .testimonial-carousel .owl-dot.active::after {
     background: var(--primary);
 }
+
+
+
+.bg-ue { background-color: #8b6bff !important; }          /* Unreal Blue */
+.bg-ai { background-color: #00bcd4 !important; }          /* AI Cyan */
+.bg-gameplay { background-color: #28a745 !important; }    /* Green */
+.bg-architecture { background-color: #6c757d !important; }/* Gray */
+.bg-multiplayer { background-color: #ff4757 !important; } /* Red */
+.bg-performance { background-color: #f39c12 !important; } /* Amber */
+.bg-ui { background-color: #9b59b6 !important; }          /* Purple */
+.bg-cpp { background-color: #2c3e50 !important; }         /* Dark Blue-Gray */
