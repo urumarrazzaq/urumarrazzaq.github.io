@@ -89,6 +89,17 @@
   }
   window.addEventListener('load', aosInit);
 
+  /* Web fonts swapping in after initial load can shift text height and
+     therefore section positions; recalculate AOS trigger offsets once
+     fonts are actually ready. */
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function() {
+      if (typeof AOS !== 'undefined') {
+        AOS.refresh();
+      }
+    });
+  }
+
   /**
    * Init typed.js
    */
@@ -135,34 +146,88 @@
   });
 
   /**
-   * Init isotope layout and filters
+   * Init isotope layout, filters, and "Load More" batching
    */
   document.querySelectorAll('.isotope-layout').forEach(function(isotopeItem) {
     let layout = isotopeItem.getAttribute('data-layout') ?? 'masonry';
-    let filter = isotopeItem.getAttribute('data-default-filter') ?? '*';
+    let defaultFilter = isotopeItem.getAttribute('data-default-filter') ?? '*';
     let sort = isotopeItem.getAttribute('data-sort') ?? 'original-order';
 
+    const BATCH_SIZE = 9;
+    let currentFilter = defaultFilter;
+    let visibleCount = BATCH_SIZE;
+
     let initIsotope;
-    imagesLoaded(isotopeItem.querySelector('.isotope-container'), function() {
-      initIsotope = new Isotope(isotopeItem.querySelector('.isotope-container'), {
+    const container = isotopeItem.querySelector('.isotope-container');
+    const loadMoreBtn = isotopeItem.querySelector('.load-more-btn');
+
+    function matchesFilter(el, filterSel) {
+      if (!filterSel || filterSel === '*') return true;
+      return filterSel.split(',').some(function(f) {
+        f = f.trim().replace('.', '');
+        return el.classList.contains(f);
+      });
+    }
+
+    function updateLoadMoreVisibility(totalMatches) {
+      if (!loadMoreBtn) return;
+      loadMoreBtn.style.display = visibleCount < totalMatches ? 'inline-flex' : 'none';
+    }
+
+    imagesLoaded(container, function() {
+      const allItems = Array.prototype.slice.call(container.querySelectorAll('.isotope-item'));
+
+      function applyVisibility() {
+        const matching = allItems.filter(function(el) { return matchesFilter(el, currentFilter); });
+        matching.forEach(function(el, i) {
+          if (i < visibleCount) {
+            el.classList.remove('lm-hidden');
+          } else {
+            el.classList.add('lm-hidden');
+          }
+        });
+        updateLoadMoreVisibility(matching.length);
+      }
+      applyVisibility();
+
+      initIsotope = new Isotope(container, {
         itemSelector: '.isotope-item',
         layoutMode: layout,
-        filter: filter,
+        filter: function(itemElem) {
+          return matchesFilter(itemElem, currentFilter) && !itemElem.classList.contains('lm-hidden');
+        },
         sortBy: sort
       });
-    });
 
-    isotopeItem.querySelectorAll('.isotope-filters li').forEach(function(filters) {
-      filters.addEventListener('click', function() {
-        isotopeItem.querySelector('.isotope-filters .filter-active').classList.remove('filter-active');
-        this.classList.add('filter-active');
-        initIsotope.arrange({
-          filter: this.getAttribute('data-filter')
-        });
-        if (typeof aosInit === 'function') {
-          aosInit();
+      /* Isotope hiding/showing items (Load More, filters) changes page
+         height. AOS pre-calculates scroll trigger offsets, so anything
+         below this grid (testimonials, contact) can silently end up with
+         an unreachable trigger point unless we tell AOS to recalculate
+         every time Isotope finishes laying items out. */
+      initIsotope.on('layoutComplete', function() {
+        if (typeof AOS !== 'undefined') {
+          AOS.refresh();
         }
-      }, false);
+      });
+
+      if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', function() {
+          visibleCount += BATCH_SIZE;
+          applyVisibility();
+          initIsotope.arrange();
+        });
+      }
+
+      isotopeItem.querySelectorAll('.isotope-filters li').forEach(function(filters) {
+        filters.addEventListener('click', function() {
+          isotopeItem.querySelector('.isotope-filters .filter-active').classList.remove('filter-active');
+          this.classList.add('filter-active');
+          currentFilter = this.getAttribute('data-filter');
+          visibleCount = BATCH_SIZE;
+          applyVisibility();
+          initIsotope.arrange();
+        }, false);
+      });
     });
 
   });

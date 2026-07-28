@@ -1,0 +1,786 @@
+/* =====================================================================
+   PREMIUM GAMER THEME — Umar Razzaq Portfolio
+   Charcoal + Electric Violet / Cyan — HUD overlay skin on top of main.css
+===================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+:root {
+  --default-font: "Rajdhani", "Nunito", sans-serif;
+  --heading-font: "Orbitron", "Ubuntu", sans-serif;
+  --nav-font: "Share Tech Mono", "Nunito", monospace;
+
+  /* Core template variables — kept as a coupled accent/contrast pair,
+     exactly as main.css expects (accent = bright, contrast = text ON accent).
+     Note: violet is a mid-brightness color, so — unlike the previous gold
+     palette — contrast text needs to be LIGHT, not dark. */
+  --background-color: #08080c;   /* cool charcoal black */
+  --default-color: #b3b2c4;      /* cool lavender-grey body text */
+  --heading-color: #f3f1fb;      /* cool off-white for headings */
+  --accent-color: #8b5cf6;       /* electric violet */
+  --surface-color: #131320;      /* card / panel surface, cool charcoal */
+  --contrast-color: #f5f3ff;     /* light text used ON TOP of the violet accent */
+
+  /* Extended premium palette (variable names kept as -gold/-platinum
+     internally to avoid touching every usage site — values are now
+     violet / cyan) */
+  --gold: #8b5cf6;
+  --gold-soft: #b39dff;
+  --gold-deep: #5b3fc4;
+  --platinum: #22e5ff;
+  --platinum-deep: #0891b2;
+  --panel-border: rgba(139, 92, 246, 0.28);
+  --panel-border-soft: rgba(139, 92, 246, 0.14);
+  --grid-line: rgba(139, 92, 246, 0.055);
+}
+
+.light-background {
+  --background-color: #0c0c12;
+  --surface-color: #17172a;
+}
+
+.dark-background {
+  --background-color: #06060a;
+  --default-color: #cbc9dc;
+  --heading-color: #f3f1fb;
+  --surface-color: #121120;
+  --contrast-color: #f5f3ff;
+}
+
+/* ---------------------------------------------------------------
+   Base
+--------------------------------------------------------------- */
+html, body {
+  background-color: var(--background-color);
+}
+
+body {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 46px 46px;
+  background-attachment: fixed;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(139, 92, 246, 0.012) 3px,
+    rgba(0, 0, 0, 0) 4px
+  );
+  mix-blend-mode: overlay;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading-font);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+::selection {
+  background: var(--gold);
+  color: #f5f3ff;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #08080a; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--gold), var(--platinum));
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
+}
+
+/* Section titles */
+.section-title h2 {
+  position: relative;
+  display: inline-block;
+  color: var(--heading-color);
+  text-shadow: 0 0 14px rgba(139, 92, 246, 0.35);
+}
+.section-title h2::before {
+  content: "//";
+  color: var(--platinum);
+  margin-right: 10px;
+  opacity: 0.85;
+}
+.section-title h2::after {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 3px;
+  margin-top: 10px;
+  background: linear-gradient(90deg, var(--gold), var(--platinum));
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+}
+.section-title p { color: var(--platinum); font-family: var(--nav-font); letter-spacing: 1px; }
+
+/* ---------------------------------------------------------------
+   Header / Nav — HUD sidebar
+--------------------------------------------------------------- */
+.header {
+  background: linear-gradient(180deg, #0a0a0c 0%, #050506 100%) !important;
+  border-right: 1px solid var(--panel-border);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4);
+}
+
+.navmenu ul li a {
+  font-family: var(--nav-font);
+  letter-spacing: 1px;
+  border-left: 2px solid transparent;
+  transition: all 0.25s ease;
+}
+
+.navmenu ul li a:hover,
+.navmenu ul li a.active {
+  color: var(--gold) !important;
+  border-left: 2px solid var(--gold);
+  text-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
+  background: rgba(139, 92, 246, 0.06);
+}
+
+.navmenu ul li a .navicon {
+  color: inherit;
+  filter: drop-shadow(0 0 3px currentColor);
+}
+
+/* Social icons: keep the template's native accent/contrast pairing
+   (bright gold background + dark icon on hover) — only add a glow. */
+.header .social-links a {
+  border: 1px solid var(--panel-border);
+  transition: all 0.25s ease;
+}
+.header .social-links a:hover {
+  box-shadow: 0 0 14px rgba(139, 92, 246, 0.55);
+  transform: translateY(-2px);
+}
+.header .header-toggle:hover {
+  box-shadow: 0 0 14px rgba(139, 92, 246, 0.55);
+}
+
+/* ---------------------------------------------------------------
+   Buttons
+--------------------------------------------------------------- */
+.btn, .hero-actions .btn, .cta-section .btn, .contact-form .btn {
+  font-family: var(--nav-font);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border-radius: 4px !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Primary buttons already pair accent-color bg with contrast-color text
+   correctly via main.css — just add the premium glow. */
+.btn-primary, .hero-actions .btn-primary, .cta-section .btn-primary {
+  background: linear-gradient(90deg, var(--gold-soft), var(--gold)) !important;
+  border: none !important;
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.4);
+}
+.btn-primary:hover, .hero-actions .btn-primary:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+  transform: translateY(-2px);
+}
+
+.btn-outline, .hero-actions .btn-outline, .cta-section .btn-outline {
+  background: transparent !important;
+  border: 1px solid var(--platinum) !important;
+  color: var(--platinum) !important;
+}
+.btn-outline:hover {
+  background: rgba(34, 229, 255, 0.1) !important;
+  color: var(--heading-color) !important;
+  box-shadow: 0 0 18px rgba(34, 229, 255, 0.35);
+}
+
+/* ---------------------------------------------------------------
+   Hero
+--------------------------------------------------------------- */
+.hero .bg-circle {
+  filter: blur(60px);
+  opacity: 0.28;
+}
+.hero .circle-1 { background: var(--gold) !important; }
+.hero .circle-2 { background: var(--platinum) !important; }
+
+.hero .hero-text h1 {
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  color: var(--heading-color);
+  text-shadow: 0 0 18px rgba(139, 92, 246, 0.25);
+}
+.hero .hero-text h1 .accent-text {
+  color: var(--gold);
+  text-shadow: 0 0 20px rgba(139, 92, 246, 0.55), 0 0 40px rgba(139, 92, 246, 0.25);
+}
+
+.hero .hero-text h2 {
+  font-family: var(--nav-font);
+  color: var(--platinum);
+  text-transform: none;
+  letter-spacing: 1px;
+}
+.hero .hero-text h2::before { content: "> "; color: var(--gold); }
+
+.hero .lead .typed { color: var(--gold-soft); }
+
+.hero-visual .profile-container {
+  position: relative;
+}
+.hero-visual .profile-background {
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.2), transparent 70%) !important;
+  animation: pulse-ring 3s ease-in-out infinite;
+}
+.hero-visual .profile-image {
+  border: 2px solid var(--gold) !important;
+  box-shadow: 0 0 35px rgba(139, 92, 246, 0.35), inset 0 0 25px rgba(139, 92, 246, 0.1) !important;
+}
+@keyframes pulse-ring {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+
+/* ---------------------------------------------------------------
+   About — premium "member card" profile + ledger-style stats
+--------------------------------------------------------------- */
+.about .profile-card {
+  background: linear-gradient(165deg, #151318 0%, #0a0a0b 65%) !important;
+  border: 1px solid var(--panel-border) !important;
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+  padding-top: 2px;
+}
+/* thin gold hairline + corner accents, like a VIP membership card */
+.about .profile-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.55), transparent 35%, transparent 65%, rgba(34, 229, 255, 0.35));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.about .profile-header .profile-image img {
+  border: 2px solid var(--gold) !important;
+  box-shadow: 0 0 22px rgba(139, 92, 246, 0.4);
+}
+.about .profile-header .profile-badge {
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold)) !important;
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.55);
+}
+.about .profile-badge i { color: #f5f3ff !important; }
+
+.about .profile-content h3 { color: var(--heading-color); }
+.about .profile-content .profession { color: var(--platinum); font-family: var(--nav-font); letter-spacing: 0.5px; }
+
+.about .contact-links .contact-item {
+  color: var(--default-color) !important;
+  background-color: rgba(255, 255, 255, 0.02) !important;
+  border: 1px solid var(--panel-border-soft) !important;
+  transition: all 0.25s ease;
+}
+.about .contact-links .contact-item:hover {
+  background-color: var(--gold) !important;
+  border-color: var(--gold) !important;
+  color: var(--contrast-color) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.35);
+}
+.about .contact-links .contact-item i { color: var(--gold); }
+.about .contact-links .contact-item:hover i { color: var(--contrast-color) !important; }
+
+.about .badge-text {
+  font-family: var(--nav-font);
+  letter-spacing: 1px;
+  padding: 4px 12px;
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.35);
+}
+
+/* Stats — ledger style, not boxed: thin gold dividers instead of hard borders */
+.about .stats-grid {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  display: flex;
+  gap: 0;
+  border-top: 1px solid var(--panel-border-soft);
+  border-bottom: 1px solid var(--panel-border-soft);
+  padding: 1.25rem 0;
+  margin: 1.5rem 0;
+}
+.stat-item, .stats-item {
+  border: none !important;
+  background: transparent !important;
+  border-right: 1px solid var(--panel-border-soft);
+  flex: 1;
+  text-align: center;
+  padding: 0 0.5rem;
+}
+.about .stats-grid .stat-item:last-child { border-right: none; }
+.stat-number {
+  font-family: var(--heading-font);
+  color: var(--gold) !important;
+  text-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+}
+.stat-label { color: var(--default-color); }
+
+.detail-label { color: var(--platinum-deep); }
+.detail-value { color: var(--heading-color) !important; }
+
+/* ---------------------------------------------------------------
+   Skills — XP bars
+--------------------------------------------------------------- */
+.skills-category h3 {
+  color: var(--gold);
+  border-bottom: 1px solid var(--panel-border);
+  padding-bottom: 8px;
+}
+
+.skills .skill-item h4 { font-family: var(--nav-font); color: var(--default-color); }
+
+.skills .skill-item .skill-percentage,
+.resume .resume-side .skill-item .skill-percentage {
+  font-family: var(--heading-font);
+  color: var(--gold-soft) !important;
+  text-shadow: 0 0 6px rgba(139, 92, 246, 0.4);
+}
+
+.skills .skill-item .progress,
+.resume .resume-side .skill-item .progress {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid var(--panel-border-soft);
+  border-radius: 3px !important;
+  height: 10px !important;
+  overflow: visible !important;
+}
+
+.skills .skill-item .progress .progress-bar,
+.resume .resume-side .skill-item .progress .progress-bar {
+  background: linear-gradient(90deg, var(--gold-deep), var(--gold), var(--platinum)) !important;
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.45);
+  border-radius: 3px !important;
+  position: relative;
+}
+
+.skill-tooltip {
+  background: #121114 !important;
+  border: 1px solid var(--gold) !important;
+  color: var(--default-color) !important;
+  font-family: var(--nav-font);
+  font-size: 0.8rem;
+}
+
+/* ---------------------------------------------------------------
+   Portfolio — mission cards
+--------------------------------------------------------------- */
+.portfolio-filters, .isotope-filters {
+  font-family: var(--nav-font);
+}
+.portfolio-filters li, .isotope-filters li {
+  border: 1px solid var(--panel-border);
+  border-radius: 3px;
+  margin: 4px;
+  color: var(--default-color);
+  transition: all 0.25s ease;
+}
+.portfolio-filters li.filter-active,
+.isotope-filters li.filter-active {
+  background: linear-gradient(90deg, var(--gold-soft), var(--gold)) !important;
+  color: #f5f3ff !important;
+  box-shadow: 0 0 14px rgba(139, 92, 246, 0.45);
+}
+
+.portfolio .portfolio-wrap {
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--surface-color);
+  transition: box-shadow 0.35s ease, transform 0.35s ease, border-color 0.35s ease;
+}
+.portfolio .portfolio-wrap:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+  transform: translateY(-4px);
+}
+
+/* Tighter image height now that the grid runs 3-up — keeps the whole
+   "All Projects" view compact instead of stretching into a long scroll. */
+.portfolio .portfolio-wrap img {
+  height: 220px;
+}
+
+.portfolio-load-more {
+  margin-top: 2rem;
+}
+.portfolio-load-more .load-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+}
+.portfolio-load-more .load-more-btn i {
+  transition: transform 0.25s ease;
+}
+.portfolio-load-more .load-more-btn:hover i {
+  transform: translateY(3px);
+}
+
+.portfolio .portfolio-wrap .portfolio-info {
+  background: linear-gradient(0deg, rgba(4, 4, 5, 0.96) 10%, rgba(4, 4, 5, 0.2) 100%) !important;
+}
+.portfolio .portfolio-wrap .portfolio-info h4 a { color: var(--heading-color); }
+.portfolio .portfolio-wrap .portfolio-info .category {
+  font-family: var(--nav-font);
+  color: var(--gold-soft) !important;
+  letter-spacing: 1px;
+}
+.portfolio .portfolio-wrap .portfolio-info .category::before { content: "\2726  "; }
+
+.portfolio .portfolio-wrap .portfolio-info .portfolio-links a {
+  border: 1px solid var(--platinum) !important;
+  color: var(--platinum) !important;
+  background: rgba(0, 0, 0, 0.4) !important;
+}
+.portfolio .portfolio-wrap .portfolio-info .portfolio-links a:hover {
+  background: var(--platinum) !important;
+  color: #0a0a12 !important;
+  box-shadow: 0 0 14px rgba(34, 229, 255, 0.5);
+}
+
+/* ---------------------------------------------------------------
+   Services
+--------------------------------------------------------------- */
+.services .service-item, .service-card, .service-box {
+  border: 1px solid var(--panel-border) !important;
+  background: var(--surface-color) !important;
+  border-radius: 8px;
+  color: var(--default-color);
+  transition: all 0.3s ease;
+}
+.services .service-item h3, .services .service-item h4 { color: var(--heading-color); }
+.services .service-item:hover {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 24px rgba(139, 92, 246, 0.25);
+  transform: translateY(-4px);
+}
+.services .service-icon, .service-item .icon {
+  color: var(--gold) !important;
+  filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.45));
+}
+.services .service-header .service-summary .service-btn {
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+}
+
+/* ---------------------------------------------------------------
+   Testimonials
+--------------------------------------------------------------- */
+/* Style the actual card (.testimonial-content) — .testimonial-item is just the
+   grid cell and has no border of its own in main.css; styling both caused a
+   visible double border. */
+.testimonials .testimonial-content {
+  border: 1px solid var(--panel-border) !important;
+  background: var(--surface-color) !important;
+  color: var(--default-color);
+}
+.testimonials .testimonial-item.highlight .testimonial-content {
+  border-color: var(--gold) !important;
+  background-color: rgba(139, 92, 246, 0.06) !important;
+}
+.testimonial-item .quote-pattern i { color: var(--gold) !important; opacity: 0.45; }
+.testimonial-item .client-info h3 { color: var(--heading-color); }
+.testimonial-item .client-info .client-position,
+.testimonial-item .client-info span { color: var(--platinum); }
+.testimonial-item .client-image img {
+  border: 2px solid var(--gold) !important;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+}
+
+/* ---------------------------------------------------------------
+   Contact — fixed: explicit bright text on the now-dark info box
+--------------------------------------------------------------- */
+.contact .info-box {
+  border: 1px solid var(--panel-border) !important;
+  background: linear-gradient(165deg, #151318 0%, #0a0a0b 70%) !important;
+  border-radius: 10px;
+}
+.contact .info-box h3 {
+  color: var(--heading-color) !important;
+  text-shadow: 0 0 10px rgba(139, 92, 246, 0.25);
+}
+.contact .info-box > p {
+  color: var(--default-color) !important;
+  opacity: 1 !important;
+}
+.contact .info-box a { color: var(--gold) !important; }
+
+.contact .info-item .icon-box {
+  background: rgba(139, 92, 246, 0.1) !important;
+  border: 1px solid var(--panel-border);
+}
+.contact .info-item .icon-box i { color: var(--gold) !important; }
+.contact .info-item:hover .icon-box {
+  background: rgba(139, 92, 246, 0.18) !important;
+}
+.contact .info-item .content h4 { color: var(--heading-color) !important; }
+.contact .info-item .content p { color: var(--default-color) !important; }
+.contact .info-item .content p a { color: var(--default-color) !important; }
+.contact .info-item .content p a:hover { color: var(--gold) !important; }
+
+.contact .contact-form {
+  border: 1px solid var(--panel-border) !important;
+  background: var(--surface-color) !important;
+  border-radius: 8px;
+}
+.contact-form h3 { color: var(--heading-color); }
+.contact-form > p { color: var(--default-color); }
+.contact-form .form-control {
+  background: #08080a !important;
+  border: 1px solid var(--panel-border) !important;
+  color: var(--heading-color) !important;
+  border-radius: 4px !important;
+}
+.contact-form .form-control:focus {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.3) !important;
+}
+.contact-form .form-control::placeholder { color: rgba(185, 182, 173, 0.55); }
+.contact-form .btn {
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+}
+
+/* ---------------------------------------------------------------
+   Footer / Scroll top
+--------------------------------------------------------------- */
+.footer {
+  border-top: 1px solid var(--panel-border);
+  background: #050506 !important;
+}
+
+/* Scroll-top already pairs accent bg + contrast text natively — just glow */
+#scroll-top {
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.4);
+}
+
+/* Preloader */
+#preloader {
+  background: #06060a !important;
+}
+
+/* Swiper pagination bullets (portfolio/service details) already pair
+   accent/contrast natively — no override needed beyond the palette swap. */
+
+/* ---------------------------------------------------------------
+   Achievement Toast (JS-injected)
+--------------------------------------------------------------- */
+.gamer-toast {
+  position: fixed;
+  top: 24px;
+  right: -340px;
+  width: 300px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, #121114, #08080a);
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  box-shadow: 0 0 24px rgba(139, 92, 246, 0.35);
+  font-family: var(--nav-font);
+  color: var(--default-color);
+  z-index: 10000;
+  transition: right 0.5s ease;
+}
+.gamer-toast.show { right: 24px; }
+.gamer-toast .toast-title {
+  color: var(--gold);
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: 0.75rem;
+  margin-bottom: 4px;
+}
+.gamer-toast .toast-body { font-size: 0.85rem; color: var(--default-color); }
+
+@media (max-width: 768px) {
+  .gamer-toast { width: calc(100% - 32px); right: -100%; }
+  .gamer-toast.show { right: 16px; }
+  .about .stats-grid { flex-wrap: wrap; }
+  .stat-item, .stats-item { flex: 1 1 45%; border-right: none; border-bottom: 1px solid var(--panel-border-soft); padding-bottom: 0.75rem; margin-bottom: 0.75rem; }
+}
+
+/* ---------------------------------------------------------------
+   3D Hero Canvas (Three.js)
+--------------------------------------------------------------- */
+.hero .gamer-3d-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: block;
+  pointer-events: none;
+}
+
+.hero .hero-content { position: relative; z-index: 2; }
+.hero .hero-visual { position: relative; z-index: 2; }
+
+/* ---------------------------------------------------------------
+   3D Tilt Cards
+--------------------------------------------------------------- */
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+  will-change: transform;
+  position: relative;
+}
+.tilt-card.tilt-active {
+  transition: transform 0.06s linear, box-shadow 0.35s ease;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(139, 92, 246, 0.25);
+  z-index: 5;
+}
+.tilt-card.tilt-active::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    rgba(139, 92, 246, 0.16),
+    transparent 55%
+  );
+  z-index: 1;
+}
+
+/* ---------------------------------------------------------------
+   Coin-spin badge (profile / achievement icon)
+--------------------------------------------------------------- */
+.about .profile-header .profile-badge {
+  animation: coin-spin 5s linear infinite;
+  transform-style: preserve-3d;
+}
+@keyframes coin-spin {
+  0%   { transform: rotateY(0deg); }
+  45%  { transform: rotateY(360deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about .profile-header .profile-badge { animation: none; }
+  .tilt-card { transition: none; }
+}
+
+/* ---------------------------------------------------------------
+   [data-reveal] — a scroll-reveal that doesn't depend on AOS's
+   cached-offset system. Used for testimonials, which sit below a
+   dynamic-height grid (Isotope/Load More) that AOS can't reliably
+   track. Driven by IntersectionObserver in gamer-effects.js, which
+   re-checks visibility live instead of trusting a stale offset.
+--------------------------------------------------------------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+[data-reveal].reveal-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Mascot Guide — "Blip" the 3D spaceship
+--------------------------------------------------------------- */
+.mascot-widget {
+  position: fixed;
+  right: 22px;
+  bottom: 92px;
+  z-index: 9500;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.mascot-widget .mascot-canvas {
+  width: 116px;
+  height: 116px;
+  cursor: pointer;
+  pointer-events: auto;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.5));
+  transition: transform 0.25s ease;
+}
+.mascot-widget .mascot-canvas:hover {
+  transform: scale(1.08) translateY(-2px);
+}
+.mascot-widget .mascot-canvas:active {
+  transform: scale(0.96);
+}
+
+.mascot-widget .mascot-bubble {
+  position: relative;
+  max-width: 210px;
+  margin-bottom: 18px;
+  padding: 10px 14px;
+  background: linear-gradient(150deg, #17151b, #0b0a0d);
+  border: 1px solid var(--panel-border);
+  border-radius: 14px;
+  color: var(--heading-color);
+  font-family: var(--default-font);
+  font-size: 0.85rem;
+  line-height: 1.35;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  transform: translateY(6px) scale(0.96);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+.mascot-widget .mascot-bubble::after {
+  content: "";
+  position: absolute;
+  right: 26px;
+  bottom: -7px;
+  width: 14px;
+  height: 14px;
+  background: #0b0a0d;
+  border-right: 1px solid var(--panel-border);
+  border-bottom: 1px solid var(--panel-border);
+  transform: rotate(45deg);
+}
+.mascot-widget .mascot-bubble.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@media (max-width: 576px) {
+  .mascot-widget {
+    right: 14px;
+    bottom: 78px;
+    gap: 8px;
+  }
+  .mascot-widget .mascot-canvas { width: 84px; height: 84px; }
+  .mascot-widget .mascot-bubble {
+    max-width: 150px;
+    font-size: 0.78rem;
+    padding: 8px 10px;
+    margin-bottom: 12px;
+  }
+}
