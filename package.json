@@ -1,0 +1,13 @@
+{
+  "name": "umar-razzaq-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static portfolio with a password-protected local content dashboard",
+  "scripts": {
+    "start": "node tools/admin-server.cjs",
+    "build": "node tools/render-site.cjs",
+    "test": "node --test tools/admin.test.cjs",
+    "test:browser": "node tools/verify-portfolio.cjs"
+  },
+  "engines": {"node": ">=20"}
+}

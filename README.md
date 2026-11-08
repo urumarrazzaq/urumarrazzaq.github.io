@@ -1,39 +1,60 @@
-# Umar Razzaq — Connected portfolio
+# Umar Razzaq — Portfolio & local dashboard
 
-A static, GitHub Pages-compatible portfolio inspired by the supplied cinematic Figma reference: Inter typography, charcoal surfaces, warm gold accents, and a connected spatial journey.
+A readable, responsive portfolio with Home, About, Portfolio, Services, and Contact. The public site is static and works on GitHub Pages. The password-protected content dashboard runs only on your computer.
 
-The five destinations share one Three.js environment: identity entrance, mission control, project exhibition, exterior career district, and panoramic contact observatory. The camera travels along a shared skywalk; project portals move toward individual exhibition gates. Room architecture is procedural, with animated airlocks, holograms, and ambient particles. This is a lightweight architectural scene rather than Unreal-rendered environment art.
+## Open the website and dashboard
 
-## Local preview
+Install Node.js 20 or later, then run from this repository:
 
-Serve the repository over HTTP, for example with `python -m http.server 8080`, then open `http://localhost:8080`. Opening `index.html` using `file://` prevents browsers from fetching the project JSON.
+```sh
+npm start
+```
 
-No build step, backend, or package install is needed. Three.js is served locally; the optional Google Fonts request falls back to system fonts when unavailable. Email uses a `mailto:` link; no nonfunctional PHP submission is presented on GitHub Pages.
+- Website: http://127.0.0.1:8080/
+- Dashboard: http://127.0.0.1:8080/admin/
 
-## Editing content
+No dependency installation is needed to run the server. On first launch, create your own dashboard password (at least 12 characters). No default password is shipped. Sessions expire after four hours and are cleared when the server restarts. To use another port, set the PORT environment variable before starting.
 
-- `index.html`: identity, profile, skills, career history, contact links, and destination navigation.
-- `assets/data/projects.json`: all 40 projects migrated from the previous portfolio, with their original image/video/project links. `filter` supports multiple space-separated disciplines.
-- `assets/data/worlds.json`: the four curated project worlds. Set `media` to a local image path and `video` to an HTTPS video URL; edit description, technology labels, and contributions here.
-- `assets/css/world.css`: Figma-inspired colors, typography, layout, responsive rules, and portal visuals.
-- `assets/js/world.js`: navigation, dialogs, archive filtering, and procedural world geometry/camera travel.
-- `design/connected-world-concept.svg`: original editable visual concept and annotated motion storyboard.
+## Manage content
 
-Subject Human, Cheebz Migrate, and Copper Bowl have explicitly labeled media and case-study placeholders. Their technology stacks and contributions have not been invented. Tensei Games content and career history are drawn from `resume/UmarRazzaqATSFinal.pdf`; the résumé's ongoing-employment date is labeled accordingly.
+Use the dashboard to edit your name, role, home headline, introduction, portrait, crop position, about copy, skills, services, contact information, and résumé. Under Projects, add, edit, reorder, and remove entries; upload thumbnails; set video links; and write descriptions, contributions, and technology labels.
 
-## Accessibility and fallbacks
+The gallery starts with 9 projects and loads 9 more at a time. Search and discipline filters operate across the entire collection. A project opens a readable detail dialog with its full description and video. YouTube embeds load only when Play is selected and include an external playback link; embedding availability depends on the video owner's settings. Uploaded MP4/WebM files use the native video player. With JavaScript disabled, all projects remain visible and thumbnails link to the original videos.
 
-Navigation supports browser history, deep links, and previous anchors such as `#portfolio` and `#about`. Native dialogs support Escape, focus containment, and focus restoration. Inactive destinations are inert. Reading mode shows all destinations as a normal document; without JavaScript the document is readable and project-video links remain available. WebGL failure leaves navigation and content usable. Reduced-motion preferences disable the 3D scene and transitions; Pause motion stops scene animation. Rendering stops in background tabs.
+## Uploads and GitHub Pages
+
+Supported uploads: PNG, JPEG, WebP, GIF, PDF, MP4, and WebM, up to 25 MB each. Use YouTube links for larger videos. Uploaded files are saved under assets/uploads/ and served as normal static assets.
+
+Saving updates assets/data/content.json and regenerates index.html. This makes the result deployable directly to GitHub Pages without running a backend or a build there. The dashboard never commits or pushes.
+
+To publish when ready, review and commit index.html, assets/data/content.json, and any new assets/uploads/ files, then push using your usual Git workflow. The live GitHub Pages site cannot accept dashboard uploads by itself: GitHub Pages serves static files, while this dashboard's upload and authentication API runs locally. A copy of /admin/ on GitHub Pages has no active backend and does not grant editing access.
+
+## Local password and backups
+
+Passwords are stored as salted scrypt hashes in .local/admin-auth.json, excluded from Git. Previous content is backed up in .local/backups/ before saves. These files are denied by the local HTTP server. Keep .local/ private and do not force-add it to Git.
+
+The server binds to 127.0.0.1, checks Host/Origin headers, requires authenticated HTTP-only SameSite sessions plus CSRF tokens for writes, rate-limits failed logins, validates content and file types, and prevents serving repository internals. It is a local editing tool, not an Internet-facing admin service. To reset a forgotten password, stop the server, move .local/admin-auth.json to a private backup location, restart, and create a new password.
+
+## Files
+
+- assets/data/content.json: authoritative profile, about, services, contact, and project content.
+- tools/render-site.cjs: static page renderer. Run npm run build after editing JSON manually.
+- assets/css/portfolio.css and assets/js/portfolio.js: public design, gallery, and project video/details interactions.
+- admin/: local dashboard interface.
+- tools/admin-server.cjs and tools/content-schema.cjs: local authentication, uploads, validation, and persistence.
+- design/connected-world-concept.svg: earlier concept storyboard, retained for reference. The current site uses the readable layout requested after that concept.
+
+The previous project's supporting assets and legacy detail pages remain available. The old projects.json and worlds.json files are historical inputs; edit content.json or use the dashboard for the current site.
 
 ## Verification
 
-With Node, Playwright, and Google Chrome available, run `node tools/verify-world.cjs`. Set `PLAYWRIGHT_CHANNEL` to another installed Playwright browser channel if needed. The check starts and closes its own local HTTP server and browser, checks desktop/mobile navigation, all project-image paths, portals, archive search/filter/details, map navigation, motion and reading modes, old anchors, and no-JavaScript/no-WebGL fallbacks. Screenshots are written to ignored `artifacts/`.
+```sh
+npm test
+npm run test:browser
+```
 
-## Asset provenance
+The server/security tests use Node's built-in test runner. Browser tests additionally require Playwright and an installed Google Chrome (or set PLAYWRIGHT_CHANNEL for another installed browser). Tests use isolated fixture content and credentials; they do not change the real portfolio password or content. Screenshots are saved in ignored artifacts/.
 
-- Visual reference: [supplied Figma portfolio](https://www.figma.com/design/glfpOcAU3QGQPXaSuZiFWC/).
-- Landscape: a discrete image asset from the user-supplied `.fig` file, matched to Figma node `1:18` and optimized to WebP. The reference UI screenshot is not used as a website asset.
-- Portrait and project images: existing portfolio assets.
-- Three.js r128: retained version from the previous portfolio, now vendored locally; MIT license in `assets/vendor/three.LICENSE.txt`.
+## Design and content provenance
 
-Legacy detail pages and their supporting assets remain in the repository. The new homepage has its own stylesheet and script so those pages are unaffected.
+The Figma reference informed the charcoal and warm-gold palette. The revised sidebar and section structure follow the user's supplied Home/About/Portfolio/Services/Contact reference. Portrait and project thumbnails come from the existing portfolio. Project summaries use existing project names, footage labels, and résumé details; detailed contribution claims are included only where documented. Review and expand descriptions in the dashboard as needed.
