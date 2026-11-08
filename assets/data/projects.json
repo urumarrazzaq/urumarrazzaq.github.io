@@ -1,0 +1,362 @@
+[
+  {
+    "id": "project-0",
+    "title": "Maelstrom",
+    "category": "Gameplay & System",
+    "filter": "gameplay",
+    "image": "assets/img/portfolio/compressed/MaleStrom.png",
+    "video": "https://www.youtube.com/watch?v=7LBtRuz9Ttc",
+    "link": "https://store.steampowered.com/app/764050/Maelstrom/"
+  },
+  {
+    "id": "project-1",
+    "title": "Avatar Builder in UE5 C++",
+    "category": "Gameplay & System",
+    "filter": "gameplay",
+    "image": "assets/img/portfolio/compressed/Avatar.png",
+    "video": "https://youtu.be/F2gAgTosPrs?si=paKFWuo_EAZZepNm",
+    "link": "https://youtu.be/F2gAgTosPrs?si=paKFWuo_EAZZepNm"
+  },
+  {
+    "id": "project-2",
+    "title": "Map Spline Demo",
+    "category": "Gameplay & System",
+    "filter": "gameplay",
+    "image": "assets/img/portfolio/compressed/Spline.png",
+    "video": "https://youtu.be/KAxmShlU6eQ?si=puP0j-cVFqw58bF1",
+    "link": "https://youtu.be/KAxmShlU6eQ?si=puP0j-cVFqw58bF1"
+  },
+  {
+    "id": "project-3",
+    "title": "DIShooter Gameplay Trailer",
+    "category": "Gameplay & System",
+    "filter": "trailers",
+    "image": "assets/img/portfolio/compressed/Shooter.png",
+    "video": "https://youtu.be/Nc5NxjcvrIM?si=FR0D7yd6PjOx5bp7",
+    "link": "https://youtu.be/Nc5NxjcvrIM?si=FR0D7yd6PjOx5bp7"
+  },
+  {
+    "id": "project-4",
+    "title": "DIShooter Gameplay",
+    "category": "Gameplay & System",
+    "filter": "gameplay",
+    "image": "assets/img/portfolio/compressed/ShooterGamePlay1.png",
+    "video": "https://youtu.be/9Ng01KCqBz4?si=QI_mZ9lvu7_K3nTp",
+    "link": "https://youtu.be/9Ng01KCqBz4?si=QI_mZ9lvu7_K3nTp"
+  },
+  {
+    "id": "project-5",
+    "title": "Drive Thru Metahuman",
+    "category": "Gameplay & System",
+    "filter": "gameplay",
+    "image": "assets/img/portfolio/compressed/DriveThruMetahuman.jpg",
+    "video": "https://youtu.be/phjgpw_ZyDM?si=keFnqSrXDrqqkQRB",
+    "link": "https://youtu.be/phjgpw_ZyDM?si=keFnqSrXDrqqkQRB"
+  },
+  {
+    "id": "project-6",
+    "title": "SoundHound Burger Electra Video With TTS",
+    "category": "Trailers",
+    "filter": "trailers",
+    "image": "assets/img/portfolio/compressed/Electra.png",
+    "video": "https://youtu.be/XaBq4QUCWRs?si=-QyrhH2K1HWb1S9H",
+    "link": "https://youtu.be/XaBq4QUCWRs?si=-QyrhH2K1HWb1S9H"
+  },
+  {
+    "id": "project-7",
+    "title": "Racing Car",
+    "category": "Gameplay & System",
+    "filter": "gameplay",
+    "image": "assets/img/portfolio/compressed/RacingCar.png",
+    "video": "https://youtu.be/FB5jSJnQOyA?si=Y74kZv3XsSoQIF9K",
+    "link": "https://youtu.be/FB5jSJnQOyA?si=Y74kZv3XsSoQIF9K"
+  },
+  {
+    "id": "project-8",
+    "title": "Interactive Room Navigation & Object Placement System",
+    "category": "Architecture Visualization",
+    "filter": "archviz filter-uiux",
+    "image": "assets/img/portfolio/compressed/Archviz.png",
+    "video": "https://youtu.be/wLrBMCpnzhE?si=z5oyM_E5NTUrN6oy",
+    "link": "https://youtu.be/wLrBMCpnzhE?si=z5oyM_E5NTUrN6oy"
+  },
+  {
+    "id": "project-9",
+    "title": "UE5 Mummy AI",
+    "category": "Gameplay & System",
+    "filter": "ai",
+    "image": "assets/img/portfolio/compressed/Mummy.png",
+    "video": "https://youtu.be/sSIjjK43hbU?si=EChKpm-fiYzbP4eW",
+    "link": "https://youtu.be/sSIjjK43hbU?si=EChKpm-fiYzbP4eW"
+  },
+  {
+    "id": "project-10",
+    "title": "Jetpack Component",
+    "category": "Gameplay & System",
+    "filter": "gameplay",
+    "image": "assets/img/portfolio/compressed/JetPackKarnak1.png",
+    "video": "https://youtu.be/3LuKP-EB_rE?si=uVb9s_e_Ptablcuq",
+    "link": "https://youtu.be/3LuKP-EB_rE?si=uVb9s_e_Ptablcuq"
+  },
+  {
+    "id": "project-11",
+    "title": "DesignSpire Archviz",
+    "category": "Architectural Visualization",
+    "filter": "archviz filter-uiux",
+    "image": "assets/img/portfolio/compressed/DesignSpireArchviz.png",
+    "video": "https://youtu.be/BdbGPJuJaI8?si=k4PgeDowHsUE1dYm",
+    "link": "https://youtu.be/BdbGPJuJaI8?si=k4PgeDowHsUE1dYm"
+  },
+  {
+    "id": "project-12",
+    "title": "Dragon Knight Trailer",
+    "category": "Gameplay & System",
+    "filter": "gameplay",
+    "image": "assets/img/portfolio/compressed/Dragon Knight1.png",
+    "video": "https://youtu.be/0SpW9YAK8rY?si=jNfthMwf8ebl_HlH",
+    "link": "https://youtu.be/0SpW9YAK8rY?si=jNfthMwf8ebl_HlH"
+  },
+  {
+    "id": "project-13",
+    "title": "UEFN Game Play",
+    "category": "Gameplay & System",
+    "filter": "gameplay",
+    "image": "assets/img/portfolio/compressed/UEFN_Game3.png",
+    "video": "https://youtu.be/5CanmnyT76Y?si=vTEXacjOpJaSk0Bx",
+    "link": "https://youtu.be/5CanmnyT76Y?si=vTEXacjOpJaSk0Bx"
+  },
+  {
+    "id": "project-14",
+    "title": "Modern Day Apartment Archviz",
+    "category": "Architectural Visualization",
+    "filter": "archviz",
+    "image": "assets/img/portfolio/compressed/ModernDayApartment.png",
+    "video": "https://youtu.be/hvfWM_TVR6I?si=hLE9B_aEDS3CvFsc",
+    "link": "https://youtu.be/hvfWM_TVR6I?si=hLE9B_aEDS3CvFsc"
+  },
+  {
+    "id": "project-15",
+    "title": "Cabin Villa Archviz",
+    "category": "Architectural Visualization",
+    "filter": "archviz filter-trailers",
+    "image": "assets/img/portfolio/compressed/CabinVilla1.png",
+    "video": "https://youtu.be/b5AGsJs5rqU?si=ZqcRGVqRaObW7m3d",
+    "link": "https://youtu.be/b5AGsJs5rqU?si=ZqcRGVqRaObW7m3d"
+  },
+  {
+    "id": "project-16",
+    "title": "ArchViz Interior Masterpiece",
+    "category": "Architectural Visualization",
+    "filter": "archviz filter-trailers",
+    "image": "assets/img/portfolio/compressed/StunningInteriorAnimation.png",
+    "video": "https://youtu.be/Kw8NkR7wyI8?si=fdg09kpS6sGPP1rC",
+    "link": "https://youtu.be/Kw8NkR7wyI8?si=fdg09kpS6sGPP1rC"
+  },
+  {
+    "id": "project-17",
+    "title": "Tensei ArchViz 5 Rooms",
+    "category": "Architectural Visualization",
+    "filter": "archviz",
+    "image": "assets/img/portfolio/compressed/Archviz5Rooms.png",
+    "video": "https://youtu.be/B4Y-IVi1Hk0?si=G9GUOvcqRBnjf412",
+    "link": "https://youtu.be/B4Y-IVi1Hk0?si=G9GUOvcqRBnjf412"
+  },
+  {
+    "id": "project-18",
+    "title": "SanGarica",
+    "category": "Gameplay & System",
+    "filter": "gameplay",
+    "image": "assets/img/portfolio/compressed/SanGarica2.png",
+    "video": "https://youtu.be/kTFpbhf4bcI?si=RCYhYxCw4mnGKTCo",
+    "link": "https://youtu.be/kTFpbhf4bcI?si=RCYhYxCw4mnGKTCo"
+  },
+  {
+    "id": "project-19",
+    "title": "Interactive Realistic AI Poker Dealer",
+    "category": "Gameplay & System",
+    "filter": "ai",
+    "image": "assets/img/portfolio/compressed/PokerDealer.png",
+    "video": "https://youtu.be/Z-MC9skx4mk?si=EQbe2Lc_NepJt33I",
+    "link": "https://youtu.be/Z-MC9skx4mk?si=EQbe2Lc_NepJt33I"
+  },
+  {
+    "id": "project-20",
+    "title": "Battle Royale FPS Prototype with Lyra Framework",
+    "category": "Gameplay & System",
+    "filter": "gameplay filter-uiux",
+    "image": "assets/img/portfolio/compressed/BattleRoyale.png",
+    "video": "https://youtu.be/eCQpA3ObE0g?si=-UiIsEPbuS2FG8WO",
+    "link": "https://youtu.be/eCQpA3ObE0g?si=-UiIsEPbuS2FG8WO"
+  },
+  {
+    "id": "project-21",
+    "title": "Slot Machine Game System",
+    "category": "Gameplay & System",
+    "filter": "gameplay",
+    "image": "assets/img/portfolio/compressed/SlotMachine.png",
+    "video": "https://youtu.be/SKGFitWxgnE?si=ZR8ljPm-TgoX5syZ",
+    "link": "https://youtu.be/SKGFitWxgnE?si=ZR8ljPm-TgoX5syZ"
+  },
+  {
+    "id": "project-22",
+    "title": "The Emotionally Intelligent MetaHuman Companion",
+    "category": "Gameplay & System",
+    "filter": "ai filter-gameplay",
+    "image": "assets/img/portfolio/compressed/Grace.png",
+    "video": "https://youtu.be/JT4ai5N_CYw?si=ob2H4h4sd3xYUMDM",
+    "link": "https://youtu.be/JT4ai5N_CYw?si=ob2H4h4sd3xYUMDM"
+  },
+  {
+    "id": "project-23",
+    "title": "InkAndRunMobile",
+    "category": "Gameplay & System",
+    "filter": "gameplay filter-mobile",
+    "image": "assets/img/portfolio/compressed/InkAndRunMobile1.png",
+    "video": "https://youtu.be/16V0Cerflgw?si=XZOuXvRB6ILetWES",
+    "link": "https://youtu.be/16V0Cerflgw?si=XZOuXvRB6ILetWES"
+  },
+  {
+    "id": "project-24",
+    "title": "Lunar Space Burger: Luna, the AI Chef of the Cosmos",
+    "category": "Gameplay & System",
+    "filter": "ai filter-gameplay",
+    "image": "assets/img/portfolio/compressed/Lunar Space Burger.png",
+    "video": "https://youtu.be/Eimfr48DQTQ?si=KT2XfbimSlCUhYYP",
+    "link": "https://youtu.be/Eimfr48DQTQ?si=KT2XfbimSlCUhYYP"
+  },
+  {
+    "id": "project-25",
+    "title": "UE5 UMG Response System – Interactive Robot Selection Interface",
+    "category": "Gameplay & System",
+    "filter": "uiux",
+    "image": "assets/img/portfolio/compressed/UI_3.png",
+    "video": "https://youtu.be/kHknl8leEng?si=xuapcAo7GgXp_ZiG",
+    "link": "https://youtu.be/kHknl8leEng?si=xuapcAo7GgXp_ZiG"
+  },
+  {
+    "id": "project-26",
+    "title": "UE Dynamic RPG Inventory UI Showcase | Inventory & Loot System",
+    "category": "Gameplay & System",
+    "filter": "nature",
+    "image": "assets/img/portfolio/compressed/UI_1.png",
+    "video": "https://youtu.be/p1kSLAhvS-M?si=qKlkPzNDhe3sAzoo",
+    "link": "https://youtu.be/p1kSLAhvS-M?si=qKlkPzNDhe3sAzoo"
+  },
+  {
+    "id": "project-27",
+    "title": "UE5 Minesweeper Plugin with Slate UI",
+    "category": "Gameplay & System",
+    "filter": "gameplay",
+    "image": "assets/img/portfolio/compressed/Minesweeper.png",
+    "video": "https://youtu.be/8zmOOxN53H0?si=qEVMjXcLWWGBOkTv",
+    "link": "https://youtu.be/8zmOOxN53H0?si=qEVMjXcLWWGBOkTv"
+  },
+  {
+    "id": "project-28",
+    "title": "Crowded Kingdoms",
+    "category": "Gameplay & System",
+    "filter": "gameplay",
+    "image": "assets/img/portfolio/compressed/Voxel.png",
+    "video": "https://youtu.be/kMaIKNxn-v8?si=n5P9F8Vzymx3MwTL",
+    "link": "https://youtu.be/kMaIKNxn-v8?si=n5P9F8Vzymx3MwTL"
+  },
+  {
+    "id": "project-29",
+    "title": "Melee Game Demo",
+    "category": "Gameplay & System",
+    "filter": "gameplay",
+    "image": "assets/img/portfolio/compressed/Melee Game Demo.png",
+    "video": "https://youtu.be/LvoCPbp5gfU?si=6j7FE8WWyXwfbEnl",
+    "link": "https://youtu.be/LvoCPbp5gfU?si=6j7FE8WWyXwfbEnl"
+  },
+  {
+    "id": "project-30",
+    "title": "Dynamic Spline Solution",
+    "category": "Gameplay & System",
+    "filter": "gameplay filter-trailers",
+    "image": "assets/img/portfolio/compressed/Spline1.png",
+    "video": "https://youtu.be/JMOlOLEwgy8?si=qKLyU7fjziFAUf5C",
+    "link": "https://youtu.be/JMOlOLEwgy8?si=qKLyU7fjziFAUf5C"
+  },
+  {
+    "id": "project-31",
+    "title": "UEFN Gameplay Howlongcanyousurvive",
+    "category": "Gameplay & System",
+    "filter": "gameplay",
+    "image": "assets/img/portfolio/compressed/UEFN1__howlongyouservive.png",
+    "video": "https://youtu.be/BgISNm1RVLM?si=TyIpqnWIBob4_lJe",
+    "link": "https://youtu.be/BgISNm1RVLM?si=TyIpqnWIBob4_lJe"
+  },
+  {
+    "id": "project-32",
+    "title": "UE5 AI Sword Combat",
+    "category": "Gameplay & System",
+    "filter": "gameplay filter-ai",
+    "image": "assets/img/portfolio/compressed/AISwordCombat.png",
+    "video": "https://youtu.be/DDIMg1jHtc4?si=g5FejXlFdLZtvNn4",
+    "link": "https://youtu.be/DDIMg1jHtc4?si=g5FejXlFdLZtvNn4"
+  },
+  {
+    "id": "project-33",
+    "title": "Firebase Integration | UE5 Project for Database Connection & Realtime Sync",
+    "category": "Gameplay & System",
+    "filter": "gameplay",
+    "image": "assets/img/portfolio/compressed/Firebase.png",
+    "video": "https://youtu.be/xLsXnFzsNZ8?si=tDTY3UIOP1EjGWhV",
+    "link": "https://youtu.be/xLsXnFzsNZ8?si=tDTY3UIOP1EjGWhV"
+  },
+  {
+    "id": "project-34",
+    "title": "Melee Combat Cinematic Shot in UE5",
+    "category": "Gameplay & System",
+    "filter": "gameplay",
+    "image": "assets/img/portfolio/compressed/CombatCinematic.png",
+    "video": "https://youtu.be/Y561cmsQSjs?si=DPqgbiW33WG1tq28",
+    "link": "https://youtu.be/Y561cmsQSjs?si=DPqgbiW33WG1tq28"
+  },
+  {
+    "id": "project-35",
+    "title": "Touch Control UI",
+    "category": "Gameplay & System",
+    "filter": "gameplay filter-uiux",
+    "image": "assets/img/portfolio/compressed/Touch Control UI.png",
+    "video": "https://youtu.be/o4YEkJTGzEQ?si=TdpkX4sS_q2T-Isp",
+    "link": "https://youtu.be/o4YEkJTGzEQ?si=TdpkX4sS_q2T-Isp"
+  },
+  {
+    "id": "project-36",
+    "title": "AI Assistance",
+    "category": "Gameplay & System",
+    "filter": "gameplay filter-ai",
+    "image": "assets/img/portfolio/compressed/AI Assistance.png",
+    "video": "https://youtu.be/L3QlewJyla8?si=daEWgwTVOl2bKhNS",
+    "link": "https://youtu.be/L3QlewJyla8?si=daEWgwTVOl2bKhNS"
+  },
+  {
+    "id": "project-37",
+    "title": "UR Custom Properties - Blender Add-On",
+    "category": "Gameplay & System",
+    "filter": "gameplay",
+    "image": "assets/img/portfolio/compressed/BlenderAddOn.png",
+    "video": "https://youtu.be/hVoH_2_7OEg?si=Q2Tm4M_HcpmY45fV",
+    "link": "https://youtu.be/hVoH_2_7OEg?si=Q2Tm4M_HcpmY45fV"
+  },
+  {
+    "id": "project-38",
+    "title": "ArchViz DreamHouse",
+    "category": "Architectural Visualization",
+    "filter": "archviz",
+    "image": "assets/img/portfolio/compressed/DreamHouse.png",
+    "video": "https://youtu.be/EonpYzR5mXk?si=b7t6MzKC_QH-8Yeg",
+    "link": "https://youtu.be/EonpYzR5mXk?si=b7t6MzKC_QH-8Yeg"
+  },
+  {
+    "id": "project-39",
+    "title": "ArchViz Sea View House",
+    "category": "Architectural Visualization",
+    "filter": "archviz",
+    "image": "assets/img/portfolio/compressed/SeaViwHouse.png",
+    "video": "https://youtu.be/vqAByFHKJt4?si=edaBWExhpfY24sIC",
+    "link": "https://youtu.be/vqAByFHKJt4?si=edaBWExhpfY24sIC"
+  }
+]
