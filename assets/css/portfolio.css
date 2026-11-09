@@ -141,6 +141,9 @@ body{font-size:16px}.hero{isolation:isolate;overflow:hidden;row-gap:44px}.hero-e
 .hero-media-controls{position:absolute;right:24px;bottom:14px;z-index:2;display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:11px;color:#b9b6af}
 .hero-media-controls button{border:1px solid #e0b78055;background:#111116d9;border-radius:50%;padding:0;color:#e0b780;width:40px;height:40px;display:grid;place-items:center;flex-shrink:0}.hero-media-controls button[hidden]{display:none}
 .hero-media-controls a:hover{color:#e0b780}
+.video-consent>.video-play-icon{display:grid;place-items:center;width:60px;height:60px;padding:0;border-radius:50%;border:1px solid #e0b780aa;background:#111116cc;color:var(--gold)}
+.video-play-icon svg{margin-left:3px}
+.video-consent:is(:hover,:focus-visible)>.video-play-icon{background:var(--gold);color:#111116}
 .project-spotlight{margin:36px 0 44px;border:1px solid #e0b78055;background:#17181d;border-radius:8px;overflow:hidden}
 .project-spotlight[hidden]{display:none}
 .spotlight-top{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid #e0b78025;background:linear-gradient(90deg,#e0b7800c,transparent)}
