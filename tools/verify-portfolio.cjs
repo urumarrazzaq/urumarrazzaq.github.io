@@ -17,7 +17,13 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
   await page.goto(base);await page.waitForFunction(()=>!document.querySelector('.portfolio-toolbar').hidden);
   assert.deepEqual(await page.locator('#nav a').allTextContents(),['Home','About','Portfolio','Services','Contact']);
   assert.equal(await page.locator('main>section:visible').count(),5);
+  assert.equal(await page.locator('.expertise-item').count(),8);
+  assert.equal(await page.locator('.testimonial').count(),6);
+  assert.equal(await page.locator('.about-fact').count(),4);
+  assert.equal(await page.locator('.about-stat').count(),3);
+  assert.equal(await page.locator('.contact-links a[href*="upwork.com"]').count(),1);
   await page.screenshot({path:path.join(root,'artifacts/readable-desktop-home.png')});
+  await page.locator('#about').screenshot({path:path.join(root,'artifacts/readable-desktop-about.png')});
   assert.equal(await page.locator('#project-grid .project-card').count(),9);
   await page.locator('#nav a[href="#portfolio"]').click();
   await page.locator('#project-grid').scrollIntoViewIfNeeded();
@@ -29,9 +35,15 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
   await page.locator('[data-filter="all"]').click();await page.locator('#project-search').fill('Maelstrom');assert.equal(await page.locator('#project-grid .project-card').count(),1);
   await page.locator('#project-grid .text-link').click();await page.waitForSelector('#project-dialog[open]');
   assert.equal(await page.locator('#project-title').textContent(),'Maelstrom');assert.match(await page.locator('.detail-description').first().textContent(),/replication/);
-  await page.route('https://www.youtube-nocookie.com/**',r=>r.abort());
+  let popups=0;page.on('popup',()=>popups++);
+  let resolveVideo;const videoRequestPromise=new Promise(resolve=>{resolveVideo=resolve;});
+  await page.route('https://www.youtube-nocookie.com/**',r=>{resolveVideo(r.request());return r.fulfill({contentType:'text/html',body:'Embedded player test fixture'});});
   await page.locator('.video-consent').click();assert.match(await page.locator('.detail-media iframe').getAttribute('src'),/^https:\/\/www.youtube-nocookie.com\/embed\/[\w-]{11}/);
+  await page.waitForFunction(()=>document.querySelector('.detail-media iframe')?.contentWindow!==null);
+  assert.equal(await page.locator('.detail-media iframe').getAttribute('referrerpolicy'),'strict-origin-when-cross-origin');
+  const videoRequest=await videoRequestPromise;assert.equal(videoRequest.headers().referer,base+'/');assert.equal(popups,0);
   await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('#project-dialog').open&&!document.querySelector('#project-dialog iframe'));
+  await page.locator('#project-grid .project-image').click();assert.equal(await page.locator('#project-dialog iframe').count(),1);await page.locator('#close-project').click();
   await page.locator('#project-search').fill('no-such-project-123');assert.equal(await page.locator('.empty-state').count(),1);await page.locator('#project-search').fill('');
   const content=JSON.parse(await fs.readFile(path.join(root,'assets/data/content.json'),'utf8'));
   for(const p of content.projects){assert.equal((await page.request.get(base+'/'+p.image)).status(),200,p.title);}
@@ -44,7 +56,7 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
    if(width===390){await mobile.goto(base);await mobile.screenshot({path:path.join(root,'artifacts/readable-mobile-home.png')});await mobile.locator('#portfolio').screenshot({path:path.join(root,'artifacts/readable-mobile-portfolio.png')});}
    await mobile.close();
   }
-  const nojs=await browser.newPage({javaScriptEnabled:false});await nojs.goto(base);assert.equal(await nojs.locator('main>section:visible').count(),5);assert.equal(await nojs.locator('.project-card').count(),40);
+  const nojs=await browser.newPage({javaScriptEnabled:false});await nojs.goto(base);assert.equal(await nojs.locator('main>section:visible').count(),5);assert.equal(await nojs.locator('.project-card').count(),9);
   // Exercise dashboard forms against an isolated copy, never the owner's credentials.
   fixture=await fs.mkdtemp(path.join(root,'artifacts/browser-admin-'));content.projects=content.projects.slice(0,2);
   const files=['admin/index.html','admin/admin.css','admin/admin.js','assets/css/portfolio.css','assets/js/portfolio.js',content.profile.image,content.profile.resume,...content.projects.map(p=>p.image)];
@@ -60,6 +72,13 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
   await admin.locator('#add-project').click();await admin.locator('[data-path="projects.0.title"]').fill('New dashboard project');await admin.locator('input[data-upload="projects.0.image"]').setInputFiles(path.join(root,content.profile.image));await admin.waitForFunction(()=>document.querySelector('#dashboard-message').textContent.startsWith('File uploaded locally.'));
   await admin.locator('#save').click();await admin.waitForFunction(()=>document.querySelector('#save-state').textContent==='All changes saved');
   const edited=JSON.parse(await fs.readFile(path.join(fixture,'assets/data/content.json'),'utf8'));assert.equal(edited.projects.length,3);assert.match(edited.projects[0].image,/^assets\/uploads\//);
+  await admin.locator('[data-tab="testimonials"]').click();
+  assert.equal(await admin.locator('[data-path$=".quote"]').count(),6);
+  await admin.locator('[data-path="testimonials.0.quote"]').fill('Updated collaborator recommendation.');
+  await admin.locator('#save').click();await admin.waitForFunction(()=>document.querySelector('#save-state').textContent==='All changes saved');
+  assert.equal(JSON.parse(await fs.readFile(path.join(fixture,'assets/data/content.json'),'utf8')).testimonials[0].quote,'Updated collaborator recommendation.');
+  await admin.locator('[data-tab="about"]').click();
+  assert.equal(await admin.locator('[data-path^="about.stats."][data-path$=".value"]').count(),3);
   await admin.locator('[data-tab="profile"]').click();await admin.locator('[data-path="profile.imagePosition"]').fill('50');await admin.locator('#save').click();await admin.waitForFunction(()=>document.querySelector('#save-state').textContent==='All changes saved');
   await admin.locator('#logout').click();await admin.waitForSelector('#auth-view:not([hidden])');assert.equal((await admin.request.get(adminBase+'/api/content')).status(),401);
   assert.deepEqual(errors,[]);

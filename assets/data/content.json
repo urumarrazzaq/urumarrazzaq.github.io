@@ -11,7 +11,7 @@
   },
   "about": {
     "heading": "A developer’s mindset.\nA player’s curiosity.",
-    "body": "I’m an Unreal Engine developer specializing in C++ and Blueprint. My work spans AA and indie games, multiplayer frameworks, smart AI systems, real-time visualization, and tools that help teams create faster.\n\nI enjoy the space where creative ambition meets technical problem-solving: making a mechanic feel responsive, giving AI purpose, or finding a cleaner way to build a complex system.",
+    "body": "I’m an Unreal Engine developer specializing in C++ and Blueprint. My work spans AA and indie games, multiplayer frameworks, smart AI systems, real-time visualization, and tools that help teams create faster.\n\nI enjoy the space where creative ambition meets technical problem-solving: making a mechanic feel responsive, giving AI purpose, or finding a cleaner way to build a complex system.\n\nMy goal is to deliver results that look great and perform reliably. I enjoy collaborating with teams to turn ambitious ideas into playable experiences.",
     "education": "BS Computer Science · UET Lahore, 2019–2023",
     "skills": [
       "Unreal Engine 4 / 5",
@@ -24,32 +24,106 @@
       "Python & editor tools",
       "Profiling & optimization",
       "MetaHuman & LLM integration"
+    ],
+    "profileFacts": [
+      {
+        "label": "Specialization",
+        "value": "Game smart AI systems & development"
+      },
+      {
+        "label": "Experience level",
+        "value": "Senior professional"
+      },
+      {
+        "label": "Education",
+        "value": "Computer Science, UET Lahore"
+      },
+      {
+        "label": "Languages",
+        "value": "English, Urdu, Punjabi"
+      }
+    ],
+    "expertise": [
+      {
+        "title": "Unreal Engine 4 / 5",
+        "percentage": 95,
+        "description": "Blueprint and C++ workflows across UE4 and UE5."
+      },
+      {
+        "title": "Smart AI Systems",
+        "percentage": 90,
+        "description": "Behavior Trees, EQS, State Trees, perception systems, and adaptive AI design."
+      },
+      {
+        "title": "Gameplay Programming",
+        "percentage": 92,
+        "description": "Character systems, combat mechanics, interactions, and gameplay logic."
+      },
+      {
+        "title": "Responsive UMG Development",
+        "percentage": 95,
+        "description": "Interactive and responsive UI systems using UMG and Blueprint."
+      },
+      {
+        "title": "Multiplayer Systems",
+        "percentage": 85,
+        "description": "Replication, networking, and online gameplay experiences."
+      },
+      {
+        "title": "Tools and Plugin Development",
+        "percentage": 80,
+        "description": "Custom editor tools, C++ and Python automation, and workflow plugins."
+      },
+      {
+        "title": "Game System Architecture",
+        "percentage": 80,
+        "description": "Scalable, modular, optimized game systems."
+      },
+      {
+        "title": "Performance Optimization",
+        "percentage": 75,
+        "description": "Profiling, reducing overhead, and improving gameplay performance."
+      }
+    ],
+    "stats": [
+      {
+        "value": "30+",
+        "label": "Projects completed"
+      },
+      {
+        "value": "3+",
+        "label": "Years experience"
+      },
+      {
+        "value": "98%",
+        "label": "Client satisfaction"
+      }
     ]
   },
   "services": [
     {
       "title": "Gameplay development",
-      "description": "Responsive mechanics, character systems, combat, and gameplay abilities built with clean C++ and Blueprint architecture."
+      "description": "Expert implementation of character systems, combat mechanics, player interactions, and core gameplay features in Unreal Engine. I build responsive gameplay with clean C++ architecture and optimized Blueprint logic that scales with your project."
     },
     {
       "title": "AI & behavior systems",
-      "description": "Intelligent enemies, coordinated squads, boss behaviors, and adaptive encounters using Behavior Trees and EQS."
+      "description": "Advanced AI development using Behavior Trees, EQS, State Trees, and perception systems to create intelligent, adaptive NPCs. From enemy combat behaviors to companion logic, I design AI that responds naturally to player actions."
     },
     {
       "title": "Multiplayer systems",
-      "description": "Replication, authority management, listen-server frameworks, and connected gameplay that performs reliably."
+      "description": "Robust networking solutions with replication, authority management, and lag compensation. I build online experiences that handle client-server communication reliably across different network conditions."
     },
     {
       "title": "Tools & plugins",
-      "description": "Custom editor utilities, production plugins, and Python automation that reduce repetitive work and speed up iteration."
+      "description": "Custom editor tools, automation scripts, and workflow-enhancing plugins built in C++ and Python. These solutions streamline development pipelines and reduce repetitive work in Unreal Engine."
     },
     {
       "title": "Performance optimization",
-      "description": "Profiling, memory management, and targeted optimization to keep complex experiences responsive across platforms."
+      "description": "Profiling and optimization to improve frame rates and reduce overhead. I identify bottlenecks in rendering and gameplay code so projects run smoothly across target platforms."
     },
     {
       "title": "UI & interactive experiences",
-      "description": "UMG interfaces, real-time architectural visualization, and AI-powered interactions with MetaHuman and connected APIs."
+      "description": "Interactive, responsive UMG interfaces built with Blueprint. I craft menu systems, HUD elements, and in-game UI that scales across screen sizes and complements a game?s style."
     }
   ],
   "contact": {
@@ -60,7 +134,9 @@
     "linkedin": "https://www.linkedin.com/in/urumarrazzaq/",
     "github": "https://github.com/urumarrazzaq/",
     "youtube": "https://www.youtube.com/@urumarrazzaq",
-    "instagram": "https://www.instagram.com/urumarrazzaq"
+    "instagram": "https://www.instagram.com/urumarrazzaq",
+    "upwork": "https://www.upwork.com/freelancers/~01062676c85e1dc221?mp_source=share",
+    "fiverr": "https://www.fiverr.com/s/jj6oWXm"
   },
   "projects": [
     {
@@ -542,6 +618,44 @@
       "description": "A sea-view house visualization exploring architecture, interiors, and the surrounding atmosphere.",
       "contributions": "",
       "technologies": ""
+    }
+  ],
+  "testimonials": [
+    {
+      "quote": "I had the pleasure of working with Umar Razzaq during his time as an Unreal Engine Developer at Tensei Games, and he was consistently reliable, skilled, and a great teammate. Umar has strong command of Unreal Engine, solves complex problems quickly, and delivers clean, efficient work. He communicates well, collaborates easily, and always brings a positive, solution-focused attitude. I highly recommend Umar?any team would be lucky to have him.",
+      "name": "Ahmad Ajmal",
+      "role": "Software Engineer",
+      "image": "assets/img/person/ahmadajmal.jpg"
+    },
+    {
+      "quote": "Umar is not just a great team player, he is the kind of teammate every leader dreams of having. He picks up new technologies with lightning speed, adapts effortlessly, and always pushes the team forward with his enthusiasm and commitment. His ability to learn, contribute, and inspire others makes him an irreplaceable resource and a true driving force within our team.",
+      "name": "Moiz Ul Haq",
+      "role": "Senior Unreal Developer",
+      "image": "assets/img/person/moiz.jpg"
+    },
+    {
+      "quote": "I have had the pleasure of working alongside Umar Razzaq on multiple UE projects, and I cannot speak highly enough of his expertise. His ability to tackle complex problems, identify solutions, and push the boundaries of what?s possible in UE has always impressed me. Throughout our collaborations, I?ve seen him approach every challenge with creativity and precision.",
+      "name": "Naba Ali",
+      "role": "Game Programmer",
+      "image": "assets/img/person/naba.jpg"
+    },
+    {
+      "quote": "I highly recommend working with Umar. He is a quick learner and enthusiastic about his work. He consistently brings creativity and always goes the extra mile, giving 100% to every task. It was a pleasure working with such a vigilant team player.",
+      "name": "Muhammad Saqib",
+      "role": "Game Developer",
+      "image": "assets/img/person/saqib.jpg"
+    },
+    {
+      "quote": "Umar is a true professional. Having worked with him in the same team was a great experience. I found him highly motivated and committed to team and organizational goals. With experience in technical art alongside strong analytical skills, I am sure that Umar has a long way to go. It?s been a pleasure working with him.",
+      "name": "Saboor Ishaq",
+      "role": "Unreal Artist",
+      "image": "assets/img/person/saboor.jpg"
+    },
+    {
+      "quote": "Working under Umar?s guidance has been a truly inspiring experience. He leads with clarity, trust, and support for his team?s growth. His technical expertise, adaptability, and encouraging attitude make every challenge a learning opportunity. Umar brings out the best in those around him, a senior who motivates through example.",
+      "name": "Ali Raza Khan",
+      "role": "Unreal Developer",
+      "image": "assets/img/person/aliraza.jpg"
     }
   ]
 }
