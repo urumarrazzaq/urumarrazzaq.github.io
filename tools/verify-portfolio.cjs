@@ -28,6 +28,8 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
   assert.equal(await page.locator('.about-fact').count(),4);
   assert.equal(await page.locator('.about-stat').count(),3);
   assert.equal(await page.locator('.hire-card[href*="upwork.com"]').count(),1);
+  assert.equal(await page.locator('.fab-card').count(),1);
+  assert.equal(await page.locator('#fab-load-more').isVisible(),false);
   await page.screenshot({path:path.join(root,'artifacts/readable-desktop-home.png')});
   await page.evaluate(()=>{window.countSamples=[];new MutationObserver(()=>window.countSamples.push(document.querySelector('.about-stat strong').textContent)).observe(document.querySelector('.about-stat strong'),{childList:true,characterData:true,subtree:true});});
   await page.locator('.about-stats').scrollIntoViewIfNeeded();
@@ -38,9 +40,15 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
   await page.locator('#project-grid').scrollIntoViewIfNeeded();
   await page.locator('#portfolio').screenshot({path:path.join(root,'artifacts/readable-desktop-portfolio.png')});
   assert.equal(await page.locator('#project-grid img').first().evaluate(el=>el.complete&&el.naturalWidth>0),true);
-  for(const count of [18,27,36,43]){await page.locator('#load-more').click();assert.equal(await page.locator('#project-grid .project-card').count(),count);}
+  assert.equal(await page.locator('.project-card[data-id="zhai-steam"] .play-badge').count(),0);
+  await page.locator('.project-card[data-id="zhai-steam"] .text-link').click();
+  assert.equal(await page.locator('#project-title').textContent(),'Zhai');
+  assert.match(await page.locator('#project-detail a[href*="store.steampowered.com"]').getAttribute('href'),/4452500/);
+  await page.locator('#close-project').click();
+  for(const count of [18,27,36,44]){await page.locator('#load-more').click();assert.equal(await page.locator('#project-grid .project-card').count(),count);}
   assert.equal(await page.locator('#load-more').isVisible(),false);
   await page.locator('[data-filter="ai"]').click();assert.ok(await page.locator('#project-grid .project-card').count()>0);
+  await page.locator('[data-filter="simulation"]').click();assert.equal(await page.locator('#project-grid .project-card').count(),8);
   await page.locator('[data-filter="all"]').click();await page.locator('#project-search').fill('Maelstrom');assert.equal(await page.locator('#project-grid .project-card').count(),1);
   await page.locator('#project-grid .text-link').click();await page.waitForSelector('#project-dialog[open]');
   assert.equal(await page.locator('#project-title').textContent(),'Maelstrom');assert.match(await page.locator('.detail-description').first().textContent(),/replication/);
@@ -84,7 +92,7 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
   assert.match(await filePreview.locator('.video-setup').innerText(),/node tools\/admin-server\.cjs/);
   await filePreview.close();
   // Exercise dashboard forms against an isolated copy, never the owner's credentials.
-  fixture=await fs.mkdtemp(path.join(root,'artifacts/browser-admin-'));content.projects=content.projects.slice(0,2);
+  fixture=await fs.mkdtemp(path.join(root,'artifacts/browser-admin-'));content.projects=content.projects.slice(0,2);content.fabListings=Array.from({length:5},(_,i)=>({...content.fabListings[0],title:`Fab asset ${i+1}`}));
   const files=['admin/index.html','admin/admin.css','admin/admin.js','assets/css/portfolio.css','assets/js/portfolio.js',content.profile.image,content.profile.resume,...content.projects.map(p=>p.image)];
   for(const file of files){await fs.mkdir(path.dirname(path.join(fixture,file)),{recursive:true});await fs.copyFile(path.join(root,file),path.join(fixture,file));}
   await fs.mkdir(path.join(fixture,'assets/data'),{recursive:true});await fs.writeFile(path.join(fixture,'assets/data/content.json'),JSON.stringify(content,null,2)+'\n');await fs.writeFile(path.join(fixture,'index.html'),render(content));
@@ -126,10 +134,13 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
   assert.equal(await separate.locator('main>section').count(),1);
   assert.equal(await separate.locator('main>section').getAttribute('id'),'portfolio');
   assert.equal(await separate.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+  await separate.goto(adminBase+'/fab.html');assert.equal(await separate.locator('.fab-card').count(),3);
+  await separate.locator('#fab-load-more').click();assert.equal(await separate.locator('.fab-card').count(),5);
+  assert.equal(await separate.locator('#fab-load-more').isVisible(),false);
   await separate.close();
   await admin.locator('#logout').click();await admin.waitForSelector('#auth-view:not([hidden])');assert.equal((await admin.request.get(adminBase+'/api/content')).status(),401);
   assert.deepEqual(errors,[]);
-  console.log('PASS: 7 readable sections; 43 projects; gallery pagination/search/category filters; descriptions and video embedding; mobile at 320/390/768px; no-JS portfolio; dashboard password setup/login/logout, project editing, upload, save, static regeneration and profile crop control.');
+  console.log('PASS: 7 readable sections; 44 projects; gallery pagination/search/category filters; descriptions and video embedding; mobile at 320/390/768px; no-JS portfolio; dashboard password setup/login/logout, project editing, upload, save, static regeneration and profile crop control.');
   console.log('Screenshots saved in artifacts/readable-*.png and artifacts/local-dashboard-projects.png.');
  }finally{if(browser)await browser.close();await new Promise(resolve=>server.close(resolve));if(fixtureServer)await new Promise(resolve=>fixtureServer.close(resolve));if(fixture)await fs.rm(fixture,{recursive:true,force:true});}
 })().catch(e=>{console.error(e);process.exitCode=1;});

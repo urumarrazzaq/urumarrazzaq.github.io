@@ -53,7 +53,7 @@
   };
   const splitFilter = p => p.filter.split(/\s+/).map(x => x.replace(/^filter-/, ''));
   function card(p) {
-    return `<article class="project-card" data-id="${escape(p.id)}"><button class="project-image" data-project="${escape(p.id)}" data-play="true" aria-label="Watch ${escape(p.title)} inside the website"><img src="${escape(safeURL(p.image))}" alt="${escape(p.title)} — project thumbnail" loading="lazy" width="640" height="360"><span class="play-badge" aria-hidden="true">▶</span><span class="play-label">WATCH GAMEPLAY</span></button><div class="project-copy"><p class="eyebrow">${escape(p.category)}</p><h3><button data-project="${escape(p.id)}">${escape(p.title)}</button></h3><p>${escape(p.description || 'Project footage and a closer look at the experience.')}</p><button class="text-link" data-project="${escape(p.id)}">Project details <span>↗</span></button></div></article>`;
+    return `<article class="project-card" data-id="${escape(p.id)}"><button class="project-image" data-project="${escape(p.id)}"${p.video?' data-play="true"':''} aria-label="${p.video?'Watch':'Explore'} ${escape(p.title)} inside the website"><img src="${escape(safeURL(p.image))}" alt="${escape(p.title)} — project thumbnail" loading="lazy" width="640" height="360">${p.video?'<span class="play-badge" aria-hidden="true">▶</span><span class="play-label">WATCH GAMEPLAY</span>':'<span class="play-label">PROJECT DETAILS</span>'}</button><div class="project-copy"><p class="eyebrow">${escape(p.category)}</p><h3><button data-project="${escape(p.id)}">${escape(p.title)}</button></h3><p>${escape(p.description || 'Project footage and a closer look at the experience.')}</p><button class="text-link" data-project="${escape(p.id)}">Project details <span>↗</span></button></div></article>`;
   }
   // Each part of the portfolio has its own entrance, while content stays visible if motion is off.
   function revealFrames(target) {
@@ -309,5 +309,19 @@
     render();
   } catch {
     if ($('#project-count')) $('#project-count').textContent = 'Project data could not load. Reload the page to try again.';
+  }
+  if ($('#fab-grid')) {
+    try {
+      const listings = JSON.parse($('#fab-data').textContent), batch = 3;
+      let shown = Math.min(batch, listings.length);
+      const update = () => { $('#fab-load-more').hidden = shown >= listings.length; $('#fab-count').textContent = listings.length ? `Showing ${shown} of ${listings.length} listings` : 'Listings are being prepared.'; };
+      $('#fab-load-more').addEventListener('click', () => {
+        const more = listings.slice(shown, shown + batch);
+        $('#fab-grid').insertAdjacentHTML('beforeend', more.map(item => `<article class="fab-card"><div class="fab-art">${item.image?`<img src="${escape(safeURL(item.image))}" alt="${escape(item.title)} artwork" loading="lazy">`:'<span aria-hidden="true">FAB</span>'}</div><div class="fab-copy"><span class="eyebrow">FAB LISTING</span><h3>${escape(item.title)}</h3><p>${escape(item.description)}</p><a class="text-link" href="${escape(safeURL(item.url))}" target="_blank" rel="noopener">${item.url.includes('/portal/')?'Publisher preview':'View on Fab'} ↗</a></div></article>`).join(''));
+        shown += more.length;update();
+        $('#fab-grid .fab-card:nth-child(' + (shown - more.length + 1) + ')')?.scrollIntoView({behavior:motion.matches?'instant':'smooth',block:'nearest'});
+      });
+      update();
+    } catch { $('#fab-count').textContent = 'Fab listings could not load.'; }
   }
 })();

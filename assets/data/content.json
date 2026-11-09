@@ -273,6 +273,18 @@
       "technologies": ""
     },
     {
+      "id": "zhai-steam",
+      "title": "Zhai",
+      "category": "Action adventure ? In development",
+      "filter": "gameplay",
+      "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4452500/d6d55e33a601a18d20ea09e1eaa43b0ed3abbe42/header.jpg?t=1790685651",
+      "video": "",
+      "link": "https://store.steampowered.com/app/4452500/Zhai/",
+      "description": "I am working on Zhai, a third-person open-world action-adventure set in Il?Navir. Players recover lost memories, unlock elemental abilities, and shape their combat style while exploring a world of rival tribes. The game is listed on Steam with its release date to be announced.",
+      "contributions": "",
+      "technologies": ""
+    },
+    {
       "id": "project-8",
       "title": "Interactive Room Navigation & Object Placement System",
       "category": "Architecture Visualization",
@@ -658,39 +670,39 @@
     },
     {
       "id": "new-video-QIyx3pDqHBk",
-      "title": "New video showcase 01",
-      "category": "Video showcase",
-      "filter": "others",
-      "image": "https://img.youtube.com/vi/QIyx3pDqHBk/hqdefault.jpg",
+      "title": "Popcorn Simulation in Unreal Engine 5",
+      "category": "Simulation",
+      "filter": "simulation",
+      "image": "assets/img/portfolio/simulations/popcorn.jpg",
       "video": "https://youtu.be/QIyx3pDqHBk",
       "link": "",
-      "description": "New portfolio video. Project title, work summary, and category will be updated after the footage can be reviewed.",
+      "description": "A 3D simulation of corn kernels in a lidded pan on a gas burner, showing an everyday cooking scene in a virtual environment.",
       "contributions": "",
-      "technologies": ""
+      "technologies": "Unreal Engine 5"
     },
     {
       "id": "new-video-OvAJt7EFcFw",
-      "title": "New video showcase 02",
-      "category": "Video showcase",
-      "filter": "others",
-      "image": "https://img.youtube.com/vi/OvAJt7EFcFw/hqdefault.jpg",
+      "title": "Venus Flytrap Simulation",
+      "category": "Simulation",
+      "filter": "simulation",
+      "image": "assets/img/portfolio/simulations/venus-flytrap.jpg",
       "video": "https://youtu.be/OvAJt7EFcFw",
       "link": "",
-      "description": "New portfolio video. Project title, work summary, and category will be updated after the footage can be reviewed.",
+      "description": "A nature-inspired 3D visualization of a potted carnivorous plant and a fly, focusing on the flytrap?s hinged trap and tooth-like edges.",
       "contributions": "",
-      "technologies": ""
+      "technologies": "3D simulation"
     },
     {
       "id": "new-video-QtvTzn5I34Y",
-      "title": "New video showcase 03",
-      "category": "Video showcase",
-      "filter": "others",
-      "image": "https://img.youtube.com/vi/QtvTzn5I34Y/hqdefault.jpg",
+      "title": "Copper Bowl Raising Simulation in Unreal Engine 5",
+      "category": "Simulation",
+      "filter": "simulation",
+      "image": "assets/img/portfolio/simulations/copper-bowl.jpg",
       "video": "https://youtu.be/QtvTzn5I34Y",
       "link": "",
-      "description": "New portfolio video. Project title, work summary, and category will be updated after the footage can be reviewed.",
+      "description": "A metalworking visualization showing a copper workpiece, hammer, and forming setup in a virtual workshop as a copper disc is shaped into a bowl.",
       "contributions": "",
-      "technologies": ""
+      "technologies": "Unreal Engine 5"
     }
   ],
   "testimonials": [

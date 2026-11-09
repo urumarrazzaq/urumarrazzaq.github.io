@@ -3,7 +3,7 @@ function text(value,name,max=3000){if(typeof value!=='string'||value.length>max)
 function required(value,name,max=200){const s=text(value,name,max);if(!s)throw Error(`${name} is required.`);return s;}
 function local(value,name,extensions){const s=text(value,name,500);if(!/^(assets\/(img|uploads)\/|resume\/)[a-zA-Z0-9 _./()-]+$/.test(s)||s.split('/').includes('..')||!extensions.test(s))throw Error(`${name} must reference a supported local file.`);return s;}
 function link(value,name,optional=true){const s=text(value||'',name,1000);if(!s&&optional)return '';let u;try{u=new URL(s);}catch{throw Error(`${name} must be a complete HTTPS or HTTP URL.`);}if(!['https:','http:'].includes(u.protocol)||u.username||u.password)throw Error(`${name} must be an HTTPS or HTTP URL without credentials.`);return u.href;}
-function thumbnail(value){if(/^https:\/\/img\.youtube\.com\/vi\/[a-zA-Z0-9_-]{11}\/(hqdefault|mqdefault|maxresdefault)\.jpg$/.test(value))return value;return local(value,'Project thumbnail',/\.(png|jpe?g|webp|gif)$/i);}
+function thumbnail(value){if(typeof value==='string'&&value.startsWith('https://shared.akamai.steamstatic.com/')){const u=new URL(value);if(/^\/store_item_assets\/steam\/apps\/4452500\/[a-f0-9]+\/header\.jpg$/.test(u.pathname)&&(!u.search||/^\?t=\d+$/.test(u.search)))return u.href;throw Error('Use an official Zhai Steam header URL or a local project image.');}return local(value,'Project thumbnail',/\.(png|jpe?g|webp|gif)$/i);}
 function validateContent(c){
  if(!c||typeof c!=='object'||Array.isArray(c))throw Error('Invalid content.');
  const p=c.profile,a=c.about,k=c.contact;

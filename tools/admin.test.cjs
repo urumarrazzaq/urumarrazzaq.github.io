@@ -73,4 +73,9 @@ test('both layouts are generated and hidden sections disappear from each',async(
  assert.equal(changed['hire.html'],undefined);
  assert.doesNotMatch(changed['one-page.html'],/href="#hire"|<section id="hire"/);
  assert.match(changed['one-page.html'],/<section id="portfolio"/);
+ const many=structuredClone(content);many.fabListings=Array.from({length:7},(_,i)=>({...content.fabListings[0],title:`Fab listing ${i+1}`}));
+ const gallery=renderFiles(validateContent(many))['fab.html'];
+ assert.equal((gallery.match(/class="fab-card"/g)||[]).length,3);
+ assert.match(gallery,/<button id="fab-load-more"/);
+ assert.match(gallery,/<script type="application\/json" id="fab-data">/);
 });
