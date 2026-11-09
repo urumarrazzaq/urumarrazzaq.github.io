@@ -7,6 +7,17 @@ const {validateContent}=require('./content-schema.cjs');
 const {renderFiles}=require('./render-site.cjs');
 const projectRoot=path.resolve(__dirname,'..');
 
+test('background YouTube URL survives saves and rejects unsupported links',async()=>{
+ const content=JSON.parse(await fs.readFile(path.join(projectRoot,'assets/data/content.json'),'utf8'));
+ for(const url of ['https://youtu.be/Nc5NxjcvrIM','https://www.youtube.com/watch?v=Nc5NxjcvrIM','https://www.youtube.com/shorts/Nc5NxjcvrIM']){
+  content.profile.backgroundVideo=url;
+  const clean=validateContent(content);assert.equal(clean.profile.backgroundVideo,url);
+  assert.ok(renderFiles(clean)['index.html'].includes('data-video-id="Nc5NxjcvrIM"'));
+ }
+ content.profile.backgroundVideo='https://evil.example/watch?v=Nc5NxjcvrIM';assert.throws(()=>validateContent(content),/YouTube/);
+ content.profile.backgroundVideo='';assert.ok(!renderFiles(validateContent(content))['index.html'].includes('id="hero-youtube"'));
+});
+
 test('project pages expose readable content, canonical metadata and video schema',async()=>{
  const source=JSON.parse(await fs.readFile(path.join(projectRoot,'assets/data/content.json'),'utf8'));
  const content=validateContent(source),pages=renderFiles(content),p=content.projects.find(p=>p.videoPublishedAt);

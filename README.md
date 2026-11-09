@@ -67,6 +67,12 @@ The public UStore HSVColorPicker listing uses a generated promotional thumbnail.
 
 Project descriptions were expanded using published YouTube descriptions and sampled storyboard frames. The review record is `design/project-content-review.json`; it does not represent full audio/video playback review.
 
+## Change the homepage background
+
+Run `npm.cmd start`, open `http://127.0.0.1:8080/admin/`, and sign in (or create a password on first use). Under **Profile & home**, edit **Background YouTube URL** and save. The background plays muted and loops when visible. Clear the field to show a still background. Use a public or unlisted video that permits embedding; browser autoplay settings or YouTube restrictions may prevent playback. Preview through localhost, not a `file:///` URL.
+
+The admin source (`admin/`, `tools/`, and `package.json`) can be committed and pushed with the repository. Never add `.local/`: it contains the local password hash and backups and is already ignored. GitHub Pages excludes the dashboard and server through `_config.yml`; `/admin/` is not an online admin login. On another computer, clone the repository, install Node.js 20+, run `npm.cmd start`, and create a password for that computer. Saving generates the public HTML locally; commit and push those changes to publish. A remotely accessible dashboard would need server hosting beyond GitHub Pages.
+
 ## Search visibility
 
 The build creates individual `work-*.html` project pages with readable descriptions, embedded videos, canonical URLs, social previews, and structured data. All project pages are linked from the expandable portfolio directory. It also creates `sitemap.xml` and `robots.txt`. Removing projects or hiding Portfolio removes the corresponding generated pages on the next dashboard save/build.

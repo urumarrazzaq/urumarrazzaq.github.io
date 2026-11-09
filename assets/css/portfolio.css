@@ -131,6 +131,7 @@ body{font-size:16px}.hero{isolation:isolate;overflow:hidden;row-gap:44px}.hero-e
 .restored-page .hero-content{animation:none}
 .project-card,.project-card:hover,.project-card:focus-within{border-color:#e0b78070;border-top-color:#e0b780!important}
 .hero-environment video{width:100%;height:100%;object-fit:cover;opacity:.52}
+.hero-environment #hero-youtube{position:absolute;inset:0;width:100%;height:100%;border:0;opacity:.52;pointer-events:none}
 .hero-media-controls{position:absolute;right:24px;bottom:14px;z-index:2;display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:11px;color:#b9b6af}
 .hero-media-controls button{border:1px solid #e0b78055;background:#111116d9;border-radius:4px;padding:6px 10px;color:#e0b780;font-size:12px;min-height:36px}
 .hero-media-controls a:hover{color:#e0b780}

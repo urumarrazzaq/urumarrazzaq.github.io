@@ -26,6 +26,7 @@ function createPortfolioServer({root=path.resolve(__dirname,'..')}={}){
    const port=server.address().port,allowedHosts=[`127.0.0.1:${port}`,`localhost:${port}`];
    if(!allowedHosts.includes(req.headers.host))fail(403,'Only local dashboard access is allowed.');
    const url=new URL(req.url,`http://${req.headers.host}`),route=decodeURIComponent(url.pathname);
+   if(!route.startsWith('/admin')&&!route.startsWith('/api/'))res.setHeader('Content-Security-Policy',res.getHeader('Content-Security-Policy').replace("script-src 'self';","script-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://s.ytimg.com;"));
    if(route.startsWith('/api/')){
     res.setHeader('Cache-Control','no-store');
     const rawCookie=(req.headers.cookie||'').match(/(?:^|;\s*)portfolio_session=([a-f0-9]{64})(?:;|$)/)?.[1];
