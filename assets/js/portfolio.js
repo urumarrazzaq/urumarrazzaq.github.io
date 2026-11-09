@@ -101,7 +101,7 @@
       const entry = {simulation:'translateY(14px)',tools:'translateX(-16px)',archviz:'scale(.97)',ai:'translateX(16px)',uiux:'translateY(10px)',gameplay:'translateY(18px)'}[target.dataset.discipline] || 'translateY(14px)';
       return [{opacity: .4, transform: entry}, {opacity: 1, transform: 'none'}];
     }
-    if (target.classList.contains('service-card')) return [{opacity: .35, transform: 'perspective(800px) rotateY(-8deg) translateX(-22px)'}, {opacity: 1, transform: 'perspective(800px) rotateY(0) translateX(0)'}];
+    if (target.classList.contains('service-card')) return [{opacity: .6, transform: 'translateY(8px)'}, {opacity: 1, transform: 'translateY(0)'}];
     if (target.classList.contains('about-layout') || target.classList.contains('expertise-item')) return [{opacity: .35, transform: 'translateX(28px)'}, {opacity: 1, transform: 'translateX(0)'}];
     if (target.classList.contains('about-stat') || target.classList.contains('about-fact')) return [{opacity: .4, transform: 'scale(.9) translateY(12px)'}, {opacity: 1, transform: 'scale(1) translateY(0)'}];
     if (target.classList.contains('testimonial')) return [{opacity: .4, transform: 'translateX(-30px)'}, {opacity: 1, transform: 'translateX(0)'}];
@@ -126,9 +126,9 @@
     // Animate card contents so hover and entrance never compete for the card transform.
     const parts=target.matches('.project-card')?[target.querySelector('.project-copy')]:
       target.matches('.fab-card')?[target.querySelector('.fab-art'),target.querySelector('.fab-copy')]:
-      target.matches('.service-card,.hire-card')?[...target.children]:[target];
+      target.matches('.hire-card')?[...target.children]:[target];
     parts.filter(Boolean).forEach((part,index)=>{
-      const animation=part.animate(revealFrames(target),{duration:target.matches('.project-card')?420:600,delay:Number(target.dataset.revealDelay||0)+Math.min(index,3)*45,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'});
+      const animation=part.animate(revealFrames(target),{duration:target.matches('.project-card,.service-card')?420:600,delay:Number(target.dataset.revealDelay||0)+Math.min(index,3)*45,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'});
       entranceAnimations.add(animation);
       animation.finished.catch(()=>{}).finally(()=>entranceAnimations.delete(animation));
     });
