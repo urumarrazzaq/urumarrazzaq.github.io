@@ -136,7 +136,7 @@ body{font-size:16px}.hero{isolation:isolate;overflow:hidden;row-gap:44px}.hero-e
 .hero-media-controls a:hover{color:#e0b780}
 .testimonial-grid{row-gap:38px;margin-top:36px}
 .testimonial{position:relative;padding-top:38px}
-.testimonial-quote{position:absolute;top:-21px;left:24px;display:grid;place-items:center;width:42px;height:42px;border:1px solid #7660b82b;border-radius:50%;background:#191726;color:#7854c2;pointer-events:none}
+.testimonial-quote{position:absolute;top:-21px;left:24px;display:grid;place-items:center;width:42px;height:42px;border:1px solid #e0b78040;border-radius:50%;background:#1b1c23;color:var(--gold);pointer-events:none}
 .testimonial-quote svg{width:17px;height:17px}
 @media(max-width:560px){.testimonial{padding-top:34px}.testimonial-quote{left:20px}}
 /* Ambient world: restrained light and geometry behind each destination. */
