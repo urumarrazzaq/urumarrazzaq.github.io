@@ -1,4 +1,23 @@
 {
+  "site": {
+    "mode": "one-page",
+    "sections": {
+      "about": true,
+      "portfolio": true,
+      "services": true,
+      "hire": true,
+      "fab": true,
+      "contact": true
+    }
+  },
+  "fabListings": [
+    {
+      "title": "Fab listing preview",
+      "description": "Explore this listing on Fab. Add its official title, description, and artwork in the dashboard when ready.",
+      "image": "",
+      "url": "https://www.fab.com/portal/listings/a8d4a442-cb88-4adc-a5c9-17e78c6307cc/preview"
+    }
+  ],
   "profile": {
     "name": "Umar Razzaq",
     "role": "Unreal Engine Developer",
@@ -35,7 +54,9 @@
       "UMG",
       "Python & editor tools",
       "Profiling & optimization",
-      "MetaHuman & LLM integration"
+      "MetaHuman & LLM integration",
+      "AI-assisted game creation",
+      "Model Context Protocol (MCP) workflows"
     ],
     "profileFacts": [
       {
@@ -136,6 +157,10 @@
     {
       "title": "UI & interactive experiences",
       "description": "Interactive, responsive UMG interfaces built with Blueprint. I craft menu systems, HUD elements, and in-game UI that scales across screen sizes and complements a game?s style."
+    },
+    {
+      "title": "AI-assisted game creation & MCP",
+      "description": "Use AI-assisted workflows and Model Context Protocol integrations to support game prototyping, tooling, and production tasks in Unreal Engine."
     }
   ],
   "contact": {
@@ -167,7 +192,7 @@
       "id": "project-1",
       "title": "Avatar Builder in UE5 C++",
       "category": "Gameplay & System",
-      "filter": "gameplay",
+      "filter": "gameplay tools",
       "image": "assets/img/portfolio/compressed/Avatar.png",
       "video": "https://youtu.be/F2gAgTosPrs?si=paKFWuo_EAZZepNm",
       "link": "https://youtu.be/F2gAgTosPrs?si=paKFWuo_EAZZepNm",
@@ -179,7 +204,7 @@
       "id": "project-2",
       "title": "Map Spline Demo",
       "category": "Gameplay & System",
-      "filter": "gameplay",
+      "filter": "gameplay tools",
       "image": "assets/img/portfolio/compressed/Spline.png",
       "video": "https://youtu.be/KAxmShlU6eQ?si=puP0j-cVFqw58bF1",
       "link": "https://youtu.be/KAxmShlU6eQ?si=puP0j-cVFqw58bF1",
@@ -215,7 +240,7 @@
       "id": "project-5",
       "title": "Drive Thru Metahuman",
       "category": "Gameplay & System",
-      "filter": "gameplay",
+      "filter": "gameplay simulation",
       "image": "assets/img/portfolio/compressed/DriveThruMetahuman.jpg",
       "video": "https://youtu.be/phjgpw_ZyDM?si=keFnqSrXDrqqkQRB",
       "link": "https://youtu.be/phjgpw_ZyDM?si=keFnqSrXDrqqkQRB",
@@ -227,7 +252,7 @@
       "id": "project-6",
       "title": "SoundHound Burger Electra Video With TTS",
       "category": "Trailers",
-      "filter": "trailers",
+      "filter": "trailers simulation",
       "image": "assets/img/portfolio/compressed/Electra.png",
       "video": "https://youtu.be/XaBq4QUCWRs?si=-QyrhH2K1HWb1S9H",
       "link": "https://youtu.be/XaBq4QUCWRs?si=-QyrhH2K1HWb1S9H",
@@ -239,7 +264,7 @@
       "id": "project-7",
       "title": "Racing Car",
       "category": "Gameplay & System",
-      "filter": "gameplay",
+      "filter": "gameplay simulation",
       "image": "assets/img/portfolio/compressed/RacingCar.png",
       "video": "https://youtu.be/FB5jSJnQOyA?si=Y74kZv3XsSoQIF9K",
       "link": "https://youtu.be/FB5jSJnQOyA?si=Y74kZv3XsSoQIF9K",
@@ -275,7 +300,7 @@
       "id": "project-10",
       "title": "Jetpack Component",
       "category": "Gameplay & System",
-      "filter": "gameplay",
+      "filter": "gameplay tools",
       "image": "assets/img/portfolio/compressed/JetPackKarnak1.png",
       "video": "https://youtu.be/3LuKP-EB_rE?si=uVb9s_e_Ptablcuq",
       "link": "https://youtu.be/3LuKP-EB_rE?si=uVb9s_e_Ptablcuq",
@@ -311,7 +336,7 @@
       "id": "project-13",
       "title": "UEFN Game Play",
       "category": "Gameplay & System",
-      "filter": "gameplay",
+      "filter": "gameplay uefn",
       "image": "assets/img/portfolio/compressed/UEFN_Game3.png",
       "video": "https://youtu.be/5CanmnyT76Y?si=vTEXacjOpJaSk0Bx",
       "link": "https://youtu.be/5CanmnyT76Y?si=vTEXacjOpJaSk0Bx",
@@ -383,7 +408,7 @@
       "id": "project-19",
       "title": "Interactive Realistic AI Poker Dealer",
       "category": "Gameplay & System",
-      "filter": "ai",
+      "filter": "ai simulation",
       "image": "assets/img/portfolio/compressed/PokerDealer.png",
       "video": "https://youtu.be/Z-MC9skx4mk?si=EQbe2Lc_NepJt33I",
       "link": "https://youtu.be/Z-MC9skx4mk?si=EQbe2Lc_NepJt33I",
@@ -407,7 +432,7 @@
       "id": "project-21",
       "title": "Slot Machine Game System",
       "category": "Gameplay & System",
-      "filter": "gameplay",
+      "filter": "gameplay simulation",
       "image": "assets/img/portfolio/compressed/SlotMachine.png",
       "video": "https://youtu.be/SKGFitWxgnE?si=ZR8ljPm-TgoX5syZ",
       "link": "https://youtu.be/SKGFitWxgnE?si=ZR8ljPm-TgoX5syZ",
@@ -479,7 +504,7 @@
       "id": "project-27",
       "title": "UE5 Minesweeper Plugin with Slate UI",
       "category": "Gameplay & System",
-      "filter": "gameplay",
+      "filter": "gameplay tools",
       "image": "assets/img/portfolio/compressed/Minesweeper.png",
       "video": "https://youtu.be/8zmOOxN53H0?si=qEVMjXcLWWGBOkTv",
       "link": "https://youtu.be/8zmOOxN53H0?si=qEVMjXcLWWGBOkTv",
@@ -515,7 +540,7 @@
       "id": "project-30",
       "title": "Dynamic Spline Solution",
       "category": "Gameplay & System",
-      "filter": "gameplay trailers",
+      "filter": "gameplay trailers tools",
       "image": "assets/img/portfolio/compressed/Spline1.png",
       "video": "https://youtu.be/JMOlOLEwgy8?si=qKLyU7fjziFAUf5C",
       "link": "https://youtu.be/JMOlOLEwgy8?si=qKLyU7fjziFAUf5C",
@@ -527,7 +552,7 @@
       "id": "project-31",
       "title": "UEFN Gameplay Howlongcanyousurvive",
       "category": "Gameplay & System",
-      "filter": "gameplay",
+      "filter": "gameplay uefn",
       "image": "assets/img/portfolio/compressed/UEFN1__howlongyouservive.png",
       "video": "https://youtu.be/BgISNm1RVLM?si=TyIpqnWIBob4_lJe",
       "link": "https://youtu.be/BgISNm1RVLM?si=TyIpqnWIBob4_lJe",
@@ -551,7 +576,7 @@
       "id": "project-33",
       "title": "Firebase Integration | UE5 Project for Database Connection & Realtime Sync",
       "category": "Gameplay & System",
-      "filter": "gameplay",
+      "filter": "gameplay tools",
       "image": "assets/img/portfolio/compressed/Firebase.png",
       "video": "https://youtu.be/xLsXnFzsNZ8?si=tDTY3UIOP1EjGWhV",
       "link": "https://youtu.be/xLsXnFzsNZ8?si=tDTY3UIOP1EjGWhV",
@@ -599,7 +624,7 @@
       "id": "project-37",
       "title": "UR Custom Properties - Blender Add-On",
       "category": "Gameplay & System",
-      "filter": "gameplay",
+      "filter": "gameplay tools",
       "image": "assets/img/portfolio/compressed/BlenderAddOn.png",
       "video": "https://youtu.be/hVoH_2_7OEg?si=Q2Tm4M_HcpmY45fV",
       "link": "https://youtu.be/hVoH_2_7OEg?si=Q2Tm4M_HcpmY45fV",
@@ -628,6 +653,42 @@
       "video": "https://youtu.be/vqAByFHKJt4?si=edaBWExhpfY24sIC",
       "link": "https://youtu.be/vqAByFHKJt4?si=edaBWExhpfY24sIC",
       "description": "A sea-view house visualization exploring architecture, interiors, and the surrounding atmosphere.",
+      "contributions": "",
+      "technologies": ""
+    },
+    {
+      "id": "new-video-QIyx3pDqHBk",
+      "title": "New video showcase 01",
+      "category": "Video showcase",
+      "filter": "others",
+      "image": "https://img.youtube.com/vi/QIyx3pDqHBk/hqdefault.jpg",
+      "video": "https://youtu.be/QIyx3pDqHBk",
+      "link": "",
+      "description": "New portfolio video. Project title, work summary, and category will be updated after the footage can be reviewed.",
+      "contributions": "",
+      "technologies": ""
+    },
+    {
+      "id": "new-video-OvAJt7EFcFw",
+      "title": "New video showcase 02",
+      "category": "Video showcase",
+      "filter": "others",
+      "image": "https://img.youtube.com/vi/OvAJt7EFcFw/hqdefault.jpg",
+      "video": "https://youtu.be/OvAJt7EFcFw",
+      "link": "",
+      "description": "New portfolio video. Project title, work summary, and category will be updated after the footage can be reviewed.",
+      "contributions": "",
+      "technologies": ""
+    },
+    {
+      "id": "new-video-QtvTzn5I34Y",
+      "title": "New video showcase 03",
+      "category": "Video showcase",
+      "filter": "others",
+      "image": "https://img.youtube.com/vi/QtvTzn5I34Y/hqdefault.jpg",
+      "video": "https://youtu.be/QtvTzn5I34Y",
+      "link": "",
+      "description": "New portfolio video. Project title, work summary, and category will be updated after the footage can be reviewed.",
       "contributions": "",
       "technologies": ""
     }

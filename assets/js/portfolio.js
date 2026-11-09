@@ -63,6 +63,8 @@
     if (target.classList.contains('about-layout') || target.classList.contains('expertise-item')) return [{opacity: .35, transform: 'translateX(28px)'}, {opacity: 1, transform: 'translateX(0)'}];
     if (target.classList.contains('about-stat') || target.classList.contains('about-fact')) return [{opacity: .4, transform: 'scale(.9) translateY(12px)'}, {opacity: 1, transform: 'scale(1) translateY(0)'}];
     if (target.classList.contains('testimonial')) return [{opacity: .4, transform: 'translateX(-30px)'}, {opacity: 1, transform: 'translateX(0)'}];
+    if (target.classList.contains('hire-card')) return [{opacity: .3, transform: 'perspective(700px) rotateY(-7deg) translateY(24px)'}, {opacity: 1, transform: 'perspective(700px) rotateY(0) translateY(0)'}];
+    if (target.classList.contains('fab-card')) return [{opacity: .4, transform: 'translateY(22px)'}, {opacity: 1, transform: 'translateY(0)'}];
     if (target.closest('.contact-section')) return [{opacity: .4, transform: 'scale(.94)'}, {opacity: 1, transform: 'scale(1)'}];
     return [{opacity: .35, transform: 'translateY(20px)'}, {opacity: 1, transform: 'translateY(0)'}];
   }
@@ -100,7 +102,7 @@
   }, {threshold: .65});
   document.querySelectorAll('.about-stat strong').forEach(el => countObserver.observe(el));
   function observeCards() { document.querySelectorAll('.project-card:not([data-observed])').forEach((el, index) => { el.dataset.observed = 'true'; el.dataset.revealDelay = String(index % 3 * 70); reveals.observe(el); }); }
-  document.querySelectorAll('.portrait-frame,.hero-reel,.section-top,.about-layout,.about-stat,.about-fact,.skills,.expertise-item,.testimonial,.section-heading,.service-card,.contact-section .actions').forEach((el, index) => {
+  document.querySelectorAll('.portrait-frame,.hero-reel,.section-top,.about-layout,.about-stat,.about-fact,.skills,.expertise-item,.testimonial,.section-heading,.service-card,.fab-card,.hire-card,.contact-section .actions').forEach((el, index) => {
     el.dataset.revealDelay = String(index % 3 * 65);
     reveals.observe(el);
   });
@@ -153,29 +155,8 @@
     }, 5200);
     updateReel();
   }
-  const finePointer = matchMedia('(pointer: fine)');
-  let tiltFrame = 0;
-  document.addEventListener('pointermove', event => {
-    const card = event.target.closest('.project-card,.service-card');
-    if (!card || !finePointer.matches || motion.matches) return;
-    const rect = card.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width - .5;
-    const y = (event.clientY - rect.top) / rect.height - .5;
-    if (tiltFrame) cancelAnimationFrame(tiltFrame);
-    tiltFrame = requestAnimationFrame(() => {
-      card.style.setProperty('--tilt-x', `${(-y * 5).toFixed(2)}deg`);
-      card.style.setProperty('--tilt-y', `${(x * 5).toFixed(2)}deg`);
-      tiltFrame = 0;
-    });
-  });
-  document.addEventListener('pointerout', event => {
-    const card = event.target.closest('.project-card,.service-card');
-    if (card && !card.contains(event.relatedTarget)) {
-      card.style.removeProperty('--tilt-x');
-      card.style.removeProperty('--tilt-y');
-    }
-  });
   function render(append = false) {
+    if (!$('#project-grid')) return;
     const term = $('#project-search').value.trim().toLowerCase();
     const matches = projects.filter(p => (filter === 'all' || splitFilter(p).includes(filter)) && `${p.title} ${p.category} ${p.description || ''}`.toLowerCase().includes(term));
     const visible = matches.slice(0, limit);
@@ -191,10 +172,11 @@
   }
   $('#menu-toggle').addEventListener('click', () => { $('.sidebar').classList.toggle('menu-open'); $('#menu-toggle').setAttribute('aria-expanded', String($('.sidebar').classList.contains('menu-open'))); });
   const sections = [...document.querySelectorAll('main>section')];
+  const onePage = document.body.dataset.layout !== 'multi-page';
   let navigationTimeout = 0;
   function setActiveSection(id) {
     document.querySelectorAll('#nav a').forEach(a => {
-      if (a.hash === '#' + id) {
+      if (onePage ? a.hash === '#' + id : a.getAttribute('href') === id + '.html') {
         if (a.getAttribute('aria-current') !== 'location') a.setAttribute('aria-current', 'location');
       } else if (a.hasAttribute('aria-current')) a.removeAttribute('aria-current');
     });
@@ -213,14 +195,26 @@
     navigationTarget = '';
     activeFromScroll();
   }
+  function arrivedAtTarget() {
+    const target = document.getElementById(navigationTarget);
+    if (!target) return true;
+    const top = target.getBoundingClientRect().top;
+    const desired = target.id === 'home' ? 0 : parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+    return Math.abs(top - desired) < 110 || target === sections.at(-1) && innerHeight + scrollY >= document.documentElement.scrollHeight - 3;
+  }
+  function settleNavigation() {
+    if (!navigationTarget) return;
+    if (arrivedAtTarget()) finishNavigation();
+    else navigationTimeout = setTimeout(settleNavigation, 250);
+  }
   function beginNavigation(id) {
     navigationTarget = id;
     setActiveSection(id);
     clearTimeout(navigationTimeout);
-    navigationTimeout = setTimeout(finishNavigation, 2200);
+    navigationTimeout = setTimeout(settleNavigation, 2200);
   }
   document.querySelectorAll('#nav a').forEach(a => a.addEventListener('click', () => {
-    beginNavigation(a.hash.slice(1));
+    if (onePage) beginNavigation(a.hash.slice(1));
     $('.sidebar').classList.remove('menu-open');
     $('#menu-toggle').setAttribute('aria-expanded', 'false');
   }));
@@ -238,9 +232,9 @@
     }
   });
   const aliases = {entrance:'home',hero:'home',control:'about',skills:'about',projects:'portfolio',career:'about',resume:'about'};
-  if (aliases[location.hash.slice(1)]) { const id = aliases[location.hash.slice(1)]; history.replaceState(null, '', '#' + id); beginNavigation(id); document.getElementById(id).scrollIntoView(); }
-  addEventListener('scroll', () => { if (!navigationTarget) activeFromScroll(); }, {passive: true});
-  addEventListener('scrollend', event => { if (navigationTarget && (event.target === document || event.target === window)) finishNavigation(); });
+  if (onePage && aliases[location.hash.slice(1)]) { const id = aliases[location.hash.slice(1)]; if (document.getElementById(id)) { history.replaceState(null, '', '#' + id); beginNavigation(id); document.getElementById(id).scrollIntoView(); } }
+  addEventListener('scroll', () => { if (navigationTarget && arrivedAtTarget()) finishNavigation(); else if (!navigationTarget) activeFromScroll(); }, {passive: true});
+  addEventListener('scrollend', event => { if (navigationTarget && (event.target === document || event.target === window) && arrivedAtTarget()) finishNavigation(); });
   addEventListener('wheel', () => { if (navigationTarget) finishNavigation(); }, {passive: true});
   addEventListener('touchstart', () => { if (navigationTarget) finishNavigation(); }, {passive: true});
   addEventListener('keydown', event => { if (navigationTarget && ['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key)) finishNavigation(); });
@@ -250,8 +244,8 @@
     document.querySelectorAll('[data-filter]').forEach(el => el.setAttribute('aria-pressed', String(el === b)));
     render();
   }));
-  $('#project-search').addEventListener('input', () => { limit = batchSize; render(); });
-  $('#load-more').addEventListener('click', () => {
+  $('#project-search')?.addEventListener('input', () => { limit = batchSize; render(); });
+  $('#load-more')?.addEventListener('click', () => {
     const count = $('#project-grid').children.length;
     limit += batchSize; render(true);
     const added = $('#project-grid').children[count];
@@ -301,8 +295,8 @@
   });
   $('#close-project').addEventListener('click', () => $('#project-dialog').close());
   $('#project-dialog').addEventListener('close', () => { $('#project-detail').innerHTML = ''; });
-  $('#copy-email').hidden = false;
-  $('#copy-email').addEventListener('click', async () => {
+  if ($('#copy-email')) $('#copy-email').hidden = false;
+  $('#copy-email')?.addEventListener('click', async () => {
     const email = $('.email-address').textContent;
     try { await navigator.clipboard.writeText(email); $('#copy-email').textContent = 'Email copied ✓'; $('#announcement').textContent = 'Email copied'; }
     catch { $('#copy-email').textContent = 'Select the address below'; const range = document.createRange(); range.selectNodeContents($('.email-address')); getSelection().removeAllRanges(); getSelection().addRange(range); }
@@ -311,9 +305,9 @@
   // Only the visible batch creates image elements; remaining media waits for Load more.
   try {
     projects = JSON.parse($('#portfolio-data').textContent);
-    $('.portfolio-toolbar').hidden = false;
+    if ($('.portfolio-toolbar')) $('.portfolio-toolbar').hidden = false;
     render();
   } catch {
-    $('#project-count').textContent = 'Project data could not load. Reload the page to try again.';
+    if ($('#project-count')) $('#project-count').textContent = 'Project data could not load. Reload the page to try again.';
   }
 })();

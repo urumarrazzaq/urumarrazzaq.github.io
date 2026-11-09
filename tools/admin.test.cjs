@@ -4,6 +4,7 @@ const fs=require('node:fs/promises');
 const path=require('node:path');
 const {createPortfolioServer}=require('./admin-server.cjs');
 const {validateContent}=require('./content-schema.cjs');
+const {renderFiles}=require('./render-site.cjs');
 const projectRoot=path.resolve(__dirname,'..');
 
 test('local dashboard protects content, rejects unsafe requests, and saves static output',async t=>{
@@ -55,4 +56,21 @@ test('content schema rejects executable paths, duplicate IDs, and unsupported fi
  const content=JSON.parse(await fs.readFile(path.join(projectRoot,'assets/data/content.json'),'utf8'));
  assert.equal(validateContent(content).projects.length,content.projects.length);
  for(const mutate of [c=>c.profile.image='assets/img/../../.local/admin-auth.json',c=>c.projects[1].id=c.projects[0].id,c=>c.projects[0].filter='invented',c=>c.profile.imagePosition=101,c=>c.projects[0].description='',c=>c.projects[0].video='javascript:alert(1)']){const c=structuredClone(content);mutate(c);assert.throws(()=>validateContent(c));}
+});
+
+test('both layouts are generated and hidden sections disappear from each',async()=>{
+ const content=JSON.parse(await fs.readFile(path.join(projectRoot,'assets/data/content.json'),'utf8'));
+ const initial=renderFiles(validateContent(content));
+ assert.match(initial['index.html'],/<section id="hire"/);
+ assert.match(initial['index.html'],/<section id="fab"/);
+ assert.match(initial['hire.html'],/<section id="hire"/);
+ assert.match(initial['one-page.html'],/href="home.html">Separate pages/);
+ assert.match(initial['home.html'],/href="one-page.html">One page/);
+ content.site.mode='multi-page';content.site.sections.hire=false;
+ const changed=renderFiles(validateContent(content));
+ assert.match(changed['index.html'],/data-layout="multi-page"/);
+ assert.deepEqual([...changed['index.html'].matchAll(/<section id="([^"]+)/g)].map(x=>x[1]),['home']);
+ assert.equal(changed['hire.html'],undefined);
+ assert.doesNotMatch(changed['one-page.html'],/href="#hire"|<section id="hire"/);
+ assert.match(changed['one-page.html'],/<section id="portfolio"/);
 });

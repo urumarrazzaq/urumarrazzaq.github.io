@@ -6,7 +6,7 @@ const crypto=require('node:crypto');
 const {promisify}=require('node:util');
 const scrypt=promisify(crypto.scrypt);
 const {validateContent}=require('./content-schema.cjs');
-const {render}=require('./render-site.cjs');
+const {renderFiles}=require('./render-site.cjs');
 const digest=value=>crypto.createHash('sha256').update(value).digest('hex');
 const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.gif':'image/gif','.pdf':'application/pdf','.mp4':'video/mp4','.webm':'video/webm','.svg':'image/svg+xml','.woff2':'font/woff2','.woff':'font/woff','.ico':'image/x-icon'};
 function fail(status,message){const e=Error(message);e.status=status;throw e;}
@@ -21,7 +21,7 @@ function createPortfolioServer({root=path.resolve(__dirname,'..')}={}){
  function json(res,status,value){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8'});res.end(JSON.stringify(value));}
  const server=http.createServer(async(req,res)=>{
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','strict-origin-when-cross-origin');res.setHeader('X-Frame-Options','DENY');
-  res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self' https:; frame-src https://www.youtube-nocookie.com; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
+  res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://img.youtube.com; media-src 'self' https:; frame-src https://www.youtube-nocookie.com; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
   try{
    const port=server.address().port,allowedHosts=[`127.0.0.1:${port}`,`localhost:${port}`];
    if(!allowedHosts.includes(req.headers.host))fail(403,'Only local dashboard access is allowed.');
@@ -60,11 +60,13 @@ function createPortfolioServer({root=path.resolve(__dirname,'..')}={}){
      try{
       const previous=await readContent();if(submitted.revision!==previous.revision)fail(409,'Content has changed since you opened it. Reload the dashboard before saving.');
       let content;try{content=validateContent(submitted.content);}catch(e){fail(400,e.message);}
-      const files=[content.profile.image,content.profile.resume,...content.projects.flatMap(p=>[p.image,...(p.video.startsWith('assets/')?[p.video]:[])])];
+      const files=[content.profile.image,content.profile.resume,...content.fabListings.map(item=>item.image).filter(Boolean),...content.projects.flatMap(p=>[...(p.image.startsWith('assets/')?[p.image]:[]),...(p.video.startsWith('assets/')?[p.video]:[])])];
       for(const file of new Set(files)){try{const real=await fs.realpath(path.join(root,file));if(!real.startsWith(root+path.sep)||!(await fs.stat(real)).isFile())throw Error();}catch{fail(400,`File not found in this repository: ${file}. Upload it or choose an existing file before saving.`);}}
-      const raw=JSON.stringify(content,null,2)+'\n',html=render(content);
+      const raw=JSON.stringify(content,null,2)+'\n',pages=renderFiles(content);
       await atomic(path.join(privateRoot,'backups',`${Date.now()}-${crypto.randomUUID()}.json`),JSON.stringify(previous.content,null,2)+'\n');
-      await atomic(contentFile,raw);await atomic(path.join(root,'index.html'),html);
+      await atomic(contentFile,raw);
+      for(const [name,html] of Object.entries(pages))await atomic(path.join(root,name),html);
+      for(const id of ['about','portfolio','services','fab','hire','contact'])if(!pages[id+'.html'])await fs.rm(path.join(root,id+'.html'),{force:true});
       return json(res,200,{ok:true,revision:digest(raw)});
      }finally{writing=false;}
     }
@@ -79,7 +81,7 @@ function createPortfolioServer({root=path.resolve(__dirname,'..')}={}){
    if(!['GET','HEAD'].includes(req.method))fail(405,'Method not allowed.');
    if(route==='/admin'){res.writeHead(302,{Location:'/admin/'}).end();return;}
    let relative=route==='/'?'index.html':route==='/admin/'?'admin/index.html':route.replace(/^\//,'');
-   if(relative.split('/').some(s=>s.startsWith('.')||s==='..')||!(/^(index\.html|admin\/(index\.html|admin\.css|admin\.js)|assets\/(css|js|img|uploads|data|vendor)\/.+|resume\/.+\.pdf)$/.test(relative)))fail(404,'File not found.');
+   if(relative.split('/').some(s=>s.startsWith('.')||s==='..')||!(/^(index|one-page|home|about|portfolio|services|fab|hire|contact)\.html$/.test(relative)||/^(admin\/(index\.html|admin\.css|admin\.js)|assets\/(css|js|img|uploads|data|vendor)\/.+|resume\/.+\.pdf)$/.test(relative)))fail(404,'File not found.');
    const filename=path.resolve(root,relative);if(!filename.startsWith(root+path.sep))fail(404,'File not found.');
    const real=await fs.realpath(filename);if(!real.startsWith(root+path.sep)||real.includes(path.sep+'.local'+path.sep))fail(404,'File not found.');
    const stat=await fs.stat(real);if(!stat.isFile())fail(404,'File not found.');

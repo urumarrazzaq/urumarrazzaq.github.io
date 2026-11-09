@@ -15,8 +15,8 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
   browser=await chromium.launch({channel:process.env.PLAYWRIGHT_CHANNEL||'chrome',headless:true});
   const page=await browser.newPage({viewport:{width:1440,height:1000}});page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base);await page.waitForFunction(()=>!document.querySelector('.portfolio-toolbar').hidden);
-  assert.deepEqual(await page.locator('#nav a').allTextContents(),['Home','About','Portfolio','Services','Contact']);
-  assert.equal(await page.locator('main>section:visible').count(),5);
+  assert.deepEqual(await page.locator('#nav a').allTextContents(),['Home','About','Portfolio','Services','Fab','Hire On','Contact']);
+  assert.equal(await page.locator('main>section:visible').count(),7);
   assert.equal(await page.locator('#typed-role').textContent(),'Game Developer');
   assert.equal(await page.locator('.reel-clip').count(),8);
   assert.equal(await page.locator('.reel-controls').isVisible(),true);
@@ -27,7 +27,7 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
   assert.equal(await page.locator('.testimonial').count(),6);
   assert.equal(await page.locator('.about-fact').count(),4);
   assert.equal(await page.locator('.about-stat').count(),3);
-  assert.equal(await page.locator('.contact-links a[href*="upwork.com"]').count(),1);
+  assert.equal(await page.locator('.hire-card[href*="upwork.com"]').count(),1);
   await page.screenshot({path:path.join(root,'artifacts/readable-desktop-home.png')});
   await page.evaluate(()=>{window.countSamples=[];new MutationObserver(()=>window.countSamples.push(document.querySelector('.about-stat strong').textContent)).observe(document.querySelector('.about-stat strong'),{childList:true,characterData:true,subtree:true});});
   await page.locator('.about-stats').scrollIntoViewIfNeeded();
@@ -38,7 +38,7 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
   await page.locator('#project-grid').scrollIntoViewIfNeeded();
   await page.locator('#portfolio').screenshot({path:path.join(root,'artifacts/readable-desktop-portfolio.png')});
   assert.equal(await page.locator('#project-grid img').first().evaluate(el=>el.complete&&el.naturalWidth>0),true);
-  for(const count of [18,27,36,40]){await page.locator('#load-more').click();assert.equal(await page.locator('#project-grid .project-card').count(),count);}
+  for(const count of [18,27,36,43]){await page.locator('#load-more').click();assert.equal(await page.locator('#project-grid .project-card').count(),count);}
   assert.equal(await page.locator('#load-more').isVisible(),false);
   await page.locator('[data-filter="ai"]').click();assert.ok(await page.locator('#project-grid .project-card').count()>0);
   await page.locator('[data-filter="all"]').click();await page.locator('#project-search').fill('Maelstrom');assert.equal(await page.locator('#project-grid .project-card').count(),1);
@@ -64,7 +64,7 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
   await page.evaluate(()=>document.querySelector('#services').scrollIntoView({behavior:'instant',block:'start'}));
   await page.waitForFunction(()=>document.querySelector('#nav [aria-current]')?.hash==='#services');
   const content=JSON.parse(await fs.readFile(path.join(root,'assets/data/content.json'),'utf8'));
-  for(const p of content.projects){assert.equal((await page.request.get(base+'/'+p.image)).status(),200,p.title);}
+  for(const p of content.projects.filter(p=>p.image.startsWith('assets/'))){assert.equal((await page.request.get(base+'/'+p.image)).status(),200,p.title);}
   for(const width of [768,390,320]){
    const mobile=await browser.newPage({viewport:{width,height:900},reducedMotion:'reduce'});mobile.on('pageerror',e=>errors.push(e.message));await mobile.goto(base);await mobile.waitForFunction(()=>!document.querySelector('.portfolio-toolbar').hidden);
    assert.equal(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`${width}px horizontal overflow`);
@@ -76,7 +76,7 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
    if(width===390){await mobile.goto(base);await mobile.screenshot({path:path.join(root,'artifacts/readable-mobile-home.png')});await mobile.locator('#portfolio').screenshot({path:path.join(root,'artifacts/readable-mobile-portfolio.png')});}
    await mobile.close();
   }
-  const nojs=await browser.newPage({javaScriptEnabled:false});await nojs.goto(base);assert.equal(await nojs.locator('main>section:visible').count(),5);assert.equal(await nojs.locator('.project-card').count(),9);assert.equal(await nojs.locator('#typed-role').textContent(),'Game Developer');
+  const nojs=await browser.newPage({javaScriptEnabled:false});await nojs.goto(base);assert.equal(await nojs.locator('main>section:visible').count(),7);assert.equal(await nojs.locator('.project-card').count(),9);assert.equal(await nojs.locator('#typed-role').textContent(),'Game Developer');
   const filePreview=await browser.newPage();await filePreview.goto('file:///'+path.join(root,'index.html').replace(/\\/g,'/'));
   await filePreview.locator('.reel-clip').first().click();
   assert.equal(await filePreview.locator('.video-setup').isVisible(),true);
@@ -109,9 +109,27 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
   await admin.locator('#titles-editor').fill('Gameplay Programmer\nTechnical Artist');
   await admin.locator('#save').click();await admin.waitForFunction(()=>document.querySelector('#save-state').textContent==='All changes saved');
   assert.deepEqual(JSON.parse(await fs.readFile(path.join(fixture,'assets/data/content.json'),'utf8')).profile.titles,['Gameplay Programmer','Technical Artist']);
+  await admin.locator('[data-tab="layout"]').click();
+  await admin.locator('[data-path="site.mode"]').selectOption('multi-page');
+  await admin.locator('[data-path="site.sections.hire"]').uncheck();
+  await admin.locator('#save').click();await admin.waitForFunction(()=>document.querySelector('#save-state').textContent==='All changes saved');
+  const changedSite=JSON.parse(await fs.readFile(path.join(fixture,'assets/data/content.json'),'utf8')).site;
+  assert.equal(changedSite.mode,'multi-page');assert.equal(changedSite.sections.hire,false);
+  assert.equal((await admin.request.get(adminBase+'/hire.html')).status(),404);
+  const separate=await browser.newPage({viewport:{width:390,height:844}});separate.on('pageerror',e=>errors.push(e.message));
+  await separate.goto(adminBase+'/');assert.equal(await separate.locator('main>section').count(),1);
+  await separate.locator('.layout-choice a[href="one-page.html"]').click();
+  assert.equal(await separate.locator('main>section').count(),6);
+  assert.equal(await separate.locator('#nav a[href="#hire"]').count(),0);
+  await separate.locator('.layout-choice a[href="home.html"]').click();
+  await separate.locator('#menu-toggle').click();await separate.locator('#nav a[href="portfolio.html"]').click();
+  assert.equal(await separate.locator('main>section').count(),1);
+  assert.equal(await separate.locator('main>section').getAttribute('id'),'portfolio');
+  assert.equal(await separate.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+  await separate.close();
   await admin.locator('#logout').click();await admin.waitForSelector('#auth-view:not([hidden])');assert.equal((await admin.request.get(adminBase+'/api/content')).status(),401);
   assert.deepEqual(errors,[]);
-  console.log('PASS: 5 readable sections; 40 thumbnails; gallery pagination/search/category filters; descriptions and video embedding; mobile at 320/390/768px; no-JS portfolio; dashboard password setup/login/logout, project editing, upload, save, static regeneration and profile crop control.');
+  console.log('PASS: 7 readable sections; 43 projects; gallery pagination/search/category filters; descriptions and video embedding; mobile at 320/390/768px; no-JS portfolio; dashboard password setup/login/logout, project editing, upload, save, static regeneration and profile crop control.');
   console.log('Screenshots saved in artifacts/readable-*.png and artifacts/local-dashboard-projects.png.');
  }finally{if(browser)await browser.close();await new Promise(resolve=>server.close(resolve));if(fixtureServer)await new Promise(resolve=>fixtureServer.close(resolve));if(fixture)await fs.rm(fixture,{recursive:true,force:true});}
 })().catch(e=>{console.error(e);process.exitCode=1;});
