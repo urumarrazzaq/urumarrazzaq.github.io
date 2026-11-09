@@ -226,12 +226,12 @@
       "image": "assets/img/portfolio/compressed/MaleStrom.png",
       "video": "https://www.youtube.com/watch?v=7LBtRuz9Ttc",
       "link": "https://store.steampowered.com/app/764050/Maelstrom/",
-      "description": "Maelstrom brings fantasy naval combat into a crowded arena of warships, cannon fire, and dangerous waters. The showcase moves between different ships and large battles, giving a sense of the game's combat presentation and the amount of activity players must read during an encounter.",
-      "contributions": "Gameplay and UI fixes, plus investigation and resolution of multiplayer replication issues, as documented in my résumé.",
+      "description": "Maelstrom is a multiplayer naval combat game available on Steam, with warships battling across a fantasy ocean. My work focused on resolving multiplayer ship movement issues and adding player-facing ship features.",
+      "contributions": "Resolved multiplayer replication issues that caused ships to shake on different clients, addressed ship speed issues, and built loadout and aiming reticle features for the ships.",
       "technologies": "Unreal Engine, C++, Blueprint, Multiplayer replication",
-      "studyFocus": "Gameplay, UI and multiplayer fixes in a naval combat game.",
-      "studyApproach": "Investigated gameplay and interface issues alongside multiplayer replication problems. The work focused on fixing existing systems within Maelstrom rather than building the entire game.",
-      "studyResult": "Gameplay and UI fixes, with replication issues investigated and resolved. The showcase gives context for the ships, battles and player-facing systems involved."
+      "studyFocus": "Multiplayer ship movement fixes, loadouts and aiming reticles for a Steam naval combat game.",
+      "studyApproach": "Investigated ship shaking across clients and ship speed issues in the multiplayer experience, then implemented fixes to the affected systems. Alongside that work, I built ship loadout and aiming reticle features.",
+      "studyResult": "Resolved the reported ship shaking and speed issues and added loadout and aiming reticle functionality to support the ship gameplay experience."
     },
     {
       "videoPublishedAt": "2024-11-19",
@@ -243,12 +243,12 @@
       "image": "assets/img/portfolio/compressed/Avatar.png",
       "video": "https://youtu.be/F2gAgTosPrs?si=paKFWuo_EAZZepNm",
       "link": "https://youtu.be/F2gAgTosPrs?si=paKFWuo_EAZZepNm",
-      "description": "A runtime character builder developed in Unreal Engine 5 with C++. Players can adjust facial features, hairstyle, body shape, clothing, accessories, and skin tone while seeing the result on the character immediately. The showcase moves through appearance controls and different outfit combinations in a dedicated customization interface.",
-      "contributions": "Built a modular character customization pipeline and runtime character-builder plugin.",
+      "description": "A runtime character builder developed in Unreal Engine 5 with C++. I designed and implemented the complete system architecture, including the C++ plugin and modular DataAssets. Players can adjust facial features, hairstyle, body shape, clothing, accessories and skin tone with immediate visual feedback.",
+      "contributions": "Designed and built the complete character-builder architecture, C++ plugin and modular DataAsset-based customization system.",
       "technologies": "Unreal Engine 5, C++, DataAssets, Plugin development",
-      "studyFocus": "Runtime character creation with an extensible C++ plugin architecture.",
-      "studyApproach": "Organized customization options using modular DataAssets and a C++ plugin. Appearance controls update the character at runtime, covering facial features, hairstyles, body shape, clothing, accessories and skin tone.",
-      "studyResult": "A working character builder with immediate visual feedback. New appearance options can be added or adjusted through the data-driven pipeline without rebuilding the full interface."
+      "studyFocus": "Complete character-builder architecture, implemented as a C++ plugin with modular DataAssets.",
+      "studyApproach": "Designed the full customization architecture around a C++ plugin and modular DataAssets. The data-driven structure separates appearance options from the runtime customization interface, allowing the character to update immediately as players change their selections.",
+      "studyResult": "A working runtime character builder with a modular architecture for extending appearance options. The showcase demonstrates facial, body, clothing and accessory customization through the plugin."
     },
     {
       "videoPublishedAt": "2024-11-04",
@@ -274,12 +274,12 @@
       "image": "assets/img/portfolio/compressed/Shooter.png",
       "video": "https://youtu.be/Nc5NxjcvrIM?si=FR0D7yd6PjOx5bp7",
       "link": "https://youtu.be/Nc5NxjcvrIM?si=FR0D7yd6PjOx5bp7",
-      "description": "The DIShooter trailer presents a first- and third-person shooter built in Unreal Engine 5 around voice-controlled squad play. Its cinematic sequence combines moody environments, character shots, combat effects, and interface glimpses to introduce the atmosphere and tactical focus of the project.\n\nThe underlying squad system lets players issue voice commands to AI teammates and coordinate behavior during combat. This trailer is the edited presentation of that experience; the separate gameplay showcase provides a more direct look at the playable action.",
-      "contributions": "Developed voice-controlled tactical squad AI with context-aware decision-making and coordinated teammate behaviors.",
-      "technologies": "Unreal Engine 5, Behavior Trees, EQS, Voice recognition",
-      "studyFocus": "Voice-controlled tactical squad AI in a first- and third-person UE5 shooter.",
-      "studyApproach": "Connected voice commands to tactical squad behavior using Behavior Trees, EQS and voice recognition. AI teammates use context-aware decision-making to coordinate their actions during combat.",
-      "studyResult": "A squad gameplay experience where players direct AI teammates through voice commands. This edited trailer introduces the atmosphere and tactical focus; the separate gameplay showcase provides a direct look at the playable action."
+      "description": "I created the DIShooter gameplay experience and cinematic trailer in Unreal Engine 5, using free assets to build the scene and presentation. The project combines first- and third-person shooter gameplay, voice-controlled squad AI and camera cinematics.\n\nI created the gameplay and camera cinematic sequences and edited the trailer in Adobe Premiere Pro, bringing the environments, characters and combat footage together into the finished presentation.",
+      "contributions": "Created the gameplay experience, gameplay cinematics and camera cinematics using free assets, and edited the trailer in Adobe Premiere Pro. Developed voice-controlled tactical squad AI with context-aware decision-making and coordinated teammate behaviors.",
+      "technologies": "Unreal Engine 5, Adobe Premiere Pro, Behavior Trees, EQS, Voice recognition",
+      "studyFocus": "Gameplay creation, camera cinematics and a finished trailer edited in Adobe Premiere Pro.",
+      "studyApproach": "Used free assets to build the gameplay experience and cinematic presentation in Unreal Engine 5. Created gameplay and camera cinematic sequences, then edited the footage in Adobe Premiere Pro. The underlying gameplay includes voice commands for coordinating AI teammates.",
+      "studyResult": "A complete gameplay cinematic and edited trailer presenting DIShooter through environment shots, character moments and combat sequences. Free assets supported the scene creation; my work covered the gameplay experience, cinematics and video editing."
     },
     {
       "videoPublishedAt": "2024-11-18",
