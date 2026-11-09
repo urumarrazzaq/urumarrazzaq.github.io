@@ -2,6 +2,12 @@
   'use strict';
   const $ = s => document.querySelector(s);
   const escape = (s = '') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const logo=$('.monogram');
+  if(logo){
+    logo.classList.add('animated-logo');logo.setAttribute('role','img');logo.setAttribute('aria-label','UR.');
+    logo.innerHTML='<span class="logo-letter logo-u" aria-hidden="true">U</span><span class="logo-letter logo-r" aria-hidden="true">R</span><span class="logo-dot" aria-hidden="true">.</span>';
+  }
+  document.addEventListener('visibilitychange',()=>document.body.classList.toggle('page-inactive',document.hidden));
   const batchSize = 9;
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const testimonialCards=[...document.querySelectorAll('#testimonial-grid .testimonial')];
