@@ -13,6 +13,8 @@ npm start
 - Website: http://127.0.0.1:8080/
 - Dashboard: http://127.0.0.1:8080/admin/
 
+Open the website at the address above when previewing videos. Opening `index.html` as a `file:///` page prevents YouTube from receiving the website address it requires and causes player error 153. The public GitHub Pages address also provides that website address after you publish.
+
 Keep the terminal open while editing. The first time you open the dashboard, create a password of at least 12 characters. Sign in, choose a content tab, edit, and press **Save changes**. Open the Website link above or **Preview website** in the dashboard, then refresh to see saved changes. Press `Ctrl+C` in the terminal to stop the local server. If port 8080 is busy, use `$env:PORT=8081; npm start` in PowerShell and open port 8081 instead.
 
 No dependency installation is needed to run the server. On first launch, create your own dashboard password (at least 12 characters). No default password is shipped. Sessions expire after four hours and are cleared when the server restarts. To use another port, set the PORT environment variable before starting.

@@ -75,6 +75,13 @@
   }
   function playEmbedded(id) {
     if (!/^[a-zA-Z0-9_-]{11}$/.test(id)) return;
+    if (location.protocol === 'file:') {
+      const notice = document.createElement('div');
+      notice.className = 'video-setup';
+      notice.innerHTML = '<strong>Open the portfolio through the local server to play this video here.</strong><p>YouTube requires a website address for embedded playback. In this project folder, run <code>npm start</code>, then open <a href="http://127.0.0.1:8080/">http://127.0.0.1:8080/</a>.</p>';
+      $('.detail-media').replaceChildren(notice);
+      return;
+    }
     const iframe = document.createElement('iframe');
     iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&playsinline=1&rel=0`;
     iframe.title = $('#project-title').textContent + ' — gameplay video';

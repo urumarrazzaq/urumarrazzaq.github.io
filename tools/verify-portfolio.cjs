@@ -57,6 +57,12 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
    await mobile.close();
   }
   const nojs=await browser.newPage({javaScriptEnabled:false});await nojs.goto(base);assert.equal(await nojs.locator('main>section:visible').count(),5);assert.equal(await nojs.locator('.project-card').count(),9);
+  const filePreview=await browser.newPage();await filePreview.goto('file:///'+path.join(root,'index.html').replace(/\\/g,'/'));
+  await filePreview.locator('.reel-clip').first().click();
+  assert.equal(await filePreview.locator('.video-setup').isVisible(),true);
+  assert.equal(await filePreview.locator('#project-dialog iframe').count(),0);
+  assert.match(await filePreview.locator('.video-setup').innerText(),/npm start/);
+  await filePreview.close();
   // Exercise dashboard forms against an isolated copy, never the owner's credentials.
   fixture=await fs.mkdtemp(path.join(root,'artifacts/browser-admin-'));content.projects=content.projects.slice(0,2);
   const files=['admin/index.html','admin/admin.css','admin/admin.js','assets/css/portfolio.css','assets/js/portfolio.js',content.profile.image,content.profile.resume,...content.projects.map(p=>p.image)];
