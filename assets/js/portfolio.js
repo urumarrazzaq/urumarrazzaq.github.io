@@ -236,6 +236,16 @@
     new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;updateVideo();},{threshold:.08}).observe(hero);
     document.addEventListener('visibilitychange',updateVideo);motion.addEventListener('change',updateVideo);label();
   }
+  const localBackground=$('#hero-local-video');
+  if(localBackground&&videoToggle){
+    let inView=false,pausedByUser=false,requested=false;
+    const labelLocal=()=>{const playing=!localBackground.paused;const label=playing?'Pause background':'Play background';videoToggle.setAttribute('aria-label',label);videoToggle.title=label;videoToggle.innerHTML='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">'+(playing?'<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>':'<path d="m8 4 12 8-12 8z"/>')+'</svg>';videoToggle.hidden=motion.matches;};
+    const updateLocal=()=>{if(!inView||document.hidden||motion.matches||pausedByUser||(navigator.connection?.saveData&&!requested)){localBackground.pause();labelLocal();return;}if(!localBackground.getAttribute('src'))localBackground.src=localBackground.dataset.src;localBackground.muted=true;localBackground.play().catch(labelLocal);};
+    videoToggle.addEventListener('click',()=>{requested=true;pausedByUser=!localBackground.paused;updateLocal();});
+    localBackground.addEventListener('play',labelLocal);localBackground.addEventListener('pause',labelLocal);
+    new IntersectionObserver(entries=>{inView=entries[0].isIntersecting;updateLocal();},{threshold:.08}).observe(hero);
+    motion.addEventListener('change',updateLocal);document.addEventListener('visibilitychange',updateLocal);labelLocal();
+  }
   let pointerFrame = 0;
   hero?.addEventListener('pointermove', event => {
     if (motion.matches || event.pointerType === 'touch' || pointerFrame) return;

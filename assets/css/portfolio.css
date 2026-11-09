@@ -173,3 +173,4 @@ body[data-layout="multi-page"] .about-layout>h1{font-size:clamp(32px,4vw,56px);l
 body[data-layout="multi-page"] .contact-section>h1{max-width:850px}
 
 @media(max-width:600px){.hero-media-controls{position:relative;right:auto;bottom:auto;justify-content:center;width:100%;font-size:10px}.hero-environment video{object-position:65% center}}
+#hero-local-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
