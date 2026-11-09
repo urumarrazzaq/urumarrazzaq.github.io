@@ -276,7 +276,10 @@
       "link": "https://youtu.be/Nc5NxjcvrIM?si=FR0D7yd6PjOx5bp7",
       "description": "The DIShooter trailer presents a first- and third-person shooter built in Unreal Engine 5 around voice-controlled squad play. Its cinematic sequence combines moody environments, character shots, combat effects, and interface glimpses to introduce the atmosphere and tactical focus of the project.\n\nThe underlying squad system lets players issue voice commands to AI teammates and coordinate behavior during combat. This trailer is the edited presentation of that experience; the separate gameplay showcase provides a more direct look at the playable action.",
       "contributions": "Developed voice-controlled tactical squad AI with context-aware decision-making and coordinated teammate behaviors.",
-      "technologies": "Unreal Engine 5, Behavior Trees, EQS, Voice recognition"
+      "technologies": "Unreal Engine 5, Behavior Trees, EQS, Voice recognition",
+      "studyFocus": "Voice-controlled tactical squad AI in a first- and third-person UE5 shooter.",
+      "studyApproach": "Connected voice commands to tactical squad behavior using Behavior Trees, EQS and voice recognition. AI teammates use context-aware decision-making to coordinate their actions during combat.",
+      "studyResult": "A squad gameplay experience where players direct AI teammates through voice commands. This edited trailer introduces the atmosphere and tactical focus; the separate gameplay showcase provides a direct look at the playable action."
     },
     {
       "videoPublishedAt": "2024-11-18",
@@ -627,7 +630,6 @@
       "description": "A Minesweeper plugin that runs inside the Unreal Engine 5 editor using Slate UI. A dedicated tab and toolbar entry open the game, where users can configure the grid size and bomb count before interacting with the board.",
       "contributions": "",
       "technologies": "Unreal Engine 5, Slate UI, Plugin development",
-      "studyFocus": "A playable Minesweeper tool built directly into the Unreal editor.",
       "studyApproach": "Used Slate widgets for the board and settings, with a dedicated editor tab and toolbar entry. Implemented adjacent-mine calculations, bomb detection and flood-fill reveals for connected empty cells.",
       "studyResult": "An editor-integrated game with configurable grid size and bomb count. The showcase demonstrates the complete interaction from opening the plugin to revealing cells on the board."
     },
