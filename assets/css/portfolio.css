@@ -134,6 +134,11 @@ body{font-size:16px}.hero{isolation:isolate;overflow:hidden;row-gap:44px}.hero-e
 .hero-media-controls{position:absolute;right:24px;bottom:14px;z-index:2;display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:11px;color:#b9b6af}
 .hero-media-controls button{border:1px solid #e0b78055;background:#111116d9;border-radius:4px;padding:6px 10px;color:#e0b780;font-size:12px;min-height:36px}
 .hero-media-controls a:hover{color:#e0b780}
+.testimonial-grid{row-gap:38px;margin-top:36px}
+.testimonial{position:relative;padding-top:38px}
+.testimonial-quote{position:absolute;top:-21px;left:24px;display:grid;place-items:center;width:42px;height:42px;border:1px solid #7660b82b;border-radius:50%;background:#191726;color:#7854c2;pointer-events:none}
+.testimonial-quote svg{width:17px;height:17px}
+@media(max-width:560px){.testimonial{padding-top:34px}.testimonial-quote{left:20px}}
 /* Ambient world: restrained light and geometry behind each destination. */
 .ambient-section{position:relative;isolation:isolate}
 .ambient-layer{position:absolute;inset:0;overflow:hidden;z-index:-1;pointer-events:none;border-radius:inherit;contain:paint}
