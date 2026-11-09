@@ -166,9 +166,9 @@ body.effects-paused .hire-section:before,body.effects-paused .hire-section:after
 @media(prefers-reduced-motion:reduce){.ambient-layer i{animation:none!important}.ambient-dots,.effects-toggle{display:none}.ambient-glow{opacity:.4}}
 /* Center each page horizontally; preserve natural document flow and text alignment. */
 body[data-layout="multi-page"] main{max-width:none}
-body[data-layout="multi-page"] main>.section{width:100%;max-width:1280px;margin-inline:auto;padding:72px clamp(24px,4vw,64px)}
-body[data-layout="multi-page"] .footer{width:100%;max-width:1280px;margin:0 auto;padding:28px clamp(24px,4vw,64px)}
+body[data-layout="multi-page"] main>.section{width:100%;margin-inline:auto}
+body[data-layout="multi-page"] .footer{width:100%;max-width:1600px;margin:0 auto}
 body[data-layout="multi-page"] .about-layout>h1{font-size:clamp(32px,4vw,56px);line-height:1.15;margin:0}
 body[data-layout="multi-page"] .contact-section>h1{max-width:850px}
-@media(max-width:800px){body[data-layout="multi-page"] main>.section{padding-top:48px;padding-bottom:48px}}
+
 @media(max-width:600px){.hero-media-controls{position:relative;right:auto;bottom:auto;justify-content:center;width:100%;font-size:10px}.hero-environment video{object-position:65% center}}
