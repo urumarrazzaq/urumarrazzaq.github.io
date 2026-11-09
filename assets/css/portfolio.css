@@ -154,8 +154,7 @@ body{font-size:16px}.hero{isolation:isolate;overflow:hidden;row-gap:44px}.hero-e
 #services .ambient-line{border-radius:12%;width:400px;height:400px;animation-name:ambient-turn}
 #fab .ambient-glow{background:radial-gradient(ellipse,#a8cfcf12,transparent 68%)}
 #fab .ambient-line{width:360px;height:360px;border-radius:24%;animation-name:ambient-turn}
-#contact .ambient-line{width:650px;height:650px;left:calc(50% - 325px);top:10%;animation:hire-rings 16s ease-out infinite}
-#contact .ambient-glow{right:calc(50% - 375px);top:0}
+#contact .ambient-line,#contact .ambient-glow{display:none}
 .effects-toggle{position:fixed;right:16px;bottom:14px;z-index:9;padding:7px 11px;border:1px solid #e0b78035;border-radius:20px;background:#101116eb;color:#bdb5aa;font-size:11px;min-height:34px;cursor:pointer}
 .effects-toggle:hover{color:var(--gold);border-color:var(--gold)}
 body.effects-paused .hire-section:before,body.effects-paused .hire-section:after{animation-play-state:paused}
