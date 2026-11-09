@@ -17,3 +17,10 @@ Used to showcase the portfolio owner's stated ongoing work on Zhai.
 Game/trailer rights remain with their respective owners.
 Files: zhai-gameplay.mp4, zhai-gameplay.webm, zhai-gameplay.jpg
 Previous NASA background assets are retained as an unused alternative.
+
+Active hero replaced with Zhai - Teaser Trailer (2026-11-09).
+Official source: https://store.steampowered.com/app/4452500/Zhai/
+Stream: https://video.akamai.steamstatic.com/store_trailers/4452500/946484053/20bd09eefd4ddee7a844b924539d30d62a496d55/1777873834/hls_264_master.m3u8?t=1777874348
+Excerpt: 00:08-00:32. Silent, 1280x720, 24fps.
+Files: zhai-teaser.mp4, zhai-teaser.webm, zhai-teaser.jpg
+Game/trailer rights remain with their respective owners.
