@@ -110,3 +110,28 @@ body{font-size:16px}.hero{isolation:isolate;overflow:hidden;row-gap:44px}.hero-e
 .project-page-copy{max-width:850px;font-size:1.1rem;line-height:1.8}.project-page-copy h2{font-size:1.5rem;margin-top:32px}
 .project-directory{margin-top:24px;color:var(--muted);font-size:.95rem}.project-directory summary{cursor:pointer;padding:12px 0}.project-directory ul{columns:2;padding-left:20px;line-height:1.8}.project-directory a:hover{color:var(--gold)}
 @media(max-width:600px){.project-directory ul{columns:1}}
+
+/* Slow expanding rings stay behind readable content and pause outside the viewport. */
+.hire-section:before,.hire-section:after{content:'';position:absolute;right:-10%;top:25%;width:45%;aspect-ratio:1;border:1px solid #e0b78024;border-radius:50%;box-shadow:0 0 0 65px #e0b78006,0 0 0 130px #e0b78004;pointer-events:none;animation:hire-rings 12s ease-out infinite;animation-play-state:paused}
+.hire-section:after{animation-delay:-6s}
+.hire-section.rings-active:before,.hire-section.rings-active:after{animation-play-state:running}
+.hire-section>*{position:relative;z-index:1}
+@keyframes hire-rings{0%{transform:scale(.65);opacity:0}20%{opacity:.8}100%{transform:scale(1.65);opacity:0}}
+/* Keep card hit areas fixed; each section has a different internal response. */
+.service-card:hover,.expertise-item:hover,.testimonial:hover,.hire-card:hover,.fab-card:hover{transform:none!important}
+.service-number,.hire-card h3,.hire-card>span,.fab-art img{transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+ .service-card:hover .service-number{transform:translateX(8px)}
+ .hire-card:hover h3{transform:translateX(5px)}
+ .fab-card:hover .fab-art img{transform:scale(1.035)}
+ .expertise-item:hover{box-shadow:inset 3px 0 #e0b78080}
+ .testimonial:hover{border-color:#e0b78090;box-shadow:0 8px 24px #0003}
+}
+@media(prefers-reduced-motion:reduce){.hire-section:before{animation:none;opacity:.5;transform:none}.hire-section:after{display:none}.hero-content{animation:none}}
+.restored-page .hero-content{animation:none}
+.project-card,.project-card:hover,.project-card:focus-within{border-color:#e0b78070;border-top-color:#e0b780!important}
+.hero-environment video{width:100%;height:100%;object-fit:cover;opacity:.52}
+.hero-media-controls{position:absolute;right:24px;bottom:14px;z-index:2;display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:11px;color:#b9b6af}
+.hero-media-controls button{border:1px solid #e0b78055;background:#111116d9;border-radius:4px;padding:6px 10px;color:#e0b780;font-size:12px;min-height:36px}
+.hero-media-controls a:hover{color:#e0b780}
+@media(max-width:600px){.hero-media-controls{position:relative;right:auto;bottom:auto;justify-content:center;width:100%;font-size:10px}.hero-environment video{object-position:65% center}}

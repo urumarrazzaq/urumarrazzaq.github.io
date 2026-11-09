@@ -89,22 +89,45 @@
     if (target.classList.contains('about-stat') || target.classList.contains('about-fact')) return [{opacity: .4, transform: 'scale(.9) translateY(12px)'}, {opacity: 1, transform: 'scale(1) translateY(0)'}];
     if (target.classList.contains('testimonial')) return [{opacity: .4, transform: 'translateX(-30px)'}, {opacity: 1, transform: 'translateX(0)'}];
     if (target.classList.contains('hire-card')) return [{opacity: .3, transform: 'perspective(700px) rotateY(-7deg) translateY(24px)'}, {opacity: 1, transform: 'perspective(700px) rotateY(0) translateY(0)'}];
-    if (target.classList.contains('fab-card')) return [{opacity: .4, transform: 'translateY(22px)'}, {opacity: 1, transform: 'translateY(0)'}];
+    if (target.classList.contains('fab-card')) return [{opacity: .35, transform: 'scale(.92)'}, {opacity: 1, transform: 'scale(1)'}];
     if (target.closest('.contact-section')) return [{opacity: .4, transform: 'scale(.94)'}, {opacity: 1, transform: 'scale(1)'}];
     return [{opacity: .35, transform: 'translateY(20px)'}, {opacity: 1, transform: 'translateY(0)'}];
+  }
+  const reloading = performance.getEntriesByType('navigation')[0]?.type === 'reload';
+  document.body.classList.toggle('restored-page',reloading);
+  const entranceAnimations = new Set();
+  function registerReveal(el,index=0){
+    if(el.dataset.observed)return;
+    el.dataset.observed='true';
+    // Restored scroll positions must not make already-visible content jump on reload.
+    const rect=el.getBoundingClientRect();
+    if(reloading&&rect.bottom>0&&rect.top<innerHeight)return;
+    el.dataset.revealDelay=String(index%3*65);
+    reveals.observe(el);
+  }
+  function playEntrance(target){
+    // Animate card contents so hover and entrance never compete for the card transform.
+    const parts=target.matches('.project-card')?[target.querySelector('.project-copy')]:
+      target.matches('.fab-card')?[target.querySelector('.fab-art'),target.querySelector('.fab-copy')]:
+      target.matches('.service-card,.hire-card')?[...target.children]:[target];
+    parts.filter(Boolean).forEach((part,index)=>{
+      const animation=part.animate(revealFrames(target),{duration:target.matches('.project-card')?420:600,delay:Number(target.dataset.revealDelay||0)+Math.min(index,3)*45,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'});
+      entranceAnimations.add(animation);
+      animation.finished.catch(()=>{}).finally(()=>entranceAnimations.delete(animation));
+    });
   }
   const reveals = new IntersectionObserver(entries => {
     for (const {target, isIntersecting} of entries) {
       if (!isIntersecting) continue;
       if (navigationTarget && target.closest('main>section')?.id !== navigationTarget) continue;
       reveals.unobserve(target);
-      if (!motion.matches) (target.matches('.project-card') ? target.querySelector('.project-copy') : target).animate(revealFrames(target), {duration: target.matches('.project-card') ? 360 : 680, delay: Number(target.dataset.revealDelay || 0), easing: 'cubic-bezier(.2,.7,.2,1)'});
+      if (!motion.matches) playEntrance(target);
       if (!motion.matches && target.classList.contains('expertise-item')) {
         const bar = target.querySelector('.expertise-meter>span');
         if (bar) bar.animate([{width: '0%'}, {width: bar.style.width}], {duration: 1000, delay: 300, easing: 'cubic-bezier(.16,1,.3,1)'});
       }
     }
-  }, {threshold: .06});
+  }, {threshold: .18, rootMargin:'0px 0px -24px 0px'});
   const countObserver = new IntersectionObserver(entries => {
     for (const {target, isIntersecting} of entries) {
       if (!isIntersecting) continue;
@@ -125,14 +148,41 @@
       requestAnimationFrame(count);
     }
   }, {threshold: .65});
-  document.querySelectorAll('.about-stat strong').forEach(el => countObserver.observe(el));
-  function observeCards() { document.querySelectorAll('.project-card:not([data-observed])').forEach((el, index) => { el.dataset.observed = 'true'; el.dataset.revealDelay = String(index % 3 * 70); reveals.observe(el); }); }
-  document.querySelectorAll('.portrait-frame,.hero-reel,.section-top,.about-layout,.about-stat,.about-fact,.skills,.expertise-item,.testimonial,.section-heading,.service-card,.fab-card,.hire-card,.contact-section .actions').forEach((el, index) => {
-    el.dataset.revealDelay = String(index % 3 * 65);
-    reveals.observe(el);
-  });
-  motion.addEventListener('change', () => { if (motion.matches) document.getAnimations().forEach(a => a.cancel()); });
+  document.querySelectorAll('.about-stat strong').forEach(el => {const rect=el.getBoundingClientRect();if(!(reloading&&rect.bottom>0&&rect.top<innerHeight))countObserver.observe(el);});
+  function observeCards() { document.querySelectorAll('.project-card:not([data-observed])').forEach(registerReveal); }
+  // Do not animate section wrappers and their children together.
+  document.querySelectorAll('.portrait-frame,.hero-reel,.about-stat,.about-fact,.expertise-item,.testimonial,.service-card,.fab-card,.hire-card,.contact-section .actions').forEach(registerReveal);
+  motion.addEventListener('change', () => { if (motion.matches) entranceAnimations.forEach(a => a.cancel()); });
+  const hireSection=$('.hire-section');
+  if(hireSection){
+    let hireVisible=false;
+    const updateRings=()=>hireSection.classList.toggle('rings-active',hireVisible&&!document.hidden&&!motion.matches);
+    new IntersectionObserver(entries=>{hireVisible=entries[0].isIntersecting;updateRings();},{threshold:.08}).observe(hireSection);
+    document.addEventListener('visibilitychange',updateRings);motion.addEventListener('change',updateRings);
+  }
   const hero = $('.hero');
+  const heroVideo=$('#hero-video'),videoToggle=$('#hero-video-toggle');
+  if(heroVideo&&videoToggle){
+    let visible=false,userPaused=false,userRequested=false,loaded=false,playRequest=0;
+    videoToggle.hidden=false;heroVideo.muted=true;
+    const label=()=>{videoToggle.textContent=heroVideo.paused?'Play background':'Pause background';};
+    const updateVideo=()=>{
+      const request=++playRequest;
+      if(!visible||document.hidden||motion.matches||userPaused||(navigator.connection?.saveData&&!userRequested)){heroVideo.pause();label();return;}
+      if(!loaded){
+        for(const [format,type] of [['webm','video/webm'],['mp4','video/mp4']]){const source=document.createElement('source');source.src=heroVideo.dataset[format];source.type=type;heroVideo.append(source);}
+        loaded=true;heroVideo.load();
+      }
+      heroVideo.play().then(()=>{if(request!==playRequest&&(!visible||document.hidden||motion.matches||userPaused))heroVideo.pause();label();}).catch(label);
+    };
+    videoToggle.addEventListener('click',()=>{userRequested=true;userPaused=!heroVideo.paused;if(userPaused)heroVideo.pause();else if(!motion.matches)updateVideo();label();});
+    heroVideo.addEventListener('play',label);heroVideo.addEventListener('pause',label);
+    heroVideo.addEventListener('error',()=>{videoToggle.hidden=true;});
+    new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;updateVideo();},{threshold:.08}).observe(hero);
+    document.addEventListener('visibilitychange',updateVideo);
+    motion.addEventListener('change',()=>{videoToggle.hidden=motion.matches;updateVideo();});
+    videoToggle.hidden=motion.matches;
+  }
   let pointerFrame = 0;
   hero?.addEventListener('pointermove', event => {
     if (motion.matches || event.pointerType === 'touch' || pointerFrame) return;
@@ -352,6 +402,7 @@
         const more = listings.slice(shown, shown + batch);
         $('#fab-grid').insertAdjacentHTML('beforeend', more.map(item => `<article class="fab-card"><div class="fab-art">${item.image?`<img src="${escape(safeURL(item.image))}" alt="${escape(item.title)} artwork" loading="lazy">`:'<span aria-hidden="true">FAB</span>'}</div><div class="fab-copy"><span class="eyebrow">FAB LISTING</span><h3>${escape(item.title)}</h3><p>${escape(item.description)}</p><a class="text-link" href="${escape(safeURL(item.url))}" target="_blank" rel="noopener">${item.url.includes('/portal/')?'Publisher preview':'View on Fab'} ↗</a></div></article>`).join(''));
         shown += more.length;update();
+        document.querySelectorAll('#fab-grid .fab-card:not([data-observed])').forEach(registerReveal);
         $('#fab-grid .fab-card:nth-child(' + (shown - more.length + 1) + ')')?.scrollIntoView({behavior:motion.matches?'instant':'smooth',block:'nearest'});
       });
       update();
