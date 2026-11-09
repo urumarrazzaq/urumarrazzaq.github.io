@@ -202,19 +202,28 @@
   const hero = $('.hero');
   const heroVideo=$('#hero-youtube'),videoToggle=$('#hero-video-toggle');
   if(heroVideo&&videoToggle){
-    let player,ready=false,loading=false,visible=false,userPaused=false,userRequested=false,failed=false;
+    let player,ready=false,loading=false,visible=false,userPaused=false,userRequested=false,failed=false,revealTimer;
     const wanted=()=>visible&&!document.hidden&&!motion.matches&&!userPaused&&(!navigator.connection?.saveData||userRequested);
     const label=()=>{const playing=ready&&player.getPlayerState()===1;const action=playing?'Pause background':'Play background';videoToggle.setAttribute('aria-label',action);videoToggle.title=action;videoToggle.innerHTML='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">'+(playing?'<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>':'<path d="m8 4 12 8-12 8z"/>')+'</svg>';videoToggle.hidden=motion.matches||failed;};
-    const fail=()=>{failed=true;ready=false;player?.destroy();label();};
+    function hidePlayer(){clearTimeout(revealTimer);hero.classList.remove('background-playing');}
+    function syncPlayerVisibility(){
+      hidePlayer();
+      if(ready&&wanted()&&player.getPlayerState()===1){
+        // Wait for YouTube's transient startup overlay to clear before revealing the footage.
+        revealTimer=setTimeout(()=>{if(ready&&wanted()&&player.getPlayerState()===1)hero.classList.add('background-playing');},3000);
+      }
+    }
+    const fail=()=>{hidePlayer();failed=true;ready=false;player?.destroy();label();};
     function createPlayer(){
       if(player||failed)return;
       player=new YT.Player('hero-youtube',{host:'https://www.youtube-nocookie.com',width:'100%',height:'100%',videoId:heroVideo.dataset.videoId,
         playerVars:{autoplay:0,controls:0,playsinline:1,loop:1,playlist:heroVideo.dataset.videoId,rel:0,disablekb:1,origin:location.origin},
         events:{onReady:()=>{ready=true;const iframe=player.getIframe();iframe.tabIndex=-1;iframe.setAttribute('title','Background trailer');iframe.setAttribute('referrerpolicy','strict-origin-when-cross-origin');player.mute();updateVideo();},
-          onStateChange:()=>{if(!wanted()&&player.getPlayerState()===1)player.pauseVideo();label();},onError:fail,onAutoplayBlocked:label}});
+          onStateChange:()=>{if(!wanted()&&player.getPlayerState()===1)player.pauseVideo();syncPlayerVisibility();label();},onError:fail,onAutoplayBlocked:()=>{hidePlayer();label();}}});
     }
     function updateVideo(){
       label();
+      if(!wanted())hidePlayer();
       if(ready){player.mute();if(wanted())player.playVideo();else player.pauseVideo();return;}
       if(!wanted()||loading||failed)return;
       loading=true;
