@@ -54,6 +54,15 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
   await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('#project-dialog').open&&!document.querySelector('#project-dialog iframe'));
   await page.locator('#project-grid .project-image').click();assert.equal(await page.locator('#project-dialog iframe').count(),1);await page.locator('#close-project').click();
   await page.locator('#project-search').fill('no-such-project-123');assert.equal(await page.locator('.empty-state').count(),1);await page.locator('#project-search').fill('');
+  await page.evaluate(()=>{window.navStates=[];new MutationObserver(()=>{const name=document.querySelector('#nav [aria-current]')?.textContent.trim();if(name&&window.navStates.at(-1)!==name)window.navStates.push(name);}).observe(document.querySelector('#nav'),{attributes:true,subtree:true,attributeFilter:['aria-current']});});
+  await page.locator('#nav a[href="#contact"]').click();
+  await page.waitForTimeout(950);
+  assert.equal(await page.locator('#nav [aria-current]').textContent(),'Contact');
+  await page.locator('#nav a[href="#home"]').click();
+  await page.waitForFunction(()=>scrollY<20);
+  assert.deepEqual(await page.evaluate(()=>window.navStates),['Contact','Home']);
+  await page.evaluate(()=>document.querySelector('#services').scrollIntoView({behavior:'instant',block:'start'}));
+  await page.waitForFunction(()=>document.querySelector('#nav [aria-current]')?.hash==='#services');
   const content=JSON.parse(await fs.readFile(path.join(root,'assets/data/content.json'),'utf8'));
   for(const p of content.projects){assert.equal((await page.request.get(base+'/'+p.image)).status(),200,p.title);}
   for(const width of [768,390,320]){

@@ -4,15 +4,16 @@
   const escape = (s = '') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const batchSize = 9;
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
+  let navigationTarget = '';
   const typewriter = $('.typewriter');
   if (typewriter) {
     const roles = JSON.parse(typewriter.dataset.roles || '[]');
     const output = $('#typed-role');
     if (roles.length && output) {
-      let roleIndex = 0, characterIndex = Array.from(roles[0]).length, deleting = true, timer;
+      let roleIndex = 0, characterIndex = Array.from(roles[0]).length, deleting = true, timer, heroVisible = true;
       const schedule = delay => { clearTimeout(timer); timer = setTimeout(tick, delay); };
       function tick() {
-        if (motion.matches || document.hidden) return;
+        if (motion.matches || document.hidden || !heroVisible) return;
         const characters = Array.from(roles[roleIndex]);
         characterIndex += deleting ? -1 : 1;
         output.textContent = characters.slice(0, characterIndex).join('');
@@ -31,12 +32,17 @@
         if (motion.matches) {
           roleIndex = 0; characterIndex = Array.from(roles[0]).length;
           deleting = true; output.textContent = roles[0];
-        } else if (roles.length > 1) schedule(1200);
+        } else if (roles.length > 1 && heroVisible) schedule(1200);
       });
       document.addEventListener('visibilitychange', () => {
         clearTimeout(timer);
-        if (!document.hidden && !motion.matches && roles.length > 1) schedule(900);
+        if (!document.hidden && heroVisible && !motion.matches && roles.length > 1) schedule(900);
       });
+      new IntersectionObserver(entries => {
+        heroVisible = entries[0].isIntersecting;
+        clearTimeout(timer);
+        if (heroVisible && !document.hidden && !motion.matches && roles.length > 1) schedule(900);
+      }, {threshold: .05}).observe($('.hero'));
     }
   }
   let projects = [], filter = 'all', limit = batchSize;
@@ -63,6 +69,7 @@
   const reveals = new IntersectionObserver(entries => {
     for (const {target, isIntersecting} of entries) {
       if (!isIntersecting) continue;
+      if (navigationTarget && target.closest('main>section')?.id !== navigationTarget) continue;
       reveals.unobserve(target);
       if (!motion.matches) target.animate(revealFrames(target), {duration: 680, delay: Number(target.dataset.revealDelay || 0), easing: 'cubic-bezier(.2,.7,.2,1)'});
       if (!motion.matches && target.classList.contains('expertise-item')) {
@@ -74,6 +81,7 @@
   const countObserver = new IntersectionObserver(entries => {
     for (const {target, isIntersecting} of entries) {
       if (!isIntersecting) continue;
+      if (navigationTarget && target.closest('main>section')?.id !== navigationTarget) continue;
       countObserver.unobserve(target);
       if (motion.matches) continue;
       const match = target.textContent.trim().match(/^(\d+)(.*)$/);
@@ -182,7 +190,40 @@
     observeCards();
   }
   $('#menu-toggle').addEventListener('click', () => { $('.sidebar').classList.toggle('menu-open'); $('#menu-toggle').setAttribute('aria-expanded', String($('.sidebar').classList.contains('menu-open'))); });
-  document.querySelectorAll('#nav a').forEach(a => a.addEventListener('click', () => { $('.sidebar').classList.remove('menu-open'); $('#menu-toggle').setAttribute('aria-expanded', 'false'); }));
+  const sections = [...document.querySelectorAll('main>section')];
+  let navigationTimeout = 0;
+  function setActiveSection(id) {
+    document.querySelectorAll('#nav a').forEach(a => {
+      if (a.hash === '#' + id) {
+        if (a.getAttribute('aria-current') !== 'location') a.setAttribute('aria-current', 'location');
+      } else if (a.hasAttribute('aria-current')) a.removeAttribute('aria-current');
+    });
+  }
+  function activeFromScroll() {
+    const threshold = Math.max(130, Math.min(innerHeight * .38, 300));
+    let id = sections[0].id;
+    for (const section of sections) {
+      if (section.getBoundingClientRect().top <= threshold) id = section.id;
+    }
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 3) id = sections.at(-1).id;
+    setActiveSection(id);
+  }
+  function finishNavigation() {
+    clearTimeout(navigationTimeout);
+    navigationTarget = '';
+    activeFromScroll();
+  }
+  function beginNavigation(id) {
+    navigationTarget = id;
+    setActiveSection(id);
+    clearTimeout(navigationTimeout);
+    navigationTimeout = setTimeout(finishNavigation, 2200);
+  }
+  document.querySelectorAll('#nav a').forEach(a => a.addEventListener('click', () => {
+    beginNavigation(a.hash.slice(1));
+    $('.sidebar').classList.remove('menu-open');
+    $('#menu-toggle').setAttribute('aria-expanded', 'false');
+  }));
   document.addEventListener('click', event => {
     if ($('.sidebar').classList.contains('menu-open') && !event.target.closest('.sidebar')) {
       $('.sidebar').classList.remove('menu-open');
@@ -197,13 +238,13 @@
     }
   });
   const aliases = {entrance:'home',hero:'home',control:'about',skills:'about',projects:'portfolio',career:'about',resume:'about'};
-  if (aliases[location.hash.slice(1)]) { const id = aliases[location.hash.slice(1)]; history.replaceState(null, '', '#' + id); document.getElementById(id).scrollIntoView(); }
-  const observer = new IntersectionObserver(entries => {
-    const entry = entries.filter(e => e.isIntersecting).sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
-    if (!entry) return;
-    document.querySelectorAll('#nav a').forEach(a => { if (a.hash === '#' + entry.target.id) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current'); });
-  }, {rootMargin:'-10% 0px -45% 0px',threshold:[0,.1,.3]});
-  document.querySelectorAll('main>section').forEach(s => observer.observe(s));
+  if (aliases[location.hash.slice(1)]) { const id = aliases[location.hash.slice(1)]; history.replaceState(null, '', '#' + id); beginNavigation(id); document.getElementById(id).scrollIntoView(); }
+  addEventListener('scroll', () => { if (!navigationTarget) activeFromScroll(); }, {passive: true});
+  addEventListener('scrollend', event => { if (navigationTarget && (event.target === document || event.target === window)) finishNavigation(); });
+  addEventListener('wheel', () => { if (navigationTarget) finishNavigation(); }, {passive: true});
+  addEventListener('touchstart', () => { if (navigationTarget) finishNavigation(); }, {passive: true});
+  addEventListener('keydown', event => { if (navigationTarget && ['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key)) finishNavigation(); });
+  activeFromScroll();
   document.querySelectorAll('[data-filter]').forEach(b => b.addEventListener('click', () => {
     filter = b.dataset.filter; limit = batchSize;
     document.querySelectorAll('[data-filter]').forEach(el => el.setAttribute('aria-pressed', String(el === b)));

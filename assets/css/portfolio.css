@@ -34,3 +34,5 @@ body{font-size:16px}.hero{isolation:isolate;overflow:hidden;row-gap:44px}.hero-e
 @media(max-width:800px){.reel-clip{flex-basis:calc((100% - 12px)/2)}.reel-clips{gap:12px}}
 @media(max-width:560px){.reel-actions>span{display:none}.reel-controls button{width:44px;height:44px}.reel-clip{flex-basis:86%;height:116px}.reel-clip img{width:43%}.reel-clip strong{left:49%;top:22px;right:12px}.reel-play{left:49%;bottom:17px}.reel-heading{margin-bottom:12px}}
 @media(prefers-reduced-motion:reduce){.reel-viewport{scroll-behavior:auto}.project-card:hover,.service-card:hover,.expertise-item:hover,.testimonial:hover{transform:none}}
+/* Keep the fixed navigation still while the page moves. */
+.sidebar nav a:hover{transform:none}
