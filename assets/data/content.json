@@ -7,7 +7,19 @@
     "image": "assets/img/profile/profile-2.png",
     "imagePosition": 35,
     "location": "Lahore, Pakistan",
-    "resume": "resume/UmarRazzaqATSFinal.pdf"
+    "resume": "resume/UmarRazzaqATSFinal.pdf",
+    "titles": [
+      "Game Developer",
+      "Software Engineer",
+      "Smart AI Systems Developer",
+      "Multiplayer Experience Developer",
+      "Gameplay Programmer",
+      "Responsive Game UI Developer",
+      "Performance Optimizer",
+      "Game Architecture Designer",
+      "Tools and Plugins Developer",
+      "Solution Provider"
+    ]
   },
   "about": {
     "heading": "A developer’s mindset.\nA player’s curiosity.",

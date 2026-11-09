@@ -4,10 +4,10 @@ A readable, responsive portfolio with Home, About, Portfolio, Services, and Cont
 
 ## Open the website and dashboard
 
-Install Node.js 20 or later. In VS Code, open **Terminal → New Terminal** from this repository (`D:\urumarrazzaq.github.io`) and run:
+Install Node.js 20 or later. In VS Code, open **Terminal → New Terminal** from this repository (`D:\urumarrazzaq.github.io`) and run this PowerShell-safe command:
 
 ```sh
-npm start
+node tools/admin-server.cjs
 ```
 
 - Website: http://127.0.0.1:8080/
@@ -15,13 +15,13 @@ npm start
 
 Open the website at the address above when previewing videos. Opening `index.html` as a `file:///` page prevents YouTube from receiving the website address it requires and causes player error 153. The public GitHub Pages address also provides that website address after you publish.
 
-Keep the terminal open while editing. The first time you open the dashboard, create a password of at least 12 characters. Sign in, choose a content tab, edit, and press **Save changes**. Open the Website link above or **Preview website** in the dashboard, then refresh to see saved changes. Press `Ctrl+C` in the terminal to stop the local server. If port 8080 is busy, use `$env:PORT=8081; npm start` in PowerShell and open port 8081 instead.
+Keep the terminal open while editing. The first time you open the dashboard, create a password of at least 12 characters. Sign in, choose a content tab, edit, and press **Save changes**. Open the Website link above or **Preview website** in the dashboard, then refresh to see saved changes. Press `Ctrl+C` in the terminal to stop the local server. If port 8080 is busy, use `$env:PORT=8081; node tools/admin-server.cjs` in PowerShell and open port 8081 instead. `npm.cmd start` also works in PowerShell if you prefer the npm script; `npm start` may be blocked by your PowerShell execution policy.
 
 No dependency installation is needed to run the server. On first launch, create your own dashboard password (at least 12 characters). No default password is shipped. Sessions expire after four hours and are cleared when the server restarts. To use another port, set the PORT environment variable before starting.
 
 ## Manage content
 
-Use the dashboard to edit your name, role, home headline, introduction, portrait, crop position, about copy, profile facts, detailed expertise, collaborator testimonials, services, contact information, and résumé. Under Projects, add, edit, reorder, and remove entries; upload thumbnails; set video links; and write descriptions, contributions, and technology labels.
+Use the dashboard to edit your name, role, rotating “I’m a …” titles, home headline, introduction, portrait, crop position, about copy, profile facts, detailed expertise, collaborator testimonials, services, contact information, and résumé. Under Projects, add, edit, reorder, and remove entries; upload thumbnails; set video links; and write descriptions, contributions, and technology labels.
 
 The gallery starts with 9 projects and loads 9 more at a time. Search and discipline filters operate across all 40 projects. A project opens a readable detail dialog with its full description and video inside the site. YouTube embeds load when Play is selected; embedding availability depends on the video owner's settings. Uploaded MP4/WebM files use the native video player. With JavaScript disabled, the first 9 project previews remain visible.
 

@@ -4,6 +4,41 @@
   const escape = (s = '') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const batchSize = 9;
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
+  const typewriter = $('.typewriter');
+  if (typewriter) {
+    const roles = JSON.parse(typewriter.dataset.roles || '[]');
+    const output = $('#typed-role');
+    if (roles.length && output) {
+      let roleIndex = 0, characterIndex = Array.from(roles[0]).length, deleting = true, timer;
+      const schedule = delay => { clearTimeout(timer); timer = setTimeout(tick, delay); };
+      function tick() {
+        if (motion.matches || document.hidden) return;
+        const characters = Array.from(roles[roleIndex]);
+        characterIndex += deleting ? -1 : 1;
+        output.textContent = characters.slice(0, characterIndex).join('');
+        if (characterIndex === 0) {
+          roleIndex = (roleIndex + 1) % roles.length;
+          deleting = false;
+          schedule(360);
+        } else if (!deleting && characterIndex === characters.length) {
+          deleting = true;
+          schedule(1800);
+        } else schedule(deleting ? 34 : 65);
+      }
+      if (!motion.matches && roles.length > 1) schedule(1700);
+      motion.addEventListener('change', () => {
+        clearTimeout(timer);
+        if (motion.matches) {
+          roleIndex = 0; characterIndex = Array.from(roles[0]).length;
+          deleting = true; output.textContent = roles[0];
+        } else if (roles.length > 1) schedule(1200);
+      });
+      document.addEventListener('visibilitychange', () => {
+        clearTimeout(timer);
+        if (!document.hidden && !motion.matches && roles.length > 1) schedule(900);
+      });
+    }
+  }
   let projects = [], filter = 'all', limit = batchSize;
   const safeURL = value => {
     if (typeof value !== 'string') return '';
@@ -14,20 +49,124 @@
   function card(p) {
     return `<article class="project-card" data-id="${escape(p.id)}"><button class="project-image" data-project="${escape(p.id)}" data-play="true" aria-label="Watch ${escape(p.title)} inside the website"><img src="${escape(safeURL(p.image))}" alt="${escape(p.title)} — project thumbnail" loading="lazy" width="640" height="360"><span class="play-badge" aria-hidden="true">▶</span><span class="play-label">WATCH GAMEPLAY</span></button><div class="project-copy"><p class="eyebrow">${escape(p.category)}</p><h3><button data-project="${escape(p.id)}">${escape(p.title)}</button></h3><p>${escape(p.description || 'Project footage and a closer look at the experience.')}</p><button class="text-link" data-project="${escape(p.id)}">Project details <span>↗</span></button></div></article>`;
   }
-  // One-time reveals animate content only after it is visible; nothing is hidden while loading.
+  // Each part of the portfolio has its own entrance, while content stays visible if motion is off.
+  function revealFrames(target) {
+    if (target.classList.contains('portrait-frame')) return [{opacity: .5, transform: 'perspective(900px) rotateY(9deg) scale(.94)'}, {opacity: 1, transform: 'perspective(900px) rotateY(0) scale(1)'}];
+    if (target.classList.contains('project-card')) return [{opacity: .4, transform: 'perspective(800px) rotateX(7deg) translateY(30px)'}, {opacity: 1, transform: 'perspective(800px) rotateX(0) translateY(0)'}];
+    if (target.classList.contains('service-card')) return [{opacity: .35, transform: 'perspective(800px) rotateY(-8deg) translateX(-22px)'}, {opacity: 1, transform: 'perspective(800px) rotateY(0) translateX(0)'}];
+    if (target.classList.contains('about-layout') || target.classList.contains('expertise-item')) return [{opacity: .35, transform: 'translateX(28px)'}, {opacity: 1, transform: 'translateX(0)'}];
+    if (target.classList.contains('about-stat') || target.classList.contains('about-fact')) return [{opacity: .4, transform: 'scale(.9) translateY(12px)'}, {opacity: 1, transform: 'scale(1) translateY(0)'}];
+    if (target.classList.contains('testimonial')) return [{opacity: .4, transform: 'translateX(-30px)'}, {opacity: 1, transform: 'translateX(0)'}];
+    if (target.closest('.contact-section')) return [{opacity: .4, transform: 'scale(.94)'}, {opacity: 1, transform: 'scale(1)'}];
+    return [{opacity: .35, transform: 'translateY(20px)'}, {opacity: 1, transform: 'translateY(0)'}];
+  }
   const reveals = new IntersectionObserver(entries => {
     for (const {target, isIntersecting} of entries) {
       if (!isIntersecting) continue;
       reveals.unobserve(target);
-      if (!motion.matches) target.animate([
-        {opacity: .35, transform: 'translateY(22px)'},
-        {opacity: 1, transform: 'translateY(0)'}
-      ], {duration: 650, easing: 'cubic-bezier(.2,.7,.2,1)'});
+      if (!motion.matches) target.animate(revealFrames(target), {duration: 680, delay: Number(target.dataset.revealDelay || 0), easing: 'cubic-bezier(.2,.7,.2,1)'});
+      if (!motion.matches && target.classList.contains('expertise-item')) {
+        const bar = target.querySelector('.expertise-meter>span');
+        if (bar) bar.animate([{width: '0%'}, {width: bar.style.width}], {duration: 1000, delay: 300, easing: 'cubic-bezier(.16,1,.3,1)'});
+      }
     }
   }, {threshold: .06});
-  function observeCards() { document.querySelectorAll('.project-card:not([data-observed])').forEach(el => { el.dataset.observed = 'true'; reveals.observe(el); }); }
-  document.querySelectorAll('.about-layout,.section-heading,.service-card,.skills,.contact-section .actions').forEach(el => reveals.observe(el));
+  const countObserver = new IntersectionObserver(entries => {
+    for (const {target, isIntersecting} of entries) {
+      if (!isIntersecting) continue;
+      countObserver.unobserve(target);
+      if (motion.matches) continue;
+      const match = target.textContent.trim().match(/^(\d+)(.*)$/);
+      if (!match) continue;
+      const total = Number(match[1]), suffix = match[2], duration = 1100;
+      let start;
+      function count(frame) {
+        if (motion.matches) { target.textContent = match[1] + suffix; return; }
+        start ??= frame;
+        const progress = Math.min((frame - start) / duration, 1);
+        target.textContent = Math.round(total * (1 - Math.pow(1 - progress, 3))) + suffix;
+        if (progress < 1) requestAnimationFrame(count);
+      }
+      requestAnimationFrame(count);
+    }
+  }, {threshold: .65});
+  document.querySelectorAll('.about-stat strong').forEach(el => countObserver.observe(el));
+  function observeCards() { document.querySelectorAll('.project-card:not([data-observed])').forEach((el, index) => { el.dataset.observed = 'true'; el.dataset.revealDelay = String(index % 3 * 70); reveals.observe(el); }); }
+  document.querySelectorAll('.portrait-frame,.hero-reel,.section-top,.about-layout,.about-stat,.about-fact,.skills,.expertise-item,.testimonial,.section-heading,.service-card,.contact-section .actions').forEach((el, index) => {
+    el.dataset.revealDelay = String(index % 3 * 65);
+    reveals.observe(el);
+  });
   motion.addEventListener('change', () => { if (motion.matches) document.getAnimations().forEach(a => a.cancel()); });
+  const hero = $('.hero');
+  let pointerFrame = 0;
+  hero?.addEventListener('pointermove', event => {
+    if (motion.matches || event.pointerType === 'touch' || pointerFrame) return;
+    const rect = hero.getBoundingClientRect();
+    const x = Math.round((event.clientX - rect.left) / rect.width * 100);
+    const y = Math.round((event.clientY - rect.top) / rect.height * 100);
+    pointerFrame = requestAnimationFrame(() => {
+      hero.style.setProperty('--pointer-x', `${x}%`);
+      hero.style.setProperty('--pointer-y', `${y}%`);
+      pointerFrame = 0;
+    });
+  });
+  hero?.addEventListener('pointerleave', () => {
+    hero.style.removeProperty('--pointer-x');
+    hero.style.removeProperty('--pointer-y');
+  });
+  const reel = $('#reel-viewport');
+  if (reel) {
+    const controls = $('.reel-controls'), previous = $('#reel-prev'), next = $('#reel-next');
+    let reelVisible = false, reelHovered = false, manualUntil = 0;
+    const maxScroll = () => Math.max(0, reel.scrollWidth - reel.clientWidth);
+    function updateReel() {
+      controls.hidden = maxScroll() < 2;
+      previous.disabled = reel.scrollLeft < 3;
+      next.disabled = reel.scrollLeft >= maxScroll() - 3;
+    }
+    function reelStep(direction) {
+      const clip = reel.querySelector('.reel-clip');
+      if (!clip) return;
+      const gap = parseFloat(getComputedStyle(reel.querySelector('.reel-clips')).gap) || 0;
+      reel.scrollBy({left: direction * (clip.getBoundingClientRect().width + gap), behavior: motion.matches ? 'instant' : 'smooth'});
+    }
+    previous.addEventListener('click', () => { manualUntil = Date.now() + 12000; reelStep(-1); });
+    next.addEventListener('click', () => { manualUntil = Date.now() + 12000; reelStep(1); });
+    reel.addEventListener('scroll', updateReel, {passive: true});
+    reel.addEventListener('pointerenter', () => { reelHovered = true; });
+    reel.addEventListener('pointerleave', () => { reelHovered = false; });
+    reel.addEventListener('touchstart', () => { manualUntil = Date.now() + 12000; }, {passive: true});
+    new ResizeObserver(updateReel).observe(reel);
+    new IntersectionObserver(entries => { reelVisible = entries[0].isIntersecting; }, {threshold: .2}).observe(reel);
+    setInterval(() => {
+      if (motion.matches || document.hidden || !reelVisible || reelHovered || Date.now() < manualUntil || maxScroll() < 2) return;
+      if (reel.scrollLeft >= maxScroll() - 3) reel.scrollTo({left: 0, behavior: 'smooth'});
+      else reelStep(1);
+    }, 5200);
+    updateReel();
+  }
+  const finePointer = matchMedia('(pointer: fine)');
+  let tiltFrame = 0;
+  document.addEventListener('pointermove', event => {
+    const card = event.target.closest('.project-card,.service-card');
+    if (!card || !finePointer.matches || motion.matches) return;
+    const rect = card.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - .5;
+    const y = (event.clientY - rect.top) / rect.height - .5;
+    if (tiltFrame) cancelAnimationFrame(tiltFrame);
+    tiltFrame = requestAnimationFrame(() => {
+      card.style.setProperty('--tilt-x', `${(-y * 5).toFixed(2)}deg`);
+      card.style.setProperty('--tilt-y', `${(x * 5).toFixed(2)}deg`);
+      tiltFrame = 0;
+    });
+  });
+  document.addEventListener('pointerout', event => {
+    const card = event.target.closest('.project-card,.service-card');
+    if (card && !card.contains(event.relatedTarget)) {
+      card.style.removeProperty('--tilt-x');
+      card.style.removeProperty('--tilt-y');
+    }
+  });
   function render(append = false) {
     const term = $('#project-search').value.trim().toLowerCase();
     const matches = projects.filter(p => (filter === 'all' || splitFilter(p).includes(filter)) && `${p.title} ${p.category} ${p.description || ''}`.toLowerCase().includes(term));
@@ -44,6 +183,19 @@
   }
   $('#menu-toggle').addEventListener('click', () => { $('.sidebar').classList.toggle('menu-open'); $('#menu-toggle').setAttribute('aria-expanded', String($('.sidebar').classList.contains('menu-open'))); });
   document.querySelectorAll('#nav a').forEach(a => a.addEventListener('click', () => { $('.sidebar').classList.remove('menu-open'); $('#menu-toggle').setAttribute('aria-expanded', 'false'); }));
+  document.addEventListener('click', event => {
+    if ($('.sidebar').classList.contains('menu-open') && !event.target.closest('.sidebar')) {
+      $('.sidebar').classList.remove('menu-open');
+      $('#menu-toggle').setAttribute('aria-expanded', 'false');
+    }
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && $('.sidebar').classList.contains('menu-open')) {
+      $('.sidebar').classList.remove('menu-open');
+      $('#menu-toggle').setAttribute('aria-expanded', 'false');
+      $('#menu-toggle').focus();
+    }
+  });
   const aliases = {entrance:'home',hero:'home',control:'about',skills:'about',projects:'portfolio',career:'about',resume:'about'};
   if (aliases[location.hash.slice(1)]) { const id = aliases[location.hash.slice(1)]; history.replaceState(null, '', '#' + id); document.getElementById(id).scrollIntoView(); }
   const observer = new IntersectionObserver(entries => {
@@ -78,7 +230,7 @@
     if (location.protocol === 'file:') {
       const notice = document.createElement('div');
       notice.className = 'video-setup';
-      notice.innerHTML = '<strong>Open the portfolio through the local server to play this video here.</strong><p>YouTube requires a website address for embedded playback. In this project folder, run <code>npm start</code>, then open <a href="http://127.0.0.1:8080/">http://127.0.0.1:8080/</a>.</p>';
+      notice.innerHTML = '<strong>Open the portfolio through the local server to play this video here.</strong><p>YouTube requires a website address for embedded playback. In this project folder, run <code>node tools/admin-server.cjs</code>, then open <a href="http://127.0.0.1:8080/">http://127.0.0.1:8080/</a>.</p>';
       $('.detail-media').replaceChildren(notice);
       return;
     }
