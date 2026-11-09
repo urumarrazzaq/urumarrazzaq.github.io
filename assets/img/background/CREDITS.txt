@@ -8,3 +8,12 @@ NASA SVS states its visualizations are public domain unless otherwise noted:
 https://svs.gsfc.nasa.gov/help/
 Usage guidance: https://www.nasa.gov/nasa-brand-center/images-and-media/
 Used as credited decorative background; no NASA endorsement is implied.
+
+Active hero background (2026-11-09): Zhai - Open world and Combat
+Official source: https://store.steampowered.com/app/4452500/Zhai/
+Trailer stream: https://video.akamai.steamstatic.com/store_trailers/4452500/678520643/d313a21ab5695adc7dbc8dbf6049436e702ae597/1789322027/hls_264_master.m3u8?t=1789322913
+Excerpt: 00:15-00:39, 1280x720 at 24fps, audio removed.
+Used to showcase the portfolio owner's stated ongoing work on Zhai.
+Game/trailer rights remain with their respective owners.
+Files: zhai-gameplay.mp4, zhai-gameplay.webm, zhai-gameplay.jpg
+Previous NASA background assets are retained as an unused alternative.

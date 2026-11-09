@@ -134,6 +134,30 @@ body{font-size:16px}.hero{isolation:isolate;overflow:hidden;row-gap:44px}.hero-e
 .hero-media-controls{position:absolute;right:24px;bottom:14px;z-index:2;display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:11px;color:#b9b6af}
 .hero-media-controls button{border:1px solid #e0b78055;background:#111116d9;border-radius:4px;padding:6px 10px;color:#e0b780;font-size:12px;min-height:36px}
 .hero-media-controls a:hover{color:#e0b780}
+/* Ambient world: restrained light and geometry behind each destination. */
+.ambient-section{position:relative;isolation:isolate}
+.ambient-layer{position:absolute;inset:0;overflow:hidden;z-index:-1;pointer-events:none;border-radius:inherit;contain:paint}
+.ambient-layer i{position:absolute;display:block;animation-play-state:paused!important}
+.ambient-active .ambient-layer i{animation-play-state:running!important}
+.ambient-glow{width:min(750px,95vw);height:650px;right:-20%;top:5%;background:radial-gradient(ellipse,#e0b78014,transparent 68%);animation:ambient-drift 24s ease-in-out infinite alternate}
+.ambient-line{width:550px;height:550px;right:-180px;top:15%;border:1px solid #e0b7801c;border-radius:50%;box-shadow:0 0 0 60px #e0b78004,0 0 0 120px #e0b78003;animation:ambient-orbit 28s ease-in-out infinite alternate}
+.ambient-dots{width:400px;height:400px;left:-80px;bottom:4%;opacity:.4;background-image:radial-gradient(circle,#e0b78060 1px,transparent 2px);background-size:48px 48px;mask-image:radial-gradient(ellipse,#000,transparent 70%);animation:ambient-rise 20s ease-in-out infinite alternate}
+#about .ambient-line{border-radius:35%;transform:rotate(20deg);animation-name:ambient-turn}
+#portfolio .ambient-line{width:600px;height:450px;right:-120px;top:20px;border:0;border-radius:0;box-shadow:none;background-image:linear-gradient(#e0b78010 1px,transparent 1px),linear-gradient(90deg,#e0b78010 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse,#000,transparent 70%);animation-name:ambient-rise}
+#services .ambient-line{border-radius:12%;width:400px;height:400px;animation-name:ambient-turn}
+#fab .ambient-glow{background:radial-gradient(ellipse,#a8cfcf12,transparent 68%)}
+#fab .ambient-line{width:360px;height:360px;border-radius:24%;animation-name:ambient-turn}
+#contact .ambient-line{width:650px;height:650px;left:calc(50% - 325px);top:10%;animation:hire-rings 16s ease-out infinite}
+#contact .ambient-glow{right:calc(50% - 375px);top:0}
+.effects-toggle{position:fixed;right:16px;bottom:14px;z-index:9;padding:7px 11px;border:1px solid #e0b78035;border-radius:20px;background:#101116eb;color:#bdb5aa;font-size:11px;min-height:34px;cursor:pointer}
+.effects-toggle:hover{color:var(--gold);border-color:var(--gold)}
+body.effects-paused .hire-section:before,body.effects-paused .hire-section:after{animation-play-state:paused}
+@keyframes ambient-drift{from{transform:translate3d(0,-25px,0) scale(.9);opacity:.5}to{transform:translate3d(-80px,40px,0) scale(1.15);opacity:1}}
+@keyframes ambient-orbit{from{transform:scale(.85);opacity:.35}to{transform:scale(1.2);opacity:.85}}
+@keyframes ambient-turn{from{transform:rotate(-15deg) scale(.9);opacity:.3}to{transform:rotate(35deg) scale(1.1);opacity:.8}}
+@keyframes ambient-rise{from{transform:translate3d(0,24px,0);opacity:.2}to{transform:translate3d(24px,-24px,0);opacity:.6}}
+@media(max-width:600px){.ambient-glow{width:450px;height:450px}.ambient-dots{display:none}.effects-toggle{right:10px;bottom:10px;font-size:10px}}
+@media(prefers-reduced-motion:reduce){.ambient-layer i{animation:none!important}.ambient-dots,.effects-toggle{display:none}.ambient-glow{opacity:.4}}
 /* Separate destinations share a centered content column beside the navigation. */
 body[data-layout="multi-page"] main{max-width:none;min-height:100svh;display:flex;flex-direction:column}
 body[data-layout="multi-page"] main>.section{width:100%;max-width:1280px;flex:1;padding:72px clamp(24px,4vw,64px)}

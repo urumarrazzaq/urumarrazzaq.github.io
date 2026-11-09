@@ -153,6 +153,28 @@
   // Do not animate section wrappers and their children together.
   document.querySelectorAll('.portrait-frame,.hero-reel,.about-stat,.about-fact,.expertise-item,.testimonial,.service-card,.fab-card,.hire-card,.contact-section .actions').forEach(registerReveal);
   motion.addEventListener('change', () => { if (motion.matches) entranceAnimations.forEach(a => a.cancel()); });
+  // Small decorative layers use compositor-only motion and run only near the viewport.
+  const ambientSections=[...document.querySelectorAll('main>.section:not(.hero):not(.hire-section)')];
+  const visibleAmbients=new Set();
+  let effectsPaused=false;
+  try{effectsPaused=sessionStorage.getItem('effects-paused')==='true';}catch{}
+  const effectsToggle=document.createElement('button');
+  effectsToggle.className='effects-toggle';effectsToggle.type='button';document.body.append(effectsToggle);
+  function updateAmbient(){
+    document.body.classList.toggle('effects-paused',effectsPaused);
+    effectsToggle.textContent=effectsPaused?'Resume effects':'Pause effects';
+    effectsToggle.setAttribute('aria-pressed',String(effectsPaused));effectsToggle.hidden=motion.matches;
+    ambientSections.forEach(section=>section.classList.toggle('ambient-active',visibleAmbients.has(section)&&!effectsPaused&&!document.hidden&&!motion.matches));
+  }
+  effectsToggle.addEventListener('click',()=>{effectsPaused=!effectsPaused;try{sessionStorage.setItem('effects-paused',String(effectsPaused));}catch{}updateAmbient();});
+  const ambientObserver=new IntersectionObserver(entries=>{for(const entry of entries){if(entry.isIntersecting)visibleAmbients.add(entry.target);else visibleAmbients.delete(entry.target);}updateAmbient();},{threshold:0});
+  ambientSections.forEach(section=>{
+    section.classList.add('ambient-section');
+    const layer=document.createElement('div');layer.className='ambient-layer';layer.setAttribute('aria-hidden','true');
+    layer.innerHTML='<i class="ambient-glow"></i><i class="ambient-line"></i><i class="ambient-dots"></i>';
+    section.append(layer);ambientObserver.observe(section);
+  });
+  document.addEventListener('visibilitychange',updateAmbient);motion.addEventListener('change',updateAmbient);updateAmbient();
   const hireSection=$('.hire-section');
   if(hireSection){
     let hireVisible=false;
