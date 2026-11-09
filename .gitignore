@@ -1,0 +1,4 @@
+# Local dashboard credentials, backups, dependencies and verification output
+/.local/
+/artifacts/
+/node_modules/
