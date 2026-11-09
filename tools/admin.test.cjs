@@ -7,6 +7,21 @@ const {validateContent}=require('./content-schema.cjs');
 const {renderFiles}=require('./render-site.cjs');
 const projectRoot=path.resolve(__dirname,'..');
 
+test('case studies survive dashboard validation and render escaped, deferred video pages',async()=>{
+ const source=JSON.parse(await fs.readFile(path.join(projectRoot,'assets/data/content.json'),'utf8'));
+ const p=source.projects.find(p=>p.studyFocus);
+ p.studyApproach='A <script>alert(1)</script> example';
+ const clean=validateContent(source),saved=clean.projects.find(x=>x.id===p.id);
+ assert.equal(saved.studyApproach,p.studyApproach);
+ assert.equal(saved.studyResult,p.studyResult);
+ const html=renderFiles(clean)[`work-${p.id}.html`];
+ assert.ok(html.includes('A &lt;script&gt;alert(1)&lt;/script&gt; example'));
+ assert.ok(html.includes('data-youtube='));
+ assert.ok(!html.includes('<iframe'));
+ assert.ok(html.includes('aria-label="More projects"'));
+ p.studyFocus={invalid:true};assert.throws(()=>validateContent(source),/must be text/);
+});
+
 test('background YouTube URL survives saves and rejects unsupported links',async()=>{
  const content=JSON.parse(await fs.readFile(path.join(projectRoot,'assets/data/content.json'),'utf8'));
  for(const url of ['https://youtu.be/Nc5NxjcvrIM','https://www.youtube.com/watch?v=Nc5NxjcvrIM','https://www.youtube.com/shorts/Nc5NxjcvrIM']){
@@ -65,8 +80,8 @@ test('local dashboard protects content, rejects unsafe requests, and saves stati
  assert.equal((await request('/api/content',{method:'PUT',data:{content:loaded.content,revision:'old'}})).status,409);
  const invalid=structuredClone(loaded.content);invalid.contact.github='javascript:alert(1)';assert.equal((await request('/api/content',{method:'PUT',data:{content:invalid,revision:loaded.revision}})).status,400);
  assert.equal((await request('/api/upload',{method:'POST',data:{data:Buffer.from('<svg onload="alert(1)"></svg>').toString('base64')}})).status,400);
- const png=await fs.readFile(path.join(projectRoot,initial.profile.image));
- const upload=await request('/api/upload',{method:'POST',data:{data:png.toString('base64')}});assert.equal(upload.status,201);const uploaded=await upload.json();assert.match(uploaded.path,/^assets\/uploads\/[a-f0-9-]+\.png$/);
+ const portrait=await fs.readFile(path.join(projectRoot,initial.profile.image));
+ const upload=await request('/api/upload',{method:'POST',data:{data:portrait.toString('base64')}});assert.equal(upload.status,201);const uploaded=await upload.json();assert.match(uploaded.path,/^assets\/uploads\/[a-f0-9-]+\.(png|webp)$/);assert.equal(path.extname(uploaded.path),path.extname(initial.profile.image));
  loaded.content.projects[0].description='Updated project description for verification.';loaded.content.profile.image=uploaded.path;
  const save=await request('/api/content',{method:'PUT',data:loaded});assert.equal(save.status,200,JSON.stringify(await save.clone().json()));
  const saved=JSON.parse(await fs.readFile(path.join(fixture,'assets/data/content.json'),'utf8'));assert.equal(saved.projects[0].description,'Updated project description for verification.');

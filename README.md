@@ -52,7 +52,15 @@ The server binds to 127.0.0.1, checks Host/Origin headers, requires authenticate
 
 The previous project's supporting assets and legacy detail pages remain available. The old projects.json and worlds.json files are historical inputs; edit content.json or use the dashboard for the current site.
 
+## Featured case studies
+
+In **Projects**, fill in **Case study focus**, **Case study approach**, and **Case study result**. The first four projects with a focus appear in the featured showcase, in project order. Clear the focus to remove a project from that showcase without removing it from the gallery. The showcase links to a dedicated page; gallery dialogs also provide a full-case-study link. Keep results factual and supported by your actual work.
+
+Project pages show a thumbnail first and load YouTube only after Play. They retain a video link without JavaScript. The home reel is limited to four clips; the complete collection remains searchable in Portfolio. The optimized WebP portrait is used by default, with the original PNG retained.
+
 ## Verification
+
+Run `node tools/verify-case-studies.cjs` for the case-study navigation, deferred playback, keyboard interaction, no-JavaScript fallback, and responsive page checks (requires the same Playwright setup as the browser suite).
 
 ```sh
 npm test

@@ -29,7 +29,7 @@
     ],
     "headline": "Building worlds.\nEngineering experiences.",
     "intro": "I build responsive gameplay, intelligent AI, and multiplayer experiences in Unreal Engine. From the first prototype to production-ready systems, I turn ambitious ideas into games that feel great to play.",
-    "image": "assets/img/profile/profile-2.png",
+    "image": "assets/img/profile/profile-2.webp",
     "imagePosition": 35,
     "location": "Lahore, Pakistan",
     "resume": "resume/UmarRazzaqATSFinal.pdf"
@@ -226,9 +226,12 @@
       "image": "assets/img/portfolio/compressed/MaleStrom.png",
       "video": "https://www.youtube.com/watch?v=7LBtRuz9Ttc",
       "link": "https://store.steampowered.com/app/764050/Maelstrom/",
-      "description": "Maelstrom brings fantasy naval combat into a crowded arena of warships, cannon fire, and dangerous waters. The showcase moves between different ships and large battles, giving a sense of the game's combat presentation and the amount of activity players must read during an encounter.\n\nMy work focused on gameplay and UI fixes and the investigation of multiplayer replication issues.",
+      "description": "Maelstrom brings fantasy naval combat into a crowded arena of warships, cannon fire, and dangerous waters. The showcase moves between different ships and large battles, giving a sense of the game's combat presentation and the amount of activity players must read during an encounter.",
       "contributions": "Gameplay and UI fixes, plus investigation and resolution of multiplayer replication issues, as documented in my résumé.",
-      "technologies": "Unreal Engine, C++, Blueprint, Multiplayer replication"
+      "technologies": "Unreal Engine, C++, Blueprint, Multiplayer replication",
+      "studyFocus": "Gameplay, UI and multiplayer fixes in a naval combat game.",
+      "studyApproach": "Investigated gameplay and interface issues alongside multiplayer replication problems. The work focused on fixing existing systems within Maelstrom rather than building the entire game.",
+      "studyResult": "Gameplay and UI fixes, with replication issues investigated and resolved. The showcase gives context for the ships, battles and player-facing systems involved."
     },
     {
       "videoPublishedAt": "2024-11-19",
@@ -240,9 +243,12 @@
       "image": "assets/img/portfolio/compressed/Avatar.png",
       "video": "https://youtu.be/F2gAgTosPrs?si=paKFWuo_EAZZepNm",
       "link": "https://youtu.be/F2gAgTosPrs?si=paKFWuo_EAZZepNm",
-      "description": "A runtime character builder developed in Unreal Engine 5 with C++. Players can adjust facial features, hairstyle, body shape, clothing, accessories, and skin tone while seeing the result on the character immediately. The showcase moves through appearance controls and different outfit combinations in a dedicated customization interface.\n\nThe customization pipeline uses modular DataAssets and a C++ plugin architecture so options can be added or changed without rebuilding the entire interface. It is designed for projects that need character creation and appearance variation within the running experience.",
+      "description": "A runtime character builder developed in Unreal Engine 5 with C++. Players can adjust facial features, hairstyle, body shape, clothing, accessories, and skin tone while seeing the result on the character immediately. The showcase moves through appearance controls and different outfit combinations in a dedicated customization interface.",
       "contributions": "Built a modular character customization pipeline and runtime character-builder plugin.",
-      "technologies": "Unreal Engine 5, C++, DataAssets, Plugin development"
+      "technologies": "Unreal Engine 5, C++, DataAssets, Plugin development",
+      "studyFocus": "Runtime character creation with an extensible C++ plugin architecture.",
+      "studyApproach": "Organized customization options using modular DataAssets and a C++ plugin. Appearance controls update the character at runtime, covering facial features, hairstyles, body shape, clothing, accessories and skin tone.",
+      "studyResult": "A working character builder with immediate visual feedback. New appearance options can be added or adjusted through the data-driven pipeline without rebuilding the full interface."
     },
     {
       "videoPublishedAt": "2024-11-04",
@@ -333,7 +339,7 @@
       "videoDurationSeconds": 0,
       "id": "zhai-steam",
       "title": "Zhai",
-      "category": "Action adventure ? In development",
+      "category": "Action adventure / In development",
       "filter": "gameplay",
       "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4452500/d6d55e33a601a18d20ea09e1eaa43b0ed3abbe42/header.jpg?t=1790685651",
       "video": "",
@@ -618,9 +624,12 @@
       "image": "assets/img/portfolio/compressed/Minesweeper.png",
       "video": "https://youtu.be/8zmOOxN53H0?si=qEVMjXcLWWGBOkTv",
       "link": "https://youtu.be/8zmOOxN53H0?si=qEVMjXcLWWGBOkTv",
-      "description": "A Minesweeper plugin that runs inside the Unreal Engine 5 editor using Slate UI. A dedicated tab and toolbar entry open the game, where users can configure the grid size and bomb count before interacting with the board.\n\nThe implementation includes adjacent-mine calculations, bomb detection, and flood-fill reveals for connected empty cells. The project combines a familiar game with editor integration and demonstrates custom Slate widgets, input handling, and plugin organization.",
+      "description": "A Minesweeper plugin that runs inside the Unreal Engine 5 editor using Slate UI. A dedicated tab and toolbar entry open the game, where users can configure the grid size and bomb count before interacting with the board.",
       "contributions": "",
-      "technologies": "Unreal Engine 5, Slate UI, Plugin development"
+      "technologies": "Unreal Engine 5, Slate UI, Plugin development",
+      "studyFocus": "A playable Minesweeper tool built directly into the Unreal editor.",
+      "studyApproach": "Used Slate widgets for the board and settings, with a dedicated editor tab and toolbar entry. Implemented adjacent-mine calculations, bomb detection and flood-fill reveals for connected empty cells.",
+      "studyResult": "An editor-integrated game with configurable grid size and bomb count. The showcase demonstrates the complete interaction from opening the plugin to revealing cells on the board."
     },
     {
       "videoPublishedAt": "2025-10-27",

@@ -18,7 +18,7 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
   assert.deepEqual(await page.locator('#nav a').allTextContents(),['Home','About','Portfolio','Services','Fab','Hire On','Contact']);
   assert.equal(await page.locator('main>section:visible').count(),7);
   assert.equal(await page.locator('#typed-role').textContent(),'Game Developer');
-  assert.equal(await page.locator('.reel-clip').count(),8);
+  assert.equal(await page.locator('.reel-clip').count(),4);
   assert.equal(await page.locator('.reel-controls').isVisible(),true);
   await page.locator('#reel-next').click();
   await page.waitForFunction(()=>document.querySelector('#reel-viewport').scrollLeft>10);
@@ -51,7 +51,7 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
   await page.locator('[data-filter="simulation"]').click();assert.equal(await page.locator('#project-grid .project-card').count(),8);
   await page.locator('[data-filter="all"]').click();await page.locator('#project-search').fill('Maelstrom');await page.waitForFunction(()=>document.querySelectorAll('#project-grid .project-card').length===1);assert.equal(await page.locator('#project-grid .project-card').count(),1);
   await page.locator('#project-grid .text-link').click();await page.waitForSelector('#project-dialog[open]');
-  assert.equal(await page.locator('#project-title').textContent(),'Maelstrom');assert.match(await page.locator('.detail-description').first().textContent(),/replication/);
+  assert.equal(await page.locator('#project-title').textContent(),'Maelstrom');assert.match(await page.locator('.detail-description').first().textContent(),/naval combat/);assert.match(await page.locator('.detail-description').nth(1).textContent(),/replication/);
   let popups=0;page.on('popup',()=>popups++);
   let resolveVideo;const videoRequestPromise=new Promise(resolve=>{resolveVideo=resolve;});
   await page.route('https://www.youtube-nocookie.com/**',r=>{resolveVideo(r.request());return r.fulfill({contentType:'text/html',body:'Embedded player test fixture'});});

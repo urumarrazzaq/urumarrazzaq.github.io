@@ -302,10 +302,13 @@
   function initSpotlight(){
     const toolbar=$('.portfolio-toolbar');if(!toolbar)return;
     const candidates=['gameplay','tools','ai','simulation'].map(tag=>projects.find(p=>p.video&&splitFilter(p).includes(tag))).filter(Boolean);
-    const featured=[...new Map(candidates.map(p=>[p.id,p])).values()];if(!featured.length)return;
+    const curated=projects.filter(p=>p.studyFocus).slice(0,4);
+    const featured=curated.length?curated:[...new Map(candidates.map(p=>[p.id,p])).values()];if(!featured.length)return;
     const stage=document.createElement('div');stage.className='project-spotlight';stage.setAttribute('aria-label','Featured project spotlight');
     stage.innerHTML='<div class="spotlight-top"><span class="eyebrow">THE SHOWCASE</span><span class="spotlight-index"></span></div><div class="spotlight-stage"><button class="spotlight-art" type="button"><img width="960" height="540" loading="lazy" alt=""><span class="spotlight-play" aria-hidden="true">&#9654;</span><span class="spotlight-caption">WATCH THE WORK</span></button><div class="spotlight-copy"><p class="eyebrow spotlight-category"></p><h3></h3><p class="spotlight-description"></p><div class="spotlight-tech"></div><a class="text-link">Explore project <span aria-hidden="true">&#8599;</span></a></div></div><div class="spotlight-selector" role="group" aria-label="Choose a featured project"></div>';
     const selector=stage.querySelector('.spotlight-selector');
+    selector.style.setProperty('--featured-count',featured.length);
+    stage.querySelector('.spotlight-top .eyebrow').textContent=curated.length?'SELECTED CASE STUDIES':'THE SHOWCASE';
     featured.forEach((p,index)=>{const button=document.createElement('button');button.type='button';button.innerHTML='<span class="spotlight-number">0'+(index+1)+'</span><span>'+escape(p.title)+'</span>';button.addEventListener('click',()=>select(index,true));selector.append(button);});
     function select(index,animate=false){
       const p=featured[index],art=stage.querySelector('.spotlight-art'),img=art.querySelector('img'),link=stage.querySelector('.text-link');
@@ -314,9 +317,9 @@
       stage.querySelector('.spotlight-index').textContent='0'+(index+1)+' / 0'+featured.length;
       stage.querySelector('.spotlight-category').textContent=p.category;
       stage.querySelector('h3').textContent=p.title;
-      const paragraph=p.description.split(/\n/)[0];const summary=paragraph.match(/^.*?[.!?](?:\s|$)/)?.[0]?.trim()||paragraph;stage.querySelector('.spotlight-description').textContent=summary.length>230?summary.slice(0,227).replace(/\s+\S*$/,'')+'...':summary;
+      const paragraph=p.description.split(/\n/)[0];const summary=p.studyFocus||p.contributions||paragraph.match(/^.*?[.!?](?:\s|$)/)?.[0]?.trim()||paragraph;stage.querySelector('.spotlight-description').textContent=summary.length>230?summary.slice(0,227).replace(/\s+\S*$/,'')+'...':summary;
       stage.querySelector('.spotlight-tech').innerHTML=(p.technologies||'').split(',').map(t=>t.trim()).filter(Boolean).slice(0,3).map(t=>'<span>'+escape(t)+'</span>').join('');
-      link.href='work-'+p.id+'.html';link.dataset.project=p.id;
+      link.href='work-'+p.id+'.html';link.textContent=p.studyFocus?'Read case study ↗':'Explore project ↗';
       [...selector.children].forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));
       if(animate&&!motion.matches){const copy=stage.querySelector('.spotlight-copy');copy.getAnimations().forEach(a=>a.cancel());copy.animate([{opacity:.5,transform:'translateY(5px)'},{opacity:1,transform:'none'}],{duration:250,easing:'ease-out'});}
     }
@@ -436,22 +439,23 @@
     } catch {}
     return null;
   }
-  function playEmbedded(id) {
+  function playEmbedded(id, container=$('.detail-media')) {
     if (!/^[a-zA-Z0-9_-]{11}$/.test(id)) return;
     if (location.protocol === 'file:') {
       const notice = document.createElement('div');
       notice.className = 'video-setup';
       notice.innerHTML = '<strong>Open the portfolio through the local server to play this video here.</strong><p>YouTube requires a website address for embedded playback. In this project folder, run <code>node tools/admin-server.cjs</code>, then open <a href="http://127.0.0.1:8080/">http://127.0.0.1:8080/</a>.</p>';
-      $('.detail-media').replaceChildren(notice);
+      container.replaceChildren(notice);
       return;
     }
     const iframe = document.createElement('iframe');
     iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&playsinline=1&rel=0`;
-    iframe.title = $('#project-title').textContent + ' — gameplay video';
+    iframe.title = ($('#project-title')?.textContent || $('.project-page h1')?.textContent || 'Project') + ' — gameplay video';
     iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
     iframe.referrerPolicy = 'strict-origin-when-cross-origin';
     iframe.allowFullscreen = true;
-    $('.detail-media').replaceChildren(iframe);
+    container.replaceChildren(iframe);
+    iframe.focus();
   }
   function openProject(p, autoplay = false) {
     const video = safeURL(p.video), link = safeURL(p.link), thumb = safeURL(p.image), yt = youtubeID(video);
@@ -459,6 +463,7 @@
     const media = localVideo ? `<video src="${escape(video)}" controls playsinline preload="metadata" poster="${escape(thumb)}"></video>` : yt && /^[a-zA-Z0-9_-]{11}$/.test(yt) ? `<button class="video-consent" data-youtube="${escape(yt)}" aria-label="Play ${escape(p.title)} video"><img src="${escape(thumb)}" alt="${escape(p.title)}"><span class="video-play-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="m8 4 12 8-12 8z"/></svg></span></button>` : `<img src="${escape(thumb)}" alt="${escape(p.title)}">`;
     $('#project-category').textContent = p.category;
     $('#project-detail').innerHTML = `<div class="detail-media">${media}</div><div class="detail-heading"><h2 id="project-title">${escape(p.title)}</h2>${link && link !== video && !youtubeID(link) ? `<a class="button secondary" href="${escape(link)}" target="_blank" rel="noopener">Project page ↗</a>` : ''}</div><p class="detail-description">${escape(p.description || 'Explore the project footage for a closer look at this experience.')}</p>${p.contributions ? `<h3 class="detail-label">MY CONTRIBUTIONS</h3><p class="detail-description">${escape(p.contributions)}</p>` : ''}${p.technologies ? `<h3 class="detail-label">TECHNOLOGIES</h3><div class="detail-tags">${p.technologies.split(',').map(t => `<span>${escape(t.trim())}</span>`).join('')}</div>` : ''}`;
+    if(p.studyFocus) $('#project-detail').insertAdjacentHTML('beforeend', '<p><a class="button secondary" href="work-'+escape(p.id)+'.html">Read the full case study &#8599;</a></p>');
     $('#project-dialog').showModal(); $('#project-dialog').scrollTop = 0;
     if (autoplay && yt) playEmbedded(yt);
     else if (autoplay && localVideo) $('.detail-media video').play().catch(() => {});
@@ -467,7 +472,7 @@
     const a = e.target.closest('[data-project]');
     if (a && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey && e.button === 0) { const p = projects.find(p => p.id === a.dataset.project); if (p) { e.preventDefault(); openProject(p, a.dataset.play === 'true'); } }
     const play = e.target.closest('[data-youtube]');
-    if (play) playEmbedded(play.dataset.youtube);
+    if (play) { e.preventDefault(); playEmbedded(play.dataset.youtube,play.closest('.detail-media, .project-page-media')); }
   });
   $('#close-project').addEventListener('click', () => $('#project-dialog').close());
   $('#project-dialog').addEventListener('close', () => { $('#project-detail').innerHTML = ''; });
