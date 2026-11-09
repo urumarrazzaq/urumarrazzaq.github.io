@@ -4,6 +4,23 @@
   const escape = (s = '') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const batchSize = 9;
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
+  const testimonialCards=[...document.querySelectorAll('#testimonial-grid .testimonial')];
+  const testimonialsMore=$('#testimonials-load-more');
+  if(testimonialsMore){
+    let shown=Math.min(4,testimonialCards.length);
+    function updateTestimonials(){
+      testimonialCards.forEach((card,index)=>{card.hidden=index>=shown;});
+      testimonialsMore.hidden=shown>=testimonialCards.length;
+      $('#testimonials-count').textContent='Showing '+shown+' of '+testimonialCards.length+' testimonials';
+    }
+    updateTestimonials();
+    testimonialsMore.addEventListener('click',()=>{
+      const previous=shown;shown=Math.min(shown+4,testimonialCards.length);updateTestimonials();
+      testimonialCards.slice(previous,shown).forEach((card,index)=>registerReveal(card,index));
+      // Keep keyboard focus at the beginning of the newly revealed batch.
+      const first=testimonialCards[previous];if(first){first.tabIndex=-1;first.focus({preventScroll:true});}
+    });
+  }
   const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
   const reticle = document.createElement('div');
   reticle.className = 'cursor-reticle';reticle.setAttribute('aria-hidden','true');document.body.append(reticle);
@@ -97,7 +114,7 @@
   document.body.classList.toggle('restored-page',reloading);
   const entranceAnimations = new Set();
   function registerReveal(el,index=0){
-    if(el.dataset.observed)return;
+    if(el.hidden||el.dataset.observed)return;
     el.dataset.observed='true';
     // Restored scroll positions must not make already-visible content jump on reload.
     const rect=el.getBoundingClientRect();
