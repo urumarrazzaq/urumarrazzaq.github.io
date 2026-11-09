@@ -306,7 +306,35 @@
     const stage=document.createElement('div');stage.className='project-spotlight';stage.setAttribute('aria-label','Featured project spotlight');
     stage.innerHTML='<div class="spotlight-top"><span class="eyebrow">THE SHOWCASE</span><span class="spotlight-index"></span></div><div class="spotlight-stage"><button class="spotlight-art" type="button"><img width="960" height="540" loading="lazy" alt=""><span class="spotlight-play" aria-hidden="true">&#9654;</span><span class="spotlight-caption">WATCH THE WORK</span></button><div class="spotlight-copy"><p class="eyebrow spotlight-category"></p><h3></h3><p class="spotlight-description"></p><div class="spotlight-tech"></div><a class="text-link">Explore project <span aria-hidden="true">&#8599;</span></a></div></div><div class="spotlight-selector" role="group" aria-label="Choose a featured project"></div>';
     const selector=stage.querySelector('.spotlight-selector');
-    featured.forEach((p,index)=>{const button=document.createElement('button');button.type='button';button.innerHTML='<span class="spotlight-number">0'+(index+1)+'</span><span>'+escape(p.title)+'</span>';button.addEventListener('click',()=>select(index,true));selector.append(button);});
+    selector.classList.add('project-deck');
+    const deckHeader=document.createElement('div');deckHeader.className='deck-header';
+    deckHeader.innerHTML='<div><span class="eyebrow">PROJECT LOADOUT</span><p>Sweep to inspect. Select to explore.</p></div><button type="button" class="deck-sound" aria-pressed="false">Sound off</button>';
+    selector.before(deckHeader);
+    let soundOn=false,audioContext,lastSound=0;
+    const soundButton=deckHeader.querySelector('.deck-sound');
+    soundButton.addEventListener('click',()=>{
+      soundOn=!soundOn;
+      if(soundOn){try{const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)throw Error('Audio unavailable');audioContext??=new Audio();audioContext.resume().catch(()=>{soundOn=false;soundButton.textContent='Sound off';soundButton.setAttribute('aria-pressed','false');});}catch{soundOn=false;}}
+      soundButton.textContent=soundOn?'Sound on':'Sound off';soundButton.setAttribute('aria-pressed',String(soundOn));
+    });
+    function signal(index){
+      if(!soundOn||!audioContext||audioContext.state!=='running'||document.hidden||performance.now()-lastSound<90)return;
+      lastSound=performance.now();const now=audioContext.currentTime,osc=audioContext.createOscillator(),gain=audioContext.createGain();
+      osc.type='sine';osc.frequency.setValueAtTime([220,277.18,329.63,440][index%4],now);osc.frequency.exponentialRampToValueAtTime([220,277.18,329.63,440][index%4]*.75,now+.16);
+      gain.gain.setValueAtTime(0,now);gain.gain.linearRampToValueAtTime(.045,now+.008);gain.gain.exponentialRampToValueAtTime(.0001,now+.2);osc.connect(gain);gain.connect(audioContext.destination);osc.start(now);osc.stop(now+.21);osc.onended=()=>{osc.disconnect();gain.disconnect();};
+    }
+    const deckKinds=featured.map(p=>({gameplay:'GAMEPLAY',tools:'TOOLS',ai:'AI SYSTEMS',simulation:'SIMULATION',archviz:'ARCHVIZ',uiux:'UI / UX'}[discipline(p)]));
+    featured.forEach((p,index)=>{
+      const button=document.createElement('button');button.type='button';button.className='deck-slot';button.setAttribute('aria-label','Select '+p.title);
+      button.innerHTML='<span class="deck-cartridge"><span class="deck-face"><span class="deck-code">UR / 0'+(index+1)+'</span><img src="'+escape(safeURL(p.image))+'" alt="" loading="lazy"><span class="deck-reticle" aria-hidden="true">+</span><span class="deck-kind">'+deckKinds[index]+'</span><span class="deck-title">'+escape(p.title)+'</span><span class="deck-status">READY TO LOAD</span></span><span class="deck-contacts" aria-hidden="true"></span></span>';
+      const cartridge=button.querySelector('.deck-cartridge');let frame=0;
+      const reset=()=>{cancelAnimationFrame(frame);frame=0;cartridge.style.removeProperty('--deck-x');cartridge.style.removeProperty('--deck-y');};
+      button.addEventListener('pointerenter',event=>{if(event.pointerType==='mouse')signal(index);});
+      button.addEventListener('pointermove',event=>{if(motion.matches||event.pointerType!=='mouse'||frame||document.body.classList.contains('effects-paused'))return;frame=requestAnimationFrame(()=>{frame=0;const rect=button.getBoundingClientRect();cartridge.style.setProperty('--deck-x',((event.clientY-rect.top)/rect.height-.5)*-12+'deg');cartridge.style.setProperty('--deck-y',((event.clientX-rect.left)/rect.width-.5)*14+'deg');});});
+      button.addEventListener('pointerleave',reset);button.addEventListener('blur',reset);motion.addEventListener('change',reset);
+      button.addEventListener('click',()=>{signal(index);select(index,true);if(!motion.matches&&!document.body.classList.contains('effects-paused')){cartridge.getAnimations().forEach(a=>a.cancel());cartridge.animate([{translate:'0 0'},{translate:'0 5px'},{translate:'0 -3px'},{translate:'0 0'}],{duration:380,easing:'ease-out'});}});
+      selector.append(button);
+    });
     function select(index,animate=false){
       const p=featured[index],art=stage.querySelector('.spotlight-art'),img=art.querySelector('img'),link=stage.querySelector('.text-link');
       art.dataset.project=p.id;art.dataset.play='true';art.setAttribute('aria-label','Watch '+p.title);
@@ -317,7 +345,7 @@
       const paragraph=p.description.split(/\n/)[0];const summary=paragraph.match(/^.*?[.!?](?:\s|$)/)?.[0]?.trim()||paragraph;stage.querySelector('.spotlight-description').textContent=summary.length>230?summary.slice(0,227).replace(/\s+\S*$/,'')+'...':summary;
       stage.querySelector('.spotlight-tech').innerHTML=(p.technologies||'').split(',').map(t=>t.trim()).filter(Boolean).slice(0,3).map(t=>'<span>'+escape(t)+'</span>').join('');
       link.href='work-'+p.id+'.html';link.dataset.project=p.id;
-      [...selector.children].forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));
+      [...selector.children].forEach((button,i)=>{button.setAttribute('aria-pressed',String(i===index));const status=button.querySelector('.deck-status');if(status)status.textContent=i===index?'LOADED':'READY TO LOAD';});
       if(animate&&!motion.matches){const copy=stage.querySelector('.spotlight-copy');copy.getAnimations().forEach(a=>a.cancel());copy.animate([{opacity:.5,transform:'translateY(5px)'},{opacity:1,transform:'none'}],{duration:250,easing:'ease-out'});}
     }
     toolbar.before(stage);select(0);
