@@ -165,27 +165,11 @@ body.effects-paused .hire-section:before,body.effects-paused .hire-section:after
 @keyframes ambient-rise{from{transform:translate3d(0,24px,0);opacity:.2}to{transform:translate3d(24px,-24px,0);opacity:.6}}
 @media(max-width:600px){.ambient-glow{width:450px;height:450px}.ambient-dots{display:none}.effects-toggle{right:10px;bottom:10px;font-size:10px}}
 @media(prefers-reduced-motion:reduce){.ambient-layer i{animation:none!important}.ambient-dots,.effects-toggle{display:none}.ambient-glow{opacity:.4}}
-/* Separate destinations share a centered content column beside the navigation. */
-body[data-layout="multi-page"] main{max-width:none;min-height:100svh;display:flex;flex-direction:column}
-body[data-layout="multi-page"] main>.section{width:100%;max-width:1280px;flex:1;padding:72px clamp(24px,4vw,64px)}
+/* Center each page horizontally; preserve natural document flow and text alignment. */
+body[data-layout="multi-page"] main{max-width:none}
+body[data-layout="multi-page"] main>.section{width:100%;max-width:1280px;margin-inline:auto;padding:72px clamp(24px,4vw,64px)}
 body[data-layout="multi-page"] .footer{width:100%;max-width:1280px;margin:0 auto;padding:28px clamp(24px,4vw,64px)}
-body[data-layout="multi-page"] .section-top{justify-content:center;flex-direction:column;gap:10px;text-align:center;margin-bottom:32px}
-body[data-layout="multi-page"] .section-heading{flex-direction:column;align-items:center;gap:24px;text-align:center;margin-bottom:40px}
-body[data-layout="multi-page"] .section-heading>p{max-width:660px;margin:0}
-body[data-layout="multi-page"] .section-heading h1{max-width:850px}
-body[data-layout="multi-page"] .hire-grid{max-width:1040px;width:100%;margin-inline:auto}
-body[data-layout="multi-page"] .hire-card{align-items:center;text-align:center}
-body[data-layout="multi-page"] .hire-card p{max-width:390px}
-body[data-layout="multi-page"] .fab-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),350px));justify-content:center}
-body[data-layout="multi-page"] .about-layout{grid-template-columns:1fr;gap:28px;max-width:800px;margin-inline:auto}
-body[data-layout="multi-page"] .about-layout>h1{text-align:center;font-size:clamp(32px,4vw,56px);line-height:1.15;margin:0}
-body[data-layout="multi-page"] .skills>.eyebrow{text-align:center}
-body[data-layout="multi-page"] .skills>div{justify-content:center}
-body[data-layout="multi-page"] .contact-section{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
-body[data-layout="multi-page"] .contact-section>h1{max-width:850px;margin:0}
-body[data-layout="multi-page"] .contact-section>p{margin:0;max-width:650px}
-body[data-layout="multi-page"] .contact-section .actions,body[data-layout="multi-page"] .contact-links{justify-content:center}
-body[data-layout="multi-page"] .project-page>h1,body[data-layout="multi-page"] .project-page>.eyebrow{text-align:center}
-body[data-layout="multi-page"] .project-page-copy{margin-inline:auto}
-@media(max-width:800px){body[data-layout="multi-page"] main>.section{padding-top:48px;padding-bottom:48px}body[data-layout="multi-page"] .section-heading{gap:20px}}
+body[data-layout="multi-page"] .about-layout>h1{font-size:clamp(32px,4vw,56px);line-height:1.15;margin:0}
+body[data-layout="multi-page"] .contact-section>h1{max-width:850px}
+@media(max-width:800px){body[data-layout="multi-page"] main>.section{padding-top:48px;padding-bottom:48px}}
 @media(max-width:600px){.hero-media-controls{position:relative;right:auto;bottom:auto;justify-content:center;width:100%;font-size:10px}.hero-environment video{object-position:65% center}}
