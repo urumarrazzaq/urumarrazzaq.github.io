@@ -204,7 +204,7 @@
   if(heroVideo&&videoToggle){
     let player,ready=false,loading=false,visible=false,userPaused=false,userRequested=false,failed=false;
     const wanted=()=>visible&&!document.hidden&&!motion.matches&&!userPaused&&(!navigator.connection?.saveData||userRequested);
-    const label=()=>{videoToggle.textContent=ready&&player.getPlayerState()===1?'Pause background':'Play background';videoToggle.hidden=motion.matches||failed;};
+    const label=()=>{const playing=ready&&player.getPlayerState()===1;const action=playing?'Pause background':'Play background';videoToggle.setAttribute('aria-label',action);videoToggle.title=action;videoToggle.innerHTML='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">'+(playing?'<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>':'<path d="m8 4 12 8-12 8z"/>')+'</svg>';videoToggle.hidden=motion.matches||failed;};
     const fail=()=>{failed=true;ready=false;player?.destroy();label();};
     function createPlayer(){
       if(player||failed)return;
