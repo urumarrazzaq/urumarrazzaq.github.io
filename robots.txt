@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /.local/
+Disallow: /assets/data/
+Sitemap: https://urumarrazzaq.github.io/sitemap.xml

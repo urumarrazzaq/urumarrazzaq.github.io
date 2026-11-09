@@ -7,13 +7,29 @@ const {validateContent}=require('./content-schema.cjs');
 const {renderFiles}=require('./render-site.cjs');
 const projectRoot=path.resolve(__dirname,'..');
 
+test('project pages expose readable content, canonical metadata and video schema',async()=>{
+ const source=JSON.parse(await fs.readFile(path.join(projectRoot,'assets/data/content.json'),'utf8'));
+ const content=validateContent(source),pages=renderFiles(content),p=content.projects.find(p=>p.videoPublishedAt);
+ assert.equal(content.site.url,source.site.url);
+ const html=pages[`work-${p.id}.html`];
+ assert.ok(html.includes('<h1>'));
+ assert.ok(html.includes('youtube-nocookie.com/embed/'));
+ const graph=JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'];
+ assert.equal(graph.find(x=>x['@type']==='VideoObject').duration,`PT${p.videoDurationSeconds}S`);
+ assert.ok(pages['sitemap.xml'].includes(`work-${p.id}.html`));
+ assert.ok(pages['robots.txt'].includes('Disallow: /admin/'));
+ assert.ok(pages['portfolio.html'].includes(`href="work-${content.projects.at(-1).id}.html"`));
+ content.site.sections.portfolio=false;
+ assert.ok(!Object.keys(renderFiles(content)).some(name=>name.startsWith('work-')));
+});
+
 test('local dashboard protects content, rejects unsafe requests, and saves static output',async t=>{
  const fixture=await fs.mkdtemp(path.join(projectRoot,'artifacts/admin-test-'));
  await fs.mkdir(path.join(fixture,'assets/data'),{recursive:true});
  const initial=JSON.parse(await fs.readFile(path.join(projectRoot,'assets/data/content.json'),'utf8'));
  // Use a small fixture; never alter the real portfolio, password or uploads.
  initial.projects=initial.projects.slice(0,2);
- const filePaths=[initial.profile.image,initial.profile.resume,...initial.projects.map(p=>p.image)];
+ const filePaths=[initial.profile.image,initial.profile.resume,...(initial.fabListings||[]).map(p=>p.image).filter(Boolean),...initial.projects.map(p=>p.image)];
  for(const file of filePaths){await fs.mkdir(path.dirname(path.join(fixture,file)),{recursive:true});await fs.copyFile(path.join(projectRoot,file),path.join(fixture,file));}
  await fs.writeFile(path.join(fixture,'assets/data/content.json'),JSON.stringify(initial,null,2)+'\n');
  const server=createPortfolioServer({root:fixture});await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));

@@ -63,4 +63,14 @@ The server/security tests use Node's built-in test runner. Browser tests additio
 
 ## Design and content provenance
 
+The public UStore HSVColorPicker listing uses a generated promotional thumbnail. The full PNG and design brief are in `design/hsv-color-picker-thumbnail.png` and `design/hsv-color-picker-prompt.txt`; the optimized website asset is `assets/img/fab/hsv-color-picker.webp`. Replace it through the dashboard's Fab editor at any time.
+
+Project descriptions were expanded using published YouTube descriptions and sampled storyboard frames. The review record is `design/project-content-review.json`; it does not represent full audio/video playback review.
+
+## Search visibility
+
+The build creates individual `work-*.html` project pages with readable descriptions, embedded videos, canonical URLs, social previews, and structured data. All project pages are linked from the expandable portfolio directory. It also creates `sitemap.xml` and `robots.txt`. Removing projects or hiding Portfolio removes the corresponding generated pages on the next dashboard save/build.
+
+Set the public domain under **Layout & sections → Public website URL** before publishing to a different domain. After publishing, submit the sitemap in Google Search Console and monitor indexing. These changes support discovery; they cannot guarantee search rankings. The local dashboard remains local and is excluded from the GitHub Pages build. Run `npm.cmd start` from PowerShell to avoid the npm.ps1 execution-policy error.
+
 The Figma reference informed the charcoal and warm-gold palette. The revised sidebar and section structure follow the user's supplied Home/About/Portfolio/Services/Contact reference. Portrait and project thumbnails come from the existing portfolio. Project summaries use existing project names, footage labels, and résumé details; detailed contribution claims are included only where documented. Review and expand descriptions in the dashboard as needed.

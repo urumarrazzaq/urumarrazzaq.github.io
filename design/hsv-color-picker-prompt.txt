@@ -1,0 +1,5 @@
+Method: Built-in image generation; exported as PNG and an optimized WebP for the portfolio.
+Product reference: https://www.fab.com/listings/dbd38059-d400-4d87-b858-c1a2ccf74ca9
+Seller: https://www.fab.com/sellers/UStore
+
+Design brief: Create a polished 16:9 marketplace thumbnail for HSVColorPicker, UStore's Unreal Engine plugin. Present its verified features: Hue, Saturation, and Value sliders, live color preview, and automatic HSV-to-RGB conversion. Use a dark charcoal background with champagne-gold typography. Large title: HSV COLOR PICKER. Subtitle: UNREAL ENGINE PLUGIN. Small UStore branding. On the right, show a conceptual floating dark panel with three sliders: a rainbow hue track, a gray-to-orange saturation track, and a black-to-orange value track. Include an orange preview sphere and swatch with LIVE PREVIEW caption. Bottom labels: HSV sliders, Live preview, RGB conversion. Keep the composition clean and legible at card size. Do not include prices, unsupported features, or third-party logos. The illustrated interface is promotional artwork, not a product screenshot.

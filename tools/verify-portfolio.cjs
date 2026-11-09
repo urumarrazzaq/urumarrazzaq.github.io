@@ -49,7 +49,7 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
   assert.equal(await page.locator('#load-more').isVisible(),false);
   await page.locator('[data-filter="ai"]').click();assert.ok(await page.locator('#project-grid .project-card').count()>0);
   await page.locator('[data-filter="simulation"]').click();assert.equal(await page.locator('#project-grid .project-card').count(),8);
-  await page.locator('[data-filter="all"]').click();await page.locator('#project-search').fill('Maelstrom');assert.equal(await page.locator('#project-grid .project-card').count(),1);
+  await page.locator('[data-filter="all"]').click();await page.locator('#project-search').fill('Maelstrom');await page.waitForFunction(()=>document.querySelectorAll('#project-grid .project-card').length===1);assert.equal(await page.locator('#project-grid .project-card').count(),1);
   await page.locator('#project-grid .text-link').click();await page.waitForSelector('#project-dialog[open]');
   assert.equal(await page.locator('#project-title').textContent(),'Maelstrom');assert.match(await page.locator('.detail-description').first().textContent(),/replication/);
   let popups=0;page.on('popup',()=>popups++);
@@ -61,7 +61,7 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
   const videoRequest=await videoRequestPromise;assert.equal(videoRequest.headers().referer,base+'/');assert.equal(popups,0);
   await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('#project-dialog').open&&!document.querySelector('#project-dialog iframe'));
   await page.locator('#project-grid .project-image').click();assert.equal(await page.locator('#project-dialog iframe').count(),1);await page.locator('#close-project').click();
-  await page.locator('#project-search').fill('no-such-project-123');assert.equal(await page.locator('.empty-state').count(),1);await page.locator('#project-search').fill('');
+  await page.locator('#project-search').fill('no-such-project-123');await page.waitForSelector('.empty-state');assert.equal(await page.locator('.empty-state').count(),1);await page.locator('#project-search').fill('');
   await page.evaluate(()=>{window.navStates=[];new MutationObserver(()=>{const name=document.querySelector('#nav [aria-current]')?.textContent.trim();if(name&&window.navStates.at(-1)!==name)window.navStates.push(name);}).observe(document.querySelector('#nav'),{attributes:true,subtree:true,attributeFilter:['aria-current']});});
   await page.locator('#nav a[href="#contact"]').click();
   await page.waitForTimeout(950);
@@ -93,7 +93,7 @@ async function listen(server){await new Promise(resolve=>server.listen(0,'127.0.
   await filePreview.close();
   // Exercise dashboard forms against an isolated copy, never the owner's credentials.
   fixture=await fs.mkdtemp(path.join(root,'artifacts/browser-admin-'));content.projects=content.projects.slice(0,2);content.fabListings=Array.from({length:5},(_,i)=>({...content.fabListings[0],title:`Fab asset ${i+1}`}));
-  const files=['admin/index.html','admin/admin.css','admin/admin.js','assets/css/portfolio.css','assets/js/portfolio.js',content.profile.image,content.profile.resume,...content.projects.map(p=>p.image)];
+  const files=['admin/index.html','admin/admin.css','admin/admin.js','assets/css/portfolio.css','assets/js/portfolio.js',content.profile.image,content.profile.resume,...(content.fabListings||[]).map(p=>p.image).filter(Boolean),...content.projects.map(p=>p.image)];
   for(const file of files){await fs.mkdir(path.dirname(path.join(fixture,file)),{recursive:true});await fs.copyFile(path.join(root,file),path.join(fixture,file));}
   await fs.mkdir(path.join(fixture,'assets/data'),{recursive:true});await fs.writeFile(path.join(fixture,'assets/data/content.json'),JSON.stringify(content,null,2)+'\n');await fs.writeFile(path.join(fixture,'index.html'),render(content));
   fixtureServer=createPortfolioServer({root:fixture});const adminBase=await listen(fixtureServer);

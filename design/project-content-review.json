@@ -1,0 +1,394 @@
+{
+  "reviewedOn": "2026-11-09",
+  "method": "Published YouTube descriptions and storyboard preview frames sampled across each video. Audio and complete playback were not reviewed. Technical claims are limited to supplied project records and published descriptions.",
+  "projects": [
+    {
+      "id": "project-2",
+      "source": "https://www.youtube.com/watch?v=KAxmShlU6eQ",
+      "title": "Map Spline Demo",
+      "uploadDate": "2024-11-04T23:42:27-08:00",
+      "seconds": 78,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-0",
+      "source": "https://www.youtube.com/watch?v=7LBtRuz9Ttc",
+      "title": "Maelstrom",
+      "uploadDate": "2025-11-12T05:19:25-08:00",
+      "seconds": 22,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-1",
+      "source": "https://www.youtube.com/watch?v=F2gAgTosPrs",
+      "title": "Avatar Builder in UE5 C++",
+      "uploadDate": "2024-11-19T06:44:11-08:00",
+      "seconds": 135,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-4",
+      "source": "https://www.youtube.com/watch?v=9Ng01KCqBz4",
+      "title": "DIShooter Gameplay Updated",
+      "uploadDate": "2024-11-18T21:37:53-08:00",
+      "seconds": 199,
+      "hasPublishedDescription": false,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-3",
+      "source": "https://www.youtube.com/watch?v=Nc5NxjcvrIM",
+      "title": "DIShooter Trailer | UE5 | Cinematic",
+      "uploadDate": "2024-11-18T21:34:47-08:00",
+      "seconds": 146,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-5",
+      "source": "https://www.youtube.com/watch?v=phjgpw_ZyDM",
+      "title": "Drive Thru Metahuman",
+      "uploadDate": "2024-11-18T21:51:25-08:00",
+      "seconds": 135,
+      "hasPublishedDescription": false,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-6",
+      "source": "https://www.youtube.com/watch?v=XaBq4QUCWRs",
+      "title": "SoundHound Burger Electra Video With TTS",
+      "uploadDate": "2024-11-18T22:45:31-08:00",
+      "seconds": 125,
+      "hasPublishedDescription": false,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-7",
+      "source": "https://www.youtube.com/watch?v=FB5jSJnQOyA",
+      "title": "Unreal Engine 5 Car Showcase: Snowy Mountain Speed | High-Performance Car Design in UE5",
+      "uploadDate": "2024-11-18T23:03:14-08:00",
+      "seconds": 23,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-8",
+      "source": "https://www.youtube.com/watch?v=wLrBMCpnzhE",
+      "title": "Unreal Engine 5 Architectural Visualization | Interactive Room Navigation & Object Placement System",
+      "uploadDate": "2024-11-18T23:20:00-08:00",
+      "seconds": 160,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-9",
+      "source": "https://www.youtube.com/watch?v=sSIjjK43hbU",
+      "title": "GM Mummy",
+      "uploadDate": "2025-12-01T05:33:40-08:00",
+      "seconds": 234,
+      "hasPublishedDescription": false,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-10",
+      "source": "https://www.youtube.com/watch?v=3LuKP-EB_rE",
+      "title": "JetpackComponent",
+      "uploadDate": "2025-12-01T05:33:02-08:00",
+      "seconds": 46,
+      "hasPublishedDescription": false,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-11",
+      "source": "https://www.youtube.com/watch?v=BdbGPJuJaI8",
+      "title": "DesignSpire Archviz | UE5",
+      "uploadDate": "2025-12-01T05:32:34-08:00",
+      "seconds": 177,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-12",
+      "source": "https://www.youtube.com/watch?v=0SpW9YAK8rY",
+      "title": "Dragon Knight video",
+      "uploadDate": "2025-12-01T05:27:49-08:00",
+      "seconds": 106,
+      "hasPublishedDescription": false,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-13",
+      "source": "https://www.youtube.com/watch?v=5CanmnyT76Y",
+      "title": "UEFN final version",
+      "uploadDate": "2025-12-01T05:27:03-08:00",
+      "seconds": 68,
+      "hasPublishedDescription": false,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-14",
+      "source": "https://www.youtube.com/watch?v=hvfWM_TVR6I",
+      "title": "Copy of Modern Day Apartment",
+      "uploadDate": "2025-12-01T05:26:38-08:00",
+      "seconds": 75,
+      "hasPublishedDescription": false,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-16",
+      "source": "https://www.youtube.com/watch?v=Kw8NkR7wyI8",
+      "title": "ArchViz Interior Masterpiece | Stunning Unreal Engine 5 Realistic Design",
+      "uploadDate": "2025-12-19T00:18:36-08:00",
+      "seconds": 57,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-15",
+      "source": "https://www.youtube.com/watch?v=b5AGsJs5rqU",
+      "title": "Tensei Cabin Villa",
+      "uploadDate": "2025-12-19T00:06:22-08:00",
+      "seconds": 77,
+      "hasPublishedDescription": false,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-17",
+      "source": "https://www.youtube.com/watch?v=B4Y-IVi1Hk0",
+      "title": "Tensei ArchViz 5 Rooms",
+      "uploadDate": "2025-12-18T22:54:10-08:00",
+      "seconds": 267,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-18",
+      "source": "https://www.youtube.com/watch?v=kTFpbhf4bcI",
+      "title": "SanGarica",
+      "uploadDate": "2025-11-28T00:12:21-08:00",
+      "seconds": 203,
+      "hasPublishedDescription": false,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-19",
+      "source": "https://www.youtube.com/watch?v=Z-MC9skx4mk",
+      "title": "Interactive Realistic AI Poker Dealer | Unreal Engine Metahuman",
+      "uploadDate": "2025-11-14T05:25:47-08:00",
+      "seconds": 217,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-20",
+      "source": "https://www.youtube.com/watch?v=eCQpA3ObE0g",
+      "title": "The Gun Show – Unreal Engine 5 Battle Royale FPS Prototype with Lyra Framework",
+      "uploadDate": "2025-11-03T06:17:11-08:00",
+      "seconds": 337,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-21",
+      "source": "https://www.youtube.com/watch?v=SKGFitWxgnE",
+      "title": "Unreal Engine 5 Slot Machine Game System | Dynamic UI, Prize Logic & Blueprint Gameplay",
+      "uploadDate": "2025-11-03T00:19:20-08:00",
+      "seconds": 103,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-22",
+      "source": "https://www.youtube.com/watch?v=JT4ai5N_CYw",
+      "title": "The Emotionally Intelligent MetaHuman Companion",
+      "uploadDate": "2025-10-28T05:15:49-07:00",
+      "seconds": 77,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-23",
+      "source": "https://www.youtube.com/watch?v=16V0Cerflgw",
+      "title": "InkAndRunMobile",
+      "uploadDate": "2025-10-27T06:37:28-07:00",
+      "seconds": 131,
+      "hasPublishedDescription": false,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-24",
+      "source": "https://www.youtube.com/watch?v=Eimfr48DQTQ",
+      "title": "Lunar Space Burger: Luna, the AI Chef of the Cosmos",
+      "uploadDate": "2025-03-03T23:12:32-08:00",
+      "seconds": 119,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-25",
+      "source": "https://www.youtube.com/watch?v=kHknl8leEng",
+      "title": "UE5 UMG Response System – Interactive Robot Selection Interface",
+      "uploadDate": "2024-11-19T06:10:03-08:00",
+      "seconds": 23,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-26",
+      "source": "https://www.youtube.com/watch?v=p1kSLAhvS-M",
+      "title": "UE Dynamic RPG Inventory UI Showcase | Inventory & Loot System",
+      "uploadDate": "2024-11-19T06:09:28-08:00",
+      "seconds": 70,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-27",
+      "source": "https://www.youtube.com/watch?v=8zmOOxN53H0",
+      "title": "UE5 Minesweeper Plugin with Slate UI — Build a Fully Functional Editor Mini-Game",
+      "uploadDate": "2025-09-26T00:26:56-07:00",
+      "seconds": 123,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-28",
+      "source": "https://www.youtube.com/watch?v=kMaIKNxn-v8",
+      "title": "Crowded Kingdoms",
+      "uploadDate": "2025-10-27T00:14:25-07:00",
+      "seconds": 330,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-29",
+      "source": "https://www.youtube.com/watch?v=LvoCPbp5gfU",
+      "title": "Melee Game Demo",
+      "uploadDate": "2024-11-18T22:50:34-08:00",
+      "seconds": 69,
+      "hasPublishedDescription": false,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-30",
+      "source": "https://www.youtube.com/watch?v=JMOlOLEwgy8",
+      "title": "Dynamic Spline Solution",
+      "uploadDate": "2024-11-22T05:01:07-08:00",
+      "seconds": 26,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-31",
+      "source": "https://www.youtube.com/watch?v=BgISNm1RVLM",
+      "title": "Uefn Gameplay Howlongcanyousurvive",
+      "uploadDate": "2024-11-19T00:23:17-08:00",
+      "seconds": 2442,
+      "hasPublishedDescription": false,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-32",
+      "source": "https://www.youtube.com/watch?v=DDIMg1jHtc4",
+      "title": "UE5 AI Combat",
+      "uploadDate": "2025-04-07T00:19:11-07:00",
+      "seconds": 75,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-33",
+      "source": "https://www.youtube.com/watch?v=xLsXnFzsNZ8",
+      "title": "Unreal Engine 5 Firebase Integration | UE5 Project for Database Connection & Realtime Sync",
+      "uploadDate": "2025-10-27T01:46:21-07:00",
+      "seconds": 285,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-34",
+      "source": "https://www.youtube.com/watch?v=Y561cmsQSjs",
+      "title": "Melee Combat Cinematic Shot in UE5",
+      "uploadDate": "2024-12-06T04:03:36-08:00",
+      "seconds": 19,
+      "hasPublishedDescription": false,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-35",
+      "source": "https://www.youtube.com/watch?v=o4YEkJTGzEQ",
+      "title": "Touch Control UI",
+      "uploadDate": "2025-10-27T06:12:57-07:00",
+      "seconds": 207,
+      "hasPublishedDescription": false,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-36",
+      "source": "https://www.youtube.com/watch?v=L3QlewJyla8",
+      "title": "AI Assistance",
+      "uploadDate": "2025-10-27T05:34:12-07:00",
+      "seconds": 40,
+      "hasPublishedDescription": false,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-37",
+      "source": "https://www.youtube.com/watch?v=hVoH_2_7OEg",
+      "title": "UR Custom Properties - Blender Add-On",
+      "uploadDate": "2024-11-19T01:39:12-08:00",
+      "seconds": 205,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-38",
+      "source": "https://www.youtube.com/watch?v=EonpYzR5mXk",
+      "title": "DreamHouse",
+      "uploadDate": "2025-12-19T00:31:02-08:00",
+      "seconds": 66,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "project-39",
+      "source": "https://www.youtube.com/watch?v=vqAByFHKJt4",
+      "title": "Sea View House in Unreal Engine 5 | Stunning Architectural Visualization & Interior Design",
+      "uploadDate": "2025-12-19T00:31:35-08:00",
+      "seconds": 150,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "new-video-QIyx3pDqHBk",
+      "source": "https://www.youtube.com/watch?v=QIyx3pDqHBk",
+      "title": "Popcorn Simulation in Unreal Engine 5 | From Kernels to Popcorn",
+      "uploadDate": "2026-11-09T01:12:58-08:00",
+      "seconds": 79,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "new-video-OvAJt7EFcFw",
+      "source": "https://www.youtube.com/watch?v=OvAJt7EFcFw",
+      "title": "Venus Flytrap Simulation | A Carnivorous Plant in 3D",
+      "uploadDate": "2026-11-09T01:10:21-08:00",
+      "seconds": 14,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    },
+    {
+      "id": "new-video-QtvTzn5I34Y",
+      "source": "https://www.youtube.com/watch?v=QtvTzn5I34Y",
+      "title": "Copper Bowl Raising Simulation in Unreal Engine 5",
+      "uploadDate": "2026-11-09T00:59:14-08:00",
+      "seconds": 49,
+      "hasPublishedDescription": true,
+      "previewFramesReviewed": true
+    }
+  ],
+  "fabSource": "https://www.fab.com/sellers/UStore"
+}

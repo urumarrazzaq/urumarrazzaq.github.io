@@ -6,9 +6,9 @@ const crypto=require('node:crypto');
 const {promisify}=require('node:util');
 const scrypt=promisify(crypto.scrypt);
 const {validateContent}=require('./content-schema.cjs');
-const {renderFiles}=require('./render-site.cjs');
+const {renderFiles,pruneGenerated}=require('./render-site.cjs');
 const digest=value=>crypto.createHash('sha256').update(value).digest('hex');
-const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.gif':'image/gif','.pdf':'application/pdf','.mp4':'video/mp4','.webm':'video/webm','.svg':'image/svg+xml','.woff2':'font/woff2','.woff':'font/woff','.ico':'image/x-icon'};
+const types={'.xml':'application/xml; charset=utf-8','.txt':'text/plain; charset=utf-8','.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.gif':'image/gif','.pdf':'application/pdf','.mp4':'video/mp4','.webm':'video/webm','.svg':'image/svg+xml','.woff2':'font/woff2','.woff':'font/woff','.ico':'image/x-icon'};
 function fail(status,message){const e=Error(message);e.status=status;throw e;}
 async function body(req,limit=1024*1024){let size=0;const chunks=[];for await(const chunk of req){size+=chunk.length;if(size>limit)fail(413,'Request is too large.');chunks.push(chunk);}try{return JSON.parse(Buffer.concat(chunks).toString('utf8'));}catch{fail(400,'Invalid JSON request.');}}
 async function atomic(file,data){await fs.mkdir(path.dirname(file),{recursive:true});const tmp=file+'.'+crypto.randomUUID()+'.tmp';try{await fs.writeFile(tmp,data,{mode:0o600});await fs.rename(tmp,file);}finally{await fs.rm(tmp,{force:true}).catch(()=>{});}}
@@ -66,7 +66,7 @@ function createPortfolioServer({root=path.resolve(__dirname,'..')}={}){
       await atomic(path.join(privateRoot,'backups',`${Date.now()}-${crypto.randomUUID()}.json`),JSON.stringify(previous.content,null,2)+'\n');
       await atomic(contentFile,raw);
       for(const [name,html] of Object.entries(pages))await atomic(path.join(root,name),html);
-      for(const id of ['about','portfolio','services','fab','hire','contact'])if(!pages[id+'.html'])await fs.rm(path.join(root,id+'.html'),{force:true});
+      await pruneGenerated(root,pages);
       return json(res,200,{ok:true,revision:digest(raw)});
      }finally{writing=false;}
     }
@@ -81,7 +81,7 @@ function createPortfolioServer({root=path.resolve(__dirname,'..')}={}){
    if(!['GET','HEAD'].includes(req.method))fail(405,'Method not allowed.');
    if(route==='/admin'){res.writeHead(302,{Location:'/admin/'}).end();return;}
    let relative=route==='/'?'index.html':route==='/admin/'?'admin/index.html':route.replace(/^\//,'');
-   if(relative.split('/').some(s=>s.startsWith('.')||s==='..')||!(/^(index|one-page|home|about|portfolio|services|fab|hire|contact)\.html$/.test(relative)||/^(admin\/(index\.html|admin\.css|admin\.js)|assets\/(css|js|img|uploads|data|vendor)\/.+|resume\/.+\.pdf)$/.test(relative)))fail(404,'File not found.');
+   if(relative.split('/').some(s=>s.startsWith('.')||s==='..')||!(/^(index|one-page|home|about|portfolio|services|fab|hire|contact)\.html$/.test(relative)||/^(work-[a-zA-Z0-9_-]+\.html|robots\.txt|sitemap\.xml)$/.test(relative)||/^(admin\/(index\.html|admin\.css|admin\.js)|assets\/(css|js|img|uploads|data|vendor)\/.+|resume\/.+\.pdf)$/.test(relative)))fail(404,'File not found.');
    const filename=path.resolve(root,relative);if(!filename.startsWith(root+path.sep))fail(404,'File not found.');
    const real=await fs.realpath(filename);if(!real.startsWith(root+path.sep)||real.includes(path.sep+'.local'+path.sep))fail(404,'File not found.');
    const stat=await fs.stat(real);if(!stat.isFile())fail(404,'File not found.');

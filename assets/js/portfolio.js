@@ -4,6 +4,27 @@
   const escape = (s = '') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const batchSize = 9;
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+  const reticle = document.createElement('div');
+  reticle.className = 'cursor-reticle';reticle.setAttribute('aria-hidden','true');document.body.append(reticle);
+  let cursorFrame=0,cursorX=0,cursorY=0,targetX=0,targetY=0;
+  function stopCursor(){cancelAnimationFrame(cursorFrame);cursorFrame=0;reticle.classList.remove('visible');}
+  function drawCursor(){
+    cursorX+=(targetX-cursorX)*.35;cursorY+=(targetY-cursorY)*.35;
+    reticle.style.transform=`translate3d(${cursorX}px,${cursorY}px,0)`;
+    if(Math.abs(targetX-cursorX)+Math.abs(targetY-cursorY)>.2)cursorFrame=requestAnimationFrame(drawCursor);else cursorFrame=0;
+  }
+  document.addEventListener('pointermove',event=>{
+    if(!finePointer.matches||motion.matches||event.pointerType==='touch'||event.target.closest('input,textarea,select,dialog')){stopCursor();return;}
+    targetX=event.clientX;targetY=event.clientY;
+    if(!reticle.classList.contains('visible')){cursorX=targetX;cursorY=targetY;}
+    reticle.classList.add('visible');reticle.classList.toggle('interactive',!!event.target.closest('a,button,[role="button"]'));
+    if(!cursorFrame)cursorFrame=requestAnimationFrame(drawCursor);
+  },{passive:true});
+  document.addEventListener('pointerdown',()=>{if(reticle.classList.contains('visible'))reticle.animate([{opacity:.8},{opacity:.2},{opacity:.8}],{duration:240});},{passive:true});
+  document.addEventListener('pointerout',event=>{if(!event.relatedTarget)stopCursor();});
+  addEventListener('blur',stopCursor);motion.addEventListener('change',stopCursor);finePointer.addEventListener('change',stopCursor);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)stopCursor();});
   let navigationTarget = '';
   const typewriter = $('.typewriter');
   if (typewriter) {
@@ -52,13 +73,17 @@
     try { const u = new URL(value); return ['https:', 'http:'].includes(u.protocol) ? u.href : ''; } catch { return ''; }
   };
   const splitFilter = p => p.filter.split(/\s+/).map(x => x.replace(/^filter-/, ''));
+  const discipline = p => ['simulation','tools','archviz','ai','uiux'].find(key => splitFilter(p).includes(key)) || 'gameplay';
   function card(p) {
-    return `<article class="project-card" data-id="${escape(p.id)}"><button class="project-image" data-project="${escape(p.id)}"${p.video?' data-play="true"':''} aria-label="${p.video?'Watch':'Explore'} ${escape(p.title)} inside the website"><img src="${escape(safeURL(p.image))}" alt="${escape(p.title)} — project thumbnail" loading="lazy" width="640" height="360">${p.video?'<span class="play-badge" aria-hidden="true">▶</span><span class="play-label">WATCH GAMEPLAY</span>':'<span class="play-label">PROJECT DETAILS</span>'}</button><div class="project-copy"><p class="eyebrow">${escape(p.category)}</p><h3><button data-project="${escape(p.id)}">${escape(p.title)}</button></h3><p>${escape(p.description || 'Project footage and a closer look at the experience.')}</p><button class="text-link" data-project="${escape(p.id)}">Project details <span>↗</span></button></div></article>`;
+    return `<article class="project-card" data-discipline="${discipline(p)}" data-id="${escape(p.id)}"><button class="project-image" data-project="${escape(p.id)}"${p.video?' data-play="true"':''} aria-label="${p.video?'Watch':'Explore'} ${escape(p.title)} inside the website"><img src="${escape(safeURL(p.image))}" alt="${escape(p.title)} — project thumbnail" loading="lazy" width="640" height="360">${p.video?'<span class="play-badge" aria-hidden="true">▶</span><span class="play-label">WATCH SHOWCASE</span>':'<span class="play-label">PROJECT DETAILS</span>'}</button><div class="project-copy"><p class="eyebrow">${escape(p.category)}</p><h3><button data-project="${escape(p.id)}">${escape(p.title)}</button></h3><p>${escape(p.description || 'Project footage and a closer look at the experience.')}</p><a class="text-link" href="work-${escape(p.id)}.html" data-project="${escape(p.id)}">Project details <span>&#8599;</span></a></div></article>`;
   }
   // Each part of the portfolio has its own entrance, while content stays visible if motion is off.
   function revealFrames(target) {
     if (target.classList.contains('portrait-frame')) return [{opacity: .5, transform: 'perspective(900px) rotateY(9deg) scale(.94)'}, {opacity: 1, transform: 'perspective(900px) rotateY(0) scale(1)'}];
-    if (target.classList.contains('project-card')) return [{opacity: .4, transform: 'perspective(800px) rotateX(7deg) translateY(30px)'}, {opacity: 1, transform: 'perspective(800px) rotateX(0) translateY(0)'}];
+    if (target.classList.contains('project-card')) {
+      const entry = {simulation:'translateY(14px)',tools:'translateX(-16px)',archviz:'scale(.97)',ai:'translateX(16px)',uiux:'translateY(10px)',gameplay:'translateY(18px)'}[target.dataset.discipline] || 'translateY(14px)';
+      return [{opacity: .4, transform: entry}, {opacity: 1, transform: 'none'}];
+    }
     if (target.classList.contains('service-card')) return [{opacity: .35, transform: 'perspective(800px) rotateY(-8deg) translateX(-22px)'}, {opacity: 1, transform: 'perspective(800px) rotateY(0) translateX(0)'}];
     if (target.classList.contains('about-layout') || target.classList.contains('expertise-item')) return [{opacity: .35, transform: 'translateX(28px)'}, {opacity: 1, transform: 'translateX(0)'}];
     if (target.classList.contains('about-stat') || target.classList.contains('about-fact')) return [{opacity: .4, transform: 'scale(.9) translateY(12px)'}, {opacity: 1, transform: 'scale(1) translateY(0)'}];
@@ -73,7 +98,7 @@
       if (!isIntersecting) continue;
       if (navigationTarget && target.closest('main>section')?.id !== navigationTarget) continue;
       reveals.unobserve(target);
-      if (!motion.matches) target.animate(revealFrames(target), {duration: 680, delay: Number(target.dataset.revealDelay || 0), easing: 'cubic-bezier(.2,.7,.2,1)'});
+      if (!motion.matches) (target.matches('.project-card') ? target.querySelector('.project-copy') : target).animate(revealFrames(target), {duration: target.matches('.project-card') ? 360 : 680, delay: Number(target.dataset.revealDelay || 0), easing: 'cubic-bezier(.2,.7,.2,1)'});
       if (!motion.matches && target.classList.contains('expertise-item')) {
         const bar = target.querySelector('.expertise-meter>span');
         if (bar) bar.animate([{width: '0%'}, {width: bar.style.width}], {duration: 1000, delay: 300, easing: 'cubic-bezier(.16,1,.3,1)'});
@@ -155,20 +180,27 @@
     }, 5200);
     updateReel();
   }
-  function render(append = false) {
+  const projectNodes = new Map([...document.querySelectorAll('#project-grid .project-card')].map(el => [el.dataset.id, el]));
+  function render(append = false, animate = false) {
     if (!$('#project-grid')) return;
     const term = $('#project-search').value.trim().toLowerCase();
     const matches = projects.filter(p => (filter === 'all' || splitFilter(p).includes(filter)) && `${p.title} ${p.category} ${p.description || ''}`.toLowerCase().includes(term));
     const visible = matches.slice(0, limit);
-    if (append) $('#project-grid').insertAdjacentHTML('beforeend', visible.slice(Math.max(0, limit - batchSize)).map(card).join(''));
-    else {
-      document.querySelectorAll('#project-grid .project-card').forEach(el => reveals.unobserve(el));
-      $('#project-grid').innerHTML = visible.map(card).join('') || '<p class="empty-state">No projects found. Try another search or category.</p>';
-    }
+    const grid = $('#project-grid');
+    const nodes = visible.map(p => {
+      if (!projectNodes.has(p.id)) { const template = document.createElement('template'); template.innerHTML = card(p); projectNodes.set(p.id, template.content.firstElementChild); }
+      const el = projectNodes.get(p.id);el.dataset.discipline = discipline(p);
+      if (!animate && !append) { reveals.unobserve(el);el.dataset.observed = 'true';el.querySelectorAll('*').forEach(child=>child.getAnimations().forEach(a=>a.cancel())); }
+      return el;
+    });
+    if (nodes.length) {
+      if (append) nodes.forEach(el=>{if(el.parentElement!==grid)grid.append(el);});
+      else if (nodes.length!==grid.children.length || nodes.some((el,i)=>el!==grid.children[i])) grid.replaceChildren(...nodes);
+    } else grid.innerHTML = '<p class="empty-state">No projects found. Try another search or category.</p>';
     $('#project-count').textContent = `Showing ${visible.length} of ${matches.length} ${filter === 'all' ? '' : 'matching '}projects`;
     $('#load-more').hidden = limit >= matches.length;
     $('#load-status').textContent = matches.length ? `${Math.max(0, matches.length - visible.length)} more ${filter === 'all' ? 'projects' : 'matching projects'}${visible.length === matches.length ? ' · You’ve reached the end' : ''}` : 'Clear your search to explore the portfolio.';
-    observeCards();
+    if (animate || append) observeCards();
   }
   $('#menu-toggle').addEventListener('click', () => { $('.sidebar').classList.toggle('menu-open'); $('#menu-toggle').setAttribute('aria-expanded', String($('.sidebar').classList.contains('menu-open'))); });
   const sections = [...document.querySelectorAll('main>section')];
@@ -244,7 +276,8 @@
     document.querySelectorAll('[data-filter]').forEach(el => el.setAttribute('aria-pressed', String(el === b)));
     render();
   }));
-  $('#project-search')?.addEventListener('input', () => { limit = batchSize; render(); });
+  let searchTimer;
+  $('#project-search')?.addEventListener('input', () => { clearTimeout(searchTimer); searchTimer = setTimeout(() => { limit = batchSize; render(); }, 140); });
   $('#load-more')?.addEventListener('click', () => {
     const count = $('#project-grid').children.length;
     limit += batchSize; render(true);
@@ -289,7 +322,7 @@
   }
   document.addEventListener('click', e => {
     const a = e.target.closest('[data-project]');
-    if (a) { const p = projects.find(p => p.id === a.dataset.project); if (p) { e.preventDefault(); openProject(p, a.dataset.play === 'true'); } }
+    if (a && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey && e.button === 0) { const p = projects.find(p => p.id === a.dataset.project); if (p) { e.preventDefault(); openProject(p, a.dataset.play === 'true'); } }
     const play = e.target.closest('[data-youtube]');
     if (play) playEmbedded(play.dataset.youtube);
   });
@@ -306,7 +339,7 @@
   try {
     projects = JSON.parse($('#portfolio-data').textContent);
     if ($('.portfolio-toolbar')) $('.portfolio-toolbar').hidden = false;
-    render();
+    render(false, true);
   } catch {
     if ($('#project-count')) $('#project-count').textContent = 'Project data could not load. Reload the page to try again.';
   }
