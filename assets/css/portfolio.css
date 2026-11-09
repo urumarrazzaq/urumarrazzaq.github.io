@@ -141,6 +141,28 @@ body{font-size:16px}.hero{isolation:isolate;overflow:hidden;row-gap:44px}.hero-e
 .hero-media-controls{position:absolute;right:24px;bottom:14px;z-index:2;display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:11px;color:#b9b6af}
 .hero-media-controls button{border:1px solid #e0b78055;background:#111116d9;border-radius:50%;padding:0;color:#e0b780;width:40px;height:40px;display:grid;place-items:center;flex-shrink:0}.hero-media-controls button[hidden]{display:none}
 .hero-media-controls a:hover{color:#e0b780}
+.project-spotlight{margin:36px 0 44px;border:1px solid #e0b78055;background:#17181d;border-radius:8px;overflow:hidden}
+.project-spotlight[hidden]{display:none}
+.spotlight-top{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid #e0b78025;background:linear-gradient(90deg,#e0b7800c,transparent)}
+.spotlight-top .eyebrow{margin:0}.spotlight-index{font-size:12px;letter-spacing:.18em;color:var(--gold);font-variant-numeric:tabular-nums}
+.spotlight-stage{display:grid;grid-template-columns:1.3fr 1fr;min-height:340px}
+.spotlight-art{position:relative;min-width:0;min-height:300px;overflow:hidden;background:#0b0c10;border:0;padding:0;color:#f5f2eb;cursor:pointer}
+.spotlight-art img{width:100%;height:100%;position:absolute;inset:0;object-fit:cover;transition:transform .7s ease,opacity .4s;opacity:.85}
+.spotlight-art:after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,#090a0de6,transparent 55%);pointer-events:none}
+.spotlight-play{position:absolute;z-index:1;left:28px;bottom:24px;width:48px;height:48px;border:1px solid #e0b780b0;background:#101116a0;border-radius:50%;display:grid;place-items:center;color:var(--gold);font-size:17px;padding-left:3px;transition:background .25s}
+.spotlight-caption{position:absolute;z-index:1;left:92px;bottom:40px;font-size:11px;letter-spacing:.16em}
+.spotlight-art:hover img{transform:scale(1.025);opacity:1}.spotlight-art:hover .spotlight-play{background:#e0b780;color:#111116}
+.spotlight-copy{padding:32px;display:flex;flex-direction:column;justify-content:center;min-width:0}.spotlight-copy h3{font-size:clamp(25px,2.4vw,36px);line-height:1.2;margin:0 0 18px;letter-spacing:-.035em}
+.spotlight-description{font-size:15px;line-height:1.8;color:var(--muted);margin:0 0 20px;min-height:5.4em}
+.spotlight-tech{display:flex;gap:8px;flex-wrap:wrap;min-height:28px;margin-bottom:18px}.spotlight-tech span{font-size:11px;color:#d9c8ad;border:1px solid #e0b78025;padding:4px 8px;border-radius:3px}
+.spotlight-copy .text-link{align-self:flex-start}
+.spotlight-selector{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #e0b78025}
+.spotlight-selector button{display:flex;align-items:center;gap:12px;text-align:left;padding:18px 16px;background:transparent;border:0;border-right:1px solid #ffffff12;color:var(--muted);font-size:12px;line-height:1.5;min-height:75px;position:relative}
+.spotlight-selector button:last-child{border-right:0}.spotlight-selector button[aria-pressed=true]{color:#f5f2eb;background:#e0b7800c;box-shadow:inset 0 -2px var(--gold)}
+.spotlight-selector button:hover{background:#e0b78012;color:var(--gold)}.spotlight-number{color:var(--gold);font-size:11px;font-variant-numeric:tabular-nums}
+@media(max-width:1100px){.spotlight-stage{grid-template-columns:1fr}.spotlight-art{aspect-ratio:16/9;min-height:0}.spotlight-copy{padding:26px}.spotlight-description{min-height:0}.spotlight-selector{grid-template-columns:repeat(2,minmax(0,1fr))}.spotlight-selector button{border-bottom:1px solid #ffffff12}}
+@media(max-width:560px){.spotlight-copy{padding:22px}.spotlight-top{padding:14px 20px}.spotlight-selector button{padding:14px 12px;gap:8px;min-height:70px}.spotlight-play{width:40px;height:40px;left:20px;bottom:18px}.spotlight-caption{left:74px;bottom:31px;font-size:10px}}
+@media(prefers-reduced-motion:reduce){.spotlight-art:hover img{transform:none}}
 /* UR. signature: a short reveal, an occasional metallic shimmer, and a quiet gold dot. */
 .animated-logo{display:inline-flex;align-items:baseline;position:relative;line-height:1.15;isolation:isolate}
 .animated-logo .logo-letter{display:inline-block;color:#f5f2eb;background:linear-gradient(110deg,#f5f2eb 30%,#e0b780 46%,#fff8e9 50%,#f5f2eb 65%);background-size:300% 100%;background-position:100% 0;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:logo-arrive .7s cubic-bezier(.16,1,.3,1) both,logo-shimmer 9s ease-in-out 1.5s infinite}

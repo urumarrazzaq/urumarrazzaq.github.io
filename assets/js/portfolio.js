@@ -299,10 +299,34 @@
     }, 5200);
     updateReel();
   }
+  function initSpotlight(){
+    const toolbar=$('.portfolio-toolbar');if(!toolbar)return;
+    const candidates=['gameplay','tools','ai','simulation'].map(tag=>projects.find(p=>p.video&&splitFilter(p).includes(tag))).filter(Boolean);
+    const featured=[...new Map(candidates.map(p=>[p.id,p])).values()];if(!featured.length)return;
+    const stage=document.createElement('div');stage.className='project-spotlight';stage.setAttribute('aria-label','Featured project spotlight');
+    stage.innerHTML='<div class="spotlight-top"><span class="eyebrow">THE SHOWCASE</span><span class="spotlight-index"></span></div><div class="spotlight-stage"><button class="spotlight-art" type="button"><img width="960" height="540" loading="lazy" alt=""><span class="spotlight-play" aria-hidden="true">&#9654;</span><span class="spotlight-caption">WATCH THE WORK</span></button><div class="spotlight-copy"><p class="eyebrow spotlight-category"></p><h3></h3><p class="spotlight-description"></p><div class="spotlight-tech"></div><a class="text-link">Explore project <span aria-hidden="true">&#8599;</span></a></div></div><div class="spotlight-selector" role="group" aria-label="Choose a featured project"></div>';
+    const selector=stage.querySelector('.spotlight-selector');
+    featured.forEach((p,index)=>{const button=document.createElement('button');button.type='button';button.innerHTML='<span class="spotlight-number">0'+(index+1)+'</span><span>'+escape(p.title)+'</span>';button.addEventListener('click',()=>select(index,true));selector.append(button);});
+    function select(index,animate=false){
+      const p=featured[index],art=stage.querySelector('.spotlight-art'),img=art.querySelector('img'),link=stage.querySelector('.text-link');
+      art.dataset.project=p.id;art.dataset.play='true';art.setAttribute('aria-label','Watch '+p.title);
+      img.src=safeURL(p.image);img.alt=p.title+' project preview';
+      stage.querySelector('.spotlight-index').textContent='0'+(index+1)+' / 0'+featured.length;
+      stage.querySelector('.spotlight-category').textContent=p.category;
+      stage.querySelector('h3').textContent=p.title;
+      const paragraph=p.description.split(/\n/)[0];const summary=paragraph.match(/^.*?[.!?](?:\s|$)/)?.[0]?.trim()||paragraph;stage.querySelector('.spotlight-description').textContent=summary.length>230?summary.slice(0,227).replace(/\s+\S*$/,'')+'...':summary;
+      stage.querySelector('.spotlight-tech').innerHTML=(p.technologies||'').split(',').map(t=>t.trim()).filter(Boolean).slice(0,3).map(t=>'<span>'+escape(t)+'</span>').join('');
+      link.href='work-'+p.id+'.html';link.dataset.project=p.id;
+      [...selector.children].forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));
+      if(animate&&!motion.matches){const copy=stage.querySelector('.spotlight-copy');copy.getAnimations().forEach(a=>a.cancel());copy.animate([{opacity:.5,transform:'translateY(5px)'},{opacity:1,transform:'none'}],{duration:250,easing:'ease-out'});}
+    }
+    toolbar.before(stage);select(0);
+  }
   const projectNodes = new Map([...document.querySelectorAll('#project-grid .project-card')].map(el => [el.dataset.id, el]));
   function render(append = false, animate = false) {
     if (!$('#project-grid')) return;
     const term = $('#project-search').value.trim().toLowerCase();
+    const spotlight=$('.project-spotlight');if(spotlight)spotlight.hidden=!!term||filter!=='all';
     const matches = projects.filter(p => (filter === 'all' || splitFilter(p).includes(filter)) && `${p.title} ${p.category} ${p.description || ''}`.toLowerCase().includes(term));
     const visible = matches.slice(0, limit);
     const grid = $('#project-grid');
@@ -457,6 +481,7 @@
   // Only the visible batch creates image elements; remaining media waits for Load more.
   try {
     projects = JSON.parse($('#portfolio-data').textContent);
+    initSpotlight();
     if ($('.portfolio-toolbar')) $('.portfolio-toolbar').hidden = false;
     render(false, true);
   } catch {
