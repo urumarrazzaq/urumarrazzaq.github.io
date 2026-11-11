@@ -6,7 +6,7 @@
       "portfolio": true,
       "services": true,
       "fab": true,
-      "hire": true,
+      "hire": false,
       "contact": true
     },
     "url": "https://urumarrazzaq.github.io/"
@@ -217,6 +217,9 @@
   },
   "projects": [
     {
+      "studyFocus": "Multiplayer ship movement fixes, loadouts and aiming reticles for a Steam naval combat game.",
+      "studyApproach": "Investigated ship shaking across clients and ship speed issues in the multiplayer experience, then implemented fixes to the affected systems. Alongside that work, I built ship loadout and aiming reticle features.",
+      "studyResult": "Resolved the reported ship shaking and speed issues and added loadout and aiming reticle functionality to support the ship gameplay experience.",
       "videoPublishedAt": "2025-11-12",
       "videoDurationSeconds": 22,
       "id": "project-0",
@@ -228,12 +231,12 @@
       "link": "https://store.steampowered.com/app/764050/Maelstrom/",
       "description": "Maelstrom is a multiplayer naval combat game available on Steam, with warships battling across a fantasy ocean. My work focused on resolving multiplayer ship movement issues and adding player-facing ship features.",
       "contributions": "Resolved multiplayer replication issues that caused ships to shake on different clients, addressed ship speed issues, and built loadout and aiming reticle features for the ships.",
-      "technologies": "Unreal Engine, C++, Blueprint, Multiplayer replication",
-      "studyFocus": "Multiplayer ship movement fixes, loadouts and aiming reticles for a Steam naval combat game.",
-      "studyApproach": "Investigated ship shaking across clients and ship speed issues in the multiplayer experience, then implemented fixes to the affected systems. Alongside that work, I built ship loadout and aiming reticle features.",
-      "studyResult": "Resolved the reported ship shaking and speed issues and added loadout and aiming reticle functionality to support the ship gameplay experience."
+      "technologies": "Unreal Engine, C++, Blueprint, Multiplayer replication"
     },
     {
+      "studyFocus": "Complete character-builder architecture, implemented as a C++ plugin with modular DataAssets.",
+      "studyApproach": "Designed the full customization architecture around a C++ plugin and modular DataAssets. The data-driven structure separates appearance options from the runtime customization interface, allowing the character to update immediately as players change their selections.",
+      "studyResult": "A working runtime character builder with a modular architecture for extending appearance options. The showcase demonstrates facial, body, clothing and accessory customization through the plugin.",
       "videoPublishedAt": "2024-11-19",
       "videoDurationSeconds": 135,
       "id": "project-1",
@@ -245,10 +248,7 @@
       "link": "https://youtu.be/F2gAgTosPrs?si=paKFWuo_EAZZepNm",
       "description": "A runtime character builder developed in Unreal Engine 5 with C++. I designed and implemented the complete system architecture, including the C++ plugin and modular DataAssets. Players can adjust facial features, hairstyle, body shape, clothing, accessories and skin tone with immediate visual feedback.",
       "contributions": "Designed and built the complete character-builder architecture, C++ plugin and modular DataAsset-based customization system.",
-      "technologies": "Unreal Engine 5, C++, DataAssets, Plugin development",
-      "studyFocus": "Complete character-builder architecture, implemented as a C++ plugin with modular DataAssets.",
-      "studyApproach": "Designed the full customization architecture around a C++ plugin and modular DataAssets. The data-driven structure separates appearance options from the runtime customization interface, allowing the character to update immediately as players change their selections.",
-      "studyResult": "A working runtime character builder with a modular architecture for extending appearance options. The showcase demonstrates facial, body, clothing and accessory customization through the plugin."
+      "technologies": "Unreal Engine 5, C++, DataAssets, Plugin development"
     },
     {
       "videoPublishedAt": "2024-11-04",
@@ -265,6 +265,9 @@
       "technologies": "Unreal Engine 5, Niagara, Splines"
     },
     {
+      "studyFocus": "Gameplay creation, camera cinematics and a finished trailer edited in Adobe Premiere Pro.",
+      "studyApproach": "Used free assets to build the gameplay experience and cinematic presentation in Unreal Engine 5. Created gameplay and camera cinematic sequences, then edited the footage in Adobe Premiere Pro. The underlying gameplay includes voice commands for coordinating AI teammates.",
+      "studyResult": "A complete gameplay cinematic and edited trailer presenting DIShooter through environment shots, character moments and combat sequences. Free assets supported the scene creation; my work covered the gameplay experience, cinematics and video editing.",
       "videoPublishedAt": "2024-11-18",
       "videoDurationSeconds": 146,
       "id": "project-3",
@@ -276,10 +279,7 @@
       "link": "https://youtu.be/Nc5NxjcvrIM?si=FR0D7yd6PjOx5bp7",
       "description": "I created the DIShooter gameplay experience and cinematic trailer in Unreal Engine 5, using free assets to build the scene and presentation. The project combines first- and third-person shooter gameplay, voice-controlled squad AI and camera cinematics.\n\nI created the gameplay and camera cinematic sequences and edited the trailer in Adobe Premiere Pro, bringing the environments, characters and combat footage together into the finished presentation.",
       "contributions": "Created the gameplay experience, gameplay cinematics and camera cinematics using free assets, and edited the trailer in Adobe Premiere Pro. Developed voice-controlled tactical squad AI with context-aware decision-making and coordinated teammate behaviors.",
-      "technologies": "Unreal Engine 5, Adobe Premiere Pro, Behavior Trees, EQS, Voice recognition",
-      "studyFocus": "Gameplay creation, camera cinematics and a finished trailer edited in Adobe Premiere Pro.",
-      "studyApproach": "Used free assets to build the gameplay experience and cinematic presentation in Unreal Engine 5. Created gameplay and camera cinematic sequences, then edited the footage in Adobe Premiere Pro. The underlying gameplay includes voice commands for coordinating AI teammates.",
-      "studyResult": "A complete gameplay cinematic and edited trailer presenting DIShooter through environment shots, character moments and combat sequences. Free assets supported the scene creation; my work covered the gameplay experience, cinematics and video editing."
+      "technologies": "Unreal Engine 5, Adobe Premiere Pro, Behavior Trees, EQS, Voice recognition"
     },
     {
       "videoPublishedAt": "2024-11-18",
@@ -618,6 +618,8 @@
       "technologies": "Unreal Engine 5, Blueprint, UMG"
     },
     {
+      "studyApproach": "Used Slate widgets for the board and settings, with a dedicated editor tab and toolbar entry. Implemented adjacent-mine calculations, bomb detection and flood-fill reveals for connected empty cells.",
+      "studyResult": "An editor-integrated game with configurable grid size and bomb count. The showcase demonstrates the complete interaction from opening the plugin to revealing cells on the board.",
       "videoPublishedAt": "2025-09-26",
       "videoDurationSeconds": 123,
       "id": "project-27",
@@ -629,9 +631,7 @@
       "link": "https://youtu.be/8zmOOxN53H0?si=qEVMjXcLWWGBOkTv",
       "description": "A Minesweeper plugin that runs inside the Unreal Engine 5 editor using Slate UI. A dedicated tab and toolbar entry open the game, where users can configure the grid size and bomb count before interacting with the board.",
       "contributions": "",
-      "technologies": "Unreal Engine 5, Slate UI, Plugin development",
-      "studyApproach": "Used Slate widgets for the board and settings, with a dedicated editor tab and toolbar entry. Implemented adjacent-mine calculations, bomb detection and flood-fill reveals for connected empty cells.",
-      "studyResult": "An editor-integrated game with configurable grid size and bomb count. The showcase demonstrates the complete interaction from opening the plugin to revealing cells on the board."
+      "technologies": "Unreal Engine 5, Slate UI, Plugin development"
     },
     {
       "videoPublishedAt": "2025-10-27",
